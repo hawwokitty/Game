@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/get_stuff/game/StartingOver/StartingOver/Content/collisions3.png</SourceFile>
+  <SourceFile>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/collisions3.png</SourceFile>
   <SourceTime>2024-10-28T12:41:07.4095094+01:00</SourceTime>
-  <DestFile>D:/get_stuff/game/StartingOver/StartingOver/Content/bin/DesktopGL/collisions3.xnb</DestFile>
-  <DestTime>2024-10-28T13:08:40.6464903+01:00</DestTime>
+  <DestFile>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/collisions3.xnb</DestFile>
+  <DestTime>2024-11-01T11:23:08.7085272+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/get_stuff/game/StartingOver/StartingOver/Content/Character/Unarmed_Walk_full.png</SourceFile>
+  <SourceFile>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/Unarmed_Walk_full.png</SourceFile>
   <SourceTime>2024-10-18T14:44:38.9772843+02:00</SourceTime>
-  <DestFile>D:/get_stuff/game/StartingOver/StartingOver/Content/bin/DesktopGL/Content/Character/Unarmed_Walk_full.xnb</DestFile>
-  <DestTime>2024-10-21T10:28:18.9041903+02:00</DestTime>
+  <DestFile>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/Content/Character/Unarmed_Walk_full.xnb</DestFile>
+  <DestTime>2024-11-01T10:37:56.5909882+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

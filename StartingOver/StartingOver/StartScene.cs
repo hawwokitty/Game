@@ -18,6 +18,8 @@ namespace StartingOver
         private Button button;
         private AnimationManager am;
 
+        private KeyboardState prevKeyState;
+
         public StartScene(ContentManager contentManager)
         {
             this.contentManager = contentManager;
@@ -32,7 +34,8 @@ namespace StartingOver
 
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
         {
-            button.Update(Keyboard.GetState());
+            button.Update(Keyboard.GetState(), prevKeyState);
+            prevKeyState = Keyboard.GetState();
 
             //am.Update();
         }

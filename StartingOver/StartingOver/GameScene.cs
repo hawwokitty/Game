@@ -30,6 +30,8 @@ namespace StartingOver
         private StartScene startScene;
         private bool spacePressed;
 
+        private KeyboardState prevKeyState;
+
         //private FollowCamera camera1;
         public FollowCamera camera;
         
@@ -118,9 +120,9 @@ namespace StartingOver
         }
         public void Load()
         {
-            texture = contentManager.Load<Texture2D>("Character/Unarmed_Walk_full2");
+            texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
             player = new Player(texture, new Vector2(100, 50), 96, 48);
-            am = new(6, 7, new Vector2(15, 28), 0, 2);
+            am = new(12, 12, new Vector2(15, 28), 0, 1);
 
             rectangleTexture = new Texture2D(graphicsDevice, 1, 1);
             rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });
@@ -134,11 +136,15 @@ namespace StartingOver
 
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
         {
-            player.Update(Keyboard.GetState());
+            player.Update(Keyboard.GetState(), prevKeyState);
+
+            prevKeyState = Keyboard.GetState();
 
             // add player's velocity and grab the intersecting tiles
             player.Rect.X += (int)player.Velocity.X;
             intersections = getIntersectingTilesHorizontal(player.Rect);
+
+            player.Grounded = false;
 
             foreach (var rect in intersections)
             {
@@ -190,6 +196,8 @@ namespace StartingOver
                     if (player.Velocity.Y > 0.0f)
                     {
                         player.Rect.Y = collision.Top - player.Rect.Height;
+                        player.Velocity.Y = 1.0f;
+                        player.Grounded = true;
                     }
                     else if (player.Velocity.Y < 0.0f)
                     {
@@ -199,11 +207,10 @@ namespace StartingOver
                 }
             }
 
-
             am.Update();
             //camera.Follow(player.Rect, new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
 
-            if (!spacePressed && Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (!spacePressed && Keyboard.GetState().IsKeyDown(Keys.G))
             {
                 if (sceneManager.GetCurrentScene() != startScene)
                 {
@@ -212,7 +219,7 @@ namespace StartingOver
                 spacePressed = true;
             }
 
-            if (spacePressed && Keyboard.GetState().IsKeyUp(Keys.Space))
+            if (spacePressed && Keyboard.GetState().IsKeyUp(Keys.G))
             {
                 if (sceneManager.GetCurrentScene() == startScene)
                 {
@@ -283,7 +290,7 @@ namespace StartingOver
         public void Draw(SpriteBatch spriteBatch)
         {
             player.Draw(spriteBatch, am);
-            DrawRectHollow(spriteBatch, player.Rect, 4);
+            //DrawRectHollow(spriteBatch, player.Rect, 4);
             foreach (var item in tilemap)
             {
                 int value = item.Value;
@@ -295,21 +302,21 @@ namespace StartingOver
                 }
             }
 
-            foreach (var rect in intersections)
-            {
+            //foreach (var rect in intersections)
+            //{
 
-                DrawRectHollow(
-                    spriteBatch,
-                    new Rectangle(
-                        rect.X * TILESIZE,
-                        rect.Y * TILESIZE,
-                        TILESIZE,
-                        TILESIZE
-                    ),
-                    4
-                );
+            //    DrawRectHollow(
+            //        spriteBatch,
+            //        new Rectangle(
+            //            rect.X * TILESIZE,
+            //            rect.Y * TILESIZE,
+            //            TILESIZE,
+            //            TILESIZE
+            //        ),
+            //        4
+            //    );
 
-            }
+            //}
         }
 
         public void DrawRectHollow(SpriteBatch spriteBatch, Rectangle rect, int thickness)

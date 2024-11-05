@@ -13,16 +13,18 @@ namespace StartingOver
     {
         
         public Vector2 Velocity;
+        public bool Grounded { get; set; }
 
         public Player(Texture2D texture, Vector2 position, int height, int width) : base(texture, position, height, width)
         {
             Velocity = new();
         }
 
-        public override void Update(KeyboardState keystate)
+        public override void Update(KeyboardState keystate, KeyboardState prevKeyState)
         {
-            Velocity = Vector2.Zero;
-            Velocity.Y = 5.0f;
+            Velocity.X = 0;
+            Velocity.Y += 0.5f;
+            Velocity.Y = Math.Min(10.0f, Velocity.Y);
 
             if (keystate.IsKeyDown(Keys.Right))
             {
@@ -32,14 +34,21 @@ namespace StartingOver
             {
                 Velocity.X = -5;
             }
-            if (keystate.IsKeyDown(Keys.Up))
+            //if (keystate.IsKeyDown(Keys.Up))
+            //{
+            //    Velocity.Y = -5;
+            //}
+            //if (keystate.IsKeyDown(Keys.Down))
+            //{
+            //    Velocity.Y = 5;
+            //}
+
+            //jumping
+            if (Grounded && keystate.IsKeyDown(Keys.Space) && !prevKeyState.IsKeyDown(Keys.Space))
             {
-                Velocity.Y = -5;
+                Velocity.Y = -10;
             }
-            if (keystate.IsKeyDown(Keys.Down))
-            {
-                Velocity.Y = 5;
-            }
+            
         }
 
         public override void Draw(SpriteBatch spriteBatch, AnimationManager am)

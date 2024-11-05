@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\get_stuff\\game\\StartingOver\\StartingOver\\StartingOver.csproj": {}
+    "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\StartingOver.csproj": {}
   },
   "projects": {
-    "D:\\get_stuff\\game\\StartingOver\\StartingOver\\StartingOver.csproj": {
+    "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\StartingOver.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\get_stuff\\game\\StartingOver\\StartingOver\\StartingOver.csproj",
+        "projectUniqueName": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\StartingOver.csproj",
         "projectName": "StartingOver",
-        "projectPath": "D:\\get_stuff\\game\\StartingOver\\StartingOver\\StartingOver.csproj",
+        "projectPath": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\StartingOver.csproj",
         "packagesPath": "C:\\Users\\hanne\\.nuget\\packages\\",
-        "outputPath": "D:\\get_stuff\\game\\StartingOver\\StartingOver\\obj\\",
+        "outputPath": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

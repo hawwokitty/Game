@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/start2.png</SourceFile>
-  <SourceTime>2024-10-21T13:41:10.5368161+02:00</SourceTime>
-  <DestFile>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/start2.xnb</DestFile>
-  <DestTime>2024-11-01T11:23:08.7155248+01:00</DestTime>
+  <SourceFile>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/Unarmed_Idle_full2.png</SourceFile>
+  <SourceTime>2024-11-01T11:22:24.9253976+01:00</SourceTime>
+  <DestFile>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/Content/Character/Unarmed_Idle_full2.xnb</DestFile>
+  <DestTime>2024-11-01T11:23:31.3373405+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

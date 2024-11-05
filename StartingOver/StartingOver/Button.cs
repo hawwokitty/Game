@@ -15,9 +15,9 @@ namespace StartingOver
         {
         }
 
-        public override void Update(KeyboardState keystate)
+        public override void Update(KeyboardState keystate, KeyboardState prevKeyState)
         {
-            base.Update(keystate);
+            base.Update(keystate, prevKeyState);
         }
 
         public override void Draw(SpriteBatch spriteBatch, AnimationManager am)

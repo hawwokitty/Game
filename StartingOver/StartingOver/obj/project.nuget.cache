@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3F4NBGFU4GpDiFdmNMdS9Nw+/SU61b96ZmJuz+ZGr2ayhCAdCjvKsBSxrBX32UW8EryeRLC7g+enmCBTbBTw5g==",
+  "dgSpecHash": "IDwnSGutTm6lnVN9m90URJXY2+5Fxa3hPBbpiD+bIfWsk+x5/iTYj2ZkFS7djv7u+13fhFulZXqvVXzeoSO7IQ==",
   "success": true,
-  "projectFilePath": "D:\\get_stuff\\game\\StartingOver\\StartingOver\\StartingOver.csproj",
+  "projectFilePath": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\StartingOver.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hanne\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
     "C:\\Users\\hanne\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512",

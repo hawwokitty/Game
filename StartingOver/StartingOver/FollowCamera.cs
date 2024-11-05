@@ -37,7 +37,6 @@ namespace StartingOver
 
         public Viewport Viewport { get; private set; }
         public Rectangle? Limits { get; set; }
-        public Rectangle ViewArea { get; private set; }
 
         public FollowCamera(GraphicsDeviceManager graphics, Vector2 pos, float zoom = 1f, float rotation = 0)
         {
@@ -54,13 +53,11 @@ namespace StartingOver
             Origin = new Vector2(Viewport.Width / 2, Viewport.Height / 2);
             Position = Origin;
 
-            ValidateZoom();
             ValidatePosition();
         }
 
         public void Update()
         {
-            ViewArea = new Rectangle((Position - Origin).ToPoint(), new Point((int)(Viewport.Width), (int)(Viewport.Height)));
             oldPosition = Position;
         }
 
@@ -71,11 +68,6 @@ namespace StartingOver
 
             Vector2 newPos = new Vector2(Position.X + x, Position.Y + y);
             SetPosition(newPos, false);
-        }
-
-        public void SetZoom(int zoom)
-        {
-            this.Zoom = zoom;
         }
 
         public void LookAt(Vector2 position)
@@ -92,7 +84,6 @@ namespace StartingOver
         public void Approach(Vector2 position, float ease)
         {
             Position += (position - Position) * ease;
-            ValidateZoom();
             ValidatePosition();
         }
 
@@ -102,7 +93,6 @@ namespace StartingOver
 
             if (validate)
             {
-                ValidateZoom();
                 ValidatePosition();
             }
         }
@@ -110,38 +100,36 @@ namespace StartingOver
         public void SetLimit(Rectangle? rect)
         {
             Limits = rect;
-            ValidateZoom();
             ValidatePosition();
         }
 
-        public void ValidateZoom()
-        {
-            if (Limits.HasValue)
-            {
-                float minZoomX = (float)Viewport.Width / Limits.Value.Width;
-                float minZoomY = (float)Viewport.Height / Limits.Value.Height;
-                Zoom = MathHelper.Max(Zoom, MathHelper.Max(minZoomX, minZoomY));
-            }
-        }
 
         public void ValidatePosition()
         {
-            Vector2 cameraWorldMin = Vector2.Transform(Vector2.Zero, Matrix.Invert(ViewMatrix)); // Removed Engine.ScreenMatrix for simplicity
+            // Calculate the camera's view size based on the zoom level
             Vector2 cameraSize = new Vector2(Viewport.Width, Viewport.Height) / Zoom;
-            Vector2 positionOffset = Position - cameraWorldMin;
 
+            // Calculate the map boundaries
             if (Limits.HasValue)
             {
-                Origin = new Vector2(Limits.Value.Width / 2, Limits.Value.Height / 2);
-                Vector2 limitWorldMin = new Vector2(Limits.Value.Left, Limits.Value.Top);
-                Vector2 limitWorldMax = new Vector2(Limits.Value.Right, Limits.Value.Bottom);
-                Position = Vector2.Clamp(cameraWorldMin, limitWorldMin, limitWorldMax - cameraSize) + positionOffset;
-            }
-            else
-            {
-                Position = Vector2.Clamp(cameraWorldMin, Vector2.Zero, new Vector2(Viewport.Width, Viewport.Height) - cameraSize) + positionOffset;
+                // Calculate the half size of the camera view
+                Vector2 halfCameraSize = cameraSize / 2;
+
+                // Get the map boundaries
+                float leftLimit = Limits.Value.Left + halfCameraSize.X;
+                float rightLimit = Limits.Value.Right - halfCameraSize.X;
+                float topLimit = Limits.Value.Top + halfCameraSize.Y;
+                float bottomLimit = Limits.Value.Bottom - halfCameraSize.Y;
+
+                // Create a new Vector2 with the clamped values
+                Position = new Vector2(
+                    MathHelper.Clamp(Position.X, leftLimit, rightLimit),
+                    MathHelper.Clamp(Position.Y, topLimit, bottomLimit)
+                );
             }
         }
+
+
 
         public void SetOrigin(Vector2 point)
         {
