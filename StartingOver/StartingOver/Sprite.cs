@@ -26,7 +26,7 @@ namespace StartingOver
             Rect = new((int)Position.X, (int)Position.Y, Width, Height);
         }
 
-        public virtual void Update(KeyboardState keystate, KeyboardState prevKeyState)
+        public virtual void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime)
         {
 
         }

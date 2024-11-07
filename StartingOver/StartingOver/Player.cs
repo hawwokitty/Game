@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,33 +21,30 @@ namespace StartingOver
             Velocity = new();
         }
 
-        public override void Update(KeyboardState keystate, KeyboardState prevKeyState)
+        public override void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime)
         {
-            Velocity.X = 0;
-            Velocity.Y += 0.5f;
-            Velocity.Y = Math.Min(10.0f, Velocity.Y);
+            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //Debug.WriteLine(dt);
+
+            Velocity.Y += 30.0f * dt;
+            Velocity.Y = Math.Min(30.0f, Velocity.Y);
 
             if (keystate.IsKeyDown(Keys.Right))
             {
-                Velocity.X = 5;
+                Velocity.X += 30 * dt;
             }
             if (keystate.IsKeyDown(Keys.Left))
             {
-                Velocity.X = -5;
+                Velocity.X += -30 * dt;
             }
-            //if (keystate.IsKeyDown(Keys.Up))
-            //{
-            //    Velocity.Y = -5;
-            //}
-            //if (keystate.IsKeyDown(Keys.Down))
-            //{
-            //    Velocity.Y = 5;
-            //}
+
+            Velocity.X = Math.Max(-300, Math.Min(300, Velocity.X));
+            Velocity.X *= 0.91f;
 
             //jumping
             if (Grounded && keystate.IsKeyDown(Keys.Space) && !prevKeyState.IsKeyDown(Keys.Space))
             {
-                Velocity.Y = -10;
+                Velocity.Y = -650 * dt;
             }
             
         }

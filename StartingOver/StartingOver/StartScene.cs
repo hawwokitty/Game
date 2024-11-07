@@ -28,13 +28,13 @@ namespace StartingOver
         public void Load()
         {
             texture = contentManager.Load<Texture2D>("start2");
-            button = new Button(texture, new Vector2(100, 100), texture.Height*4, texture.Width*4);
+            //button = new Button(texture, new Vector2(100, 100), texture.Height*4, texture.Width*4);
             am = new(0, 0, new Vector2(texture.Width, texture.Height), 0, 0);
         }
 
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
         {
-            button.Update(Keyboard.GetState(), prevKeyState);
+            button.Update(Keyboard.GetState(), prevKeyState, gameTime);
             prevKeyState = Keyboard.GetState();
 
             //am.Update();

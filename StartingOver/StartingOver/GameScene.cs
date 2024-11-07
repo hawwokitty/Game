@@ -34,7 +34,6 @@ namespace StartingOver
 
         //private FollowCamera camera1;
         public FollowCamera camera;
-        
 
         private List<Rectangle> intersections;
 
@@ -136,7 +135,7 @@ namespace StartingOver
 
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
         {
-            player.Update(Keyboard.GetState(), prevKeyState);
+            player.Update(Keyboard.GetState(), prevKeyState, gameTime);
 
             prevKeyState = Keyboard.GetState();
 
@@ -160,6 +159,11 @@ namespace StartingOver
                         TILESIZE,
                         TILESIZE
                     );
+
+                    if (!player.Rect.Intersects(collision))
+                    {
+                        continue;
+                    }
 
                     // handle collisions based on the direction the player is moving
                     if (player.Velocity.X > 0.0f)
@@ -192,6 +196,11 @@ namespace StartingOver
                         TILESIZE,
                         TILESIZE
                     );
+
+                    if (!player.Rect.Intersects(collision))
+                    {
+                        continue;
+                    }
 
                     if (player.Velocity.Y > 0.0f)
                     {
