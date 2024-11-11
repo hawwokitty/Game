@@ -6,6 +6,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
@@ -17,8 +18,8 @@ namespace StartingOver
         int numColumns;
         Vector2 size;
 
-        int counter;
-        int activeFrame;
+        public int counter;
+        public int activeFrame;
         int interval;
 
         int rowPos;
@@ -26,8 +27,11 @@ namespace StartingOver
 
         int originalRowPos;
 
-        public AnimationManager(int numFrames, int numColumns, Vector2 size, int colPos, int rowPos)
+        public Texture2D Texture { get; private set; }
+
+        public AnimationManager(Texture2D texture, int numFrames, int numColumns, Vector2 size, int colPos, int rowPos)
         {
+            Texture = texture;
             this.numFrames = numFrames;
             this.numColumns = numColumns;
             this.size = size;

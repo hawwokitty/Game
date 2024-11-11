@@ -49,7 +49,7 @@ namespace StartingOver
             this.graphicsDevice = graphicsDevice;
             this.graphics = graphics;
             intersections = new();
-            tilemap = LoadMap("../../../Content/Tilemaps/testMap.csv");
+            tilemap = LoadMap("../../../Content/Tilemaps/testmap2.csv");
             textureStore = new()
             {
                 new Rectangle(0, 0, 16, 16),
@@ -119,9 +119,20 @@ namespace StartingOver
         }
         public void Load()
         {
+            Dictionary<string, AnimationManager> animations = new Dictionary<string, AnimationManager>()
+            {
+                {"WalkUp", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Walk_full2"),6, 6, new Vector2(15, 28), 0, 3)},
+                {"WalkDown", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Walk_full2"),6, 6, new Vector2(15, 28), 0, 0)},
+                {"WalkRight", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Walk_full2"),6, 6, new Vector2(15, 28), 0, 2)},
+                {"WalkLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Walk_full2"),6, 6, new Vector2(15, 28), 0, 1)},
+                {"IdleUp", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2"),4, 4, new Vector2(15, 28), 0, 3)},
+                {"IdleDown", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2"),12, 12, new Vector2(15, 28), 0, 0)},
+                {"IdleRight", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2"),12, 12, new Vector2(15, 28), 0, 2)},
+                {"IdleLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2"),12, 12, new Vector2(15, 28), 0, 1)},
+            };
             texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
             player = new Player(texture, new Vector2(100, 50), 96, 48);
-            am = new(12, 12, new Vector2(15, 28), 0, 1);
+            am = new(texture,12, 12, new Vector2(15, 28), 0, 1);
 
             rectangleTexture = new Texture2D(graphicsDevice, 1, 1);
             rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });

@@ -17,6 +17,8 @@ namespace StartingOver
         public int Width;
         public Rectangle Rect;
 
+        protected Dictionary<string, AnimationManager> _animation;
+
         public Sprite(Texture2D texture, Vector2 position, int height, int width)
         {
             this.Texture = texture;
