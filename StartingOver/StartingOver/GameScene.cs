@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -25,9 +26,11 @@ namespace StartingOver
         private Player player;
         private AnimationManager am;
 
+        private Dictionary<string, AnimationManager> animations;
+
         private Texture2D rectangleTexture;
 
-        private StartScene startScene;
+        //private StartScene startScene;
         private bool spacePressed;
 
         private KeyboardState prevKeyState;
@@ -49,7 +52,7 @@ namespace StartingOver
             this.graphicsDevice = graphicsDevice;
             this.graphics = graphics;
             intersections = new();
-            tilemap = LoadMap("../../../Content/Tilemaps/testmap2.csv");
+            tilemap = LoadMap("../../../Content/Tilemaps/pleasework.csv");
             textureStore = new()
             {
                 new Rectangle(0, 0, 16, 16),
@@ -87,7 +90,7 @@ namespace StartingOver
             };
 
             camera = new FollowCamera(graphics, new Vector2(0, 0), 1, 0);
-            camera.SetLimit(new Rectangle(0, 0, 1200, 720));
+            camera.SetLimit(new Rectangle(0, 0, 1920, 768));
 
         }
 
@@ -119,7 +122,7 @@ namespace StartingOver
         }
         public void Load()
         {
-            Dictionary<string, AnimationManager> animations = new Dictionary<string, AnimationManager>()
+            animations = new Dictionary<string, AnimationManager>()
             {
                 {"WalkUp", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Walk_full2"),6, 6, new Vector2(15, 28), 0, 3)},
                 {"WalkDown", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Walk_full2"),6, 6, new Vector2(15, 28), 0, 0)},
@@ -131,8 +134,8 @@ namespace StartingOver
                 {"IdleLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2"),12, 12, new Vector2(15, 28), 0, 1)},
             };
             texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
-            player = new Player(texture, new Vector2(100, 50), 96, 48);
-            am = new(texture,12, 12, new Vector2(15, 28), 0, 1);
+            player = new Player(animations, new Vector2(100, 50), 96, 48);
+            //am = animations["IdleDown"];
 
             rectangleTexture = new Texture2D(graphicsDevice, 1, 1);
             rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });
@@ -141,7 +144,7 @@ namespace StartingOver
 
             //camera1 = new FollowCamera(graphics, player.Position);
 
-            startScene = new StartScene(contentManager);
+            //startScene = new StartScene(contentManager);
         }
 
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
@@ -149,6 +152,21 @@ namespace StartingOver
             player.Update(Keyboard.GetState(), prevKeyState, gameTime);
 
             prevKeyState = Keyboard.GetState();
+
+            am = player.State switch
+            {
+                PlayerState.WalkUp => animations["WalkUp"],
+                PlayerState.WalkDown => animations["WalkDown"],
+                PlayerState.WalkLeft => animations["WalkLeft"],
+                PlayerState.WalkRight => animations["WalkRight"],
+                PlayerState.IdleUp => animations["IdleUp"],
+                PlayerState.IdleDown => animations["IdleDown"],
+                PlayerState.IdleLeft => animations["IdleLeft"],
+                PlayerState.IdleRight => animations["IdleRight"],
+                _ => am // Keep the current animation if no match
+            };
+
+            am.Update();
 
             // add player's velocity and grab the intersecting tiles
             player.Rect.X += (int)player.Velocity.X;
@@ -176,8 +194,18 @@ namespace StartingOver
                         continue;
                     }
 
+                    if (_val == 1)
+                    {
+                        // Only handle top-face collision if the player is moving down
+                        if (player.Velocity.Y > 0.0f)
+                        {
+                            player.Rect.Y = collision.Top - player.Rect.Height;
+                            player.Velocity.Y = 1.0f;  
+                            player.Grounded = true;     
+                        }
+                    }
                     // handle collisions based on the direction the player is moving
-                    if (player.Velocity.X > 0.0f)
+                    else if (player.Velocity.X > 0.0f)
                     {
                         player.Rect.X = collision.Left - player.Rect.Width;
                     }
@@ -213,7 +241,18 @@ namespace StartingOver
                         continue;
                     }
 
-                    if (player.Velocity.Y > 0.0f)
+                    if (_val == 1)
+                    {
+                        // Only handle top-face collision if the player is moving down
+                        if (player.Velocity.Y > 0.0f)
+                        {
+                            player.Rect.Y = collision.Top - player.Rect.Height;
+                            player.Velocity.Y = 1.0f;  
+                            player.Grounded = true;  
+                        }
+                    }
+                    // handle collisions based on the direction the player is moving
+                    else if (player.Velocity.Y > 0.0f)
                     {
                         player.Rect.Y = collision.Top - player.Rect.Height;
                         player.Velocity.Y = 1.0f;
@@ -227,26 +266,25 @@ namespace StartingOver
                 }
             }
 
-            am.Update();
             //camera.Follow(player.Rect, new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
 
-            if (!spacePressed && Keyboard.GetState().IsKeyDown(Keys.G))
-            {
-                if (sceneManager.GetCurrentScene() != startScene)
-                {
-                    sceneManager.AddScene(startScene);
-                }
-                spacePressed = true;
-            }
+            //if (!spacePressed && Keyboard.GetState().IsKeyDown(Keys.G))
+            //{
+            //    if (sceneManager.GetCurrentScene() != startScene)
+            //    {
+            //        sceneManager.AddScene(startScene);
+            //    }
+            //    spacePressed = true;
+            //}
 
-            if (spacePressed && Keyboard.GetState().IsKeyUp(Keys.G))
-            {
-                if (sceneManager.GetCurrentScene() == startScene)
-                {
-                    sceneManager.RemoveScene(startScene);
-                }
-                spacePressed = false;
-            }
+            //if (spacePressed && Keyboard.GetState().IsKeyUp(Keys.G))
+            //{
+            //    if (sceneManager.GetCurrentScene() == startScene)
+            //    {
+            //        sceneManager.RemoveScene(startScene);
+            //    }
+            //    spacePressed = false;
+            //}
 
             camera.Approach(player.Rect.Location.ToVector2() + new Vector2(0,player.Rect.Height),0.2f);
 

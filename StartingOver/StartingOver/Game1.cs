@@ -19,8 +19,8 @@ namespace StartingOver
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            //_graphics.PreferredBackBufferWidth = 1200; // Set width
-            //_graphics.PreferredBackBufferHeight = 720; // Set height
+            //_graphics.PreferredBackBufferWidth = 1920; // Set width
+            //_graphics.PreferredBackBufferHeight = 768; // Set height
 
             //// Apply the changes to the graphics device
             //_graphics.ApplyChanges();
