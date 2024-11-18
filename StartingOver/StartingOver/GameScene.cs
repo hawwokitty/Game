@@ -24,6 +24,8 @@ namespace StartingOver
         private GraphicsDeviceManager graphics;
 
         private Player player;
+        private Box box;
+        private AnimationManager boxAm;
         private AnimationManager am;
 
         private Dictionary<string, AnimationManager> animations;
@@ -52,7 +54,7 @@ namespace StartingOver
             this.graphicsDevice = graphicsDevice;
             this.graphics = graphics;
             intersections = new();
-            tilemap = LoadMap("../../../Content/Tilemaps/pleasework.csv");
+            tilemap = LoadMap("../../../Content/Tilemaps/testmap3.csv");
             textureStore = new()
             {
                 new Rectangle(0, 0, 16, 16),
@@ -133,6 +135,16 @@ namespace StartingOver
                 {"IdleRight", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2"),12, 12, new Vector2(15, 28), 0, 2)},
                 {"IdleLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2"),12, 12, new Vector2(15, 28), 0, 1)},
             };
+            var boxAnimation = new Dictionary<string, AnimationManager>()
+            {
+                {
+                    "box",
+                    new AnimationManager(contentManager.Load<Texture2D>("box"), 0, 0,
+                        new Vector2(32, 32), 0, 0)
+                }
+            };
+            box = new Box(boxAnimation, new Vector2(272*3, 208*3), 32*3, 32*3);
+            boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
             player = new Player(animations, new Vector2(100, 50), 96, 48);
             //am = animations["IdleDown"];
@@ -200,8 +212,8 @@ namespace StartingOver
                         if (player.Velocity.Y > 0.0f)
                         {
                             player.Rect.Y = collision.Top - player.Rect.Height;
-                            player.Velocity.Y = 1.0f;  
-                            player.Grounded = true;     
+                            player.Velocity.Y = 1.0f;
+                            player.Grounded = true;
                         }
                     }
                     // handle collisions based on the direction the player is moving
@@ -247,8 +259,8 @@ namespace StartingOver
                         if (player.Velocity.Y > 0.0f)
                         {
                             player.Rect.Y = collision.Top - player.Rect.Height;
-                            player.Velocity.Y = 1.0f;  
-                            player.Grounded = true;  
+                            player.Velocity.Y = 1.0f;
+                            player.Grounded = true;
                         }
                     }
                     // handle collisions based on the direction the player is moving
@@ -286,7 +298,7 @@ namespace StartingOver
             //    spacePressed = false;
             //}
 
-            camera.Approach(player.Rect.Location.ToVector2() + new Vector2(0,player.Rect.Height),0.2f);
+            camera.Approach(player.Rect.Location.ToVector2() + new Vector2(0, player.Rect.Height), 0.2f);
 
         }
 
@@ -348,6 +360,7 @@ namespace StartingOver
         public void Draw(SpriteBatch spriteBatch)
         {
             player.Draw(spriteBatch, am);
+            box.Draw(spriteBatch, boxAm);
             //DrawRectHollow(spriteBatch, player.Rect, 4);
             foreach (var item in tilemap)
             {

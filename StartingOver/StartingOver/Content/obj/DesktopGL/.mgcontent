@@ -4,6 +4,7 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/Unarmed_Idle_full2.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/Unarmed_Walk_full.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/Unarmed_Walk_full2.png</File>
@@ -11,6 +12,7 @@
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/start2.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
