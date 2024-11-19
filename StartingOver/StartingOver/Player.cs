@@ -78,8 +78,25 @@ namespace StartingOver
             {
                 Velocity.Y = -650 * dt;
             }
+
+            if(HeldBox != null)
+            {
+                //do thingies here
+                HeldBox.Position.X = Position.X + boxOffset.X;
+                //
+            }
             
         }
+
+        public void AttachBox(Box box)
+        {
+            HeldBox = box;
+            boxOffset = box.Position;
+            //record it's inital offset
+        }
+
+        private Box HeldBox;
+        private Vector2 boxOffset;
 
         public override void Draw(SpriteBatch spriteBatch, AnimationManager am)
         {

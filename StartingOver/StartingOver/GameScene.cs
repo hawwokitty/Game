@@ -28,6 +28,8 @@ namespace StartingOver
         private AnimationManager boxAm;
         private AnimationManager am;
 
+        private bool boxIsCollide;
+
         private Dictionary<string, AnimationManager> animations;
 
         private Texture2D rectangleTexture;
@@ -143,7 +145,7 @@ namespace StartingOver
                         new Vector2(32, 32), 0, 0)
                 }
             };
-            box = new Box(boxAnimation, new Vector2(272*3, 208*3), 32*3, 32*3);
+            box = new Box(boxAnimation, new Vector2(272 * 3, 208 * 3), 32 * 3, 32 * 3);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
             player = new Player(animations, new Vector2(100, 50), 96, 48);
@@ -162,6 +164,7 @@ namespace StartingOver
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
         {
             player.Update(Keyboard.GetState(), prevKeyState, gameTime);
+            //box.Update(Keyboard.GetState(), prevKeyState, gameTime);
 
             prevKeyState = Keyboard.GetState();
 
@@ -180,11 +183,25 @@ namespace StartingOver
 
             am.Update();
 
+            // Handle collisions with the box
+            if (player.Rect.Intersects(box.Rect))
+            {
+                boxIsCollide = true;
+                HandleBoxCollision(box);
+            }
+            else
+            {
+                boxIsCollide = false;
+            }
+
             // add player's velocity and grab the intersecting tiles
             player.Rect.X += (int)player.Velocity.X;
             intersections = getIntersectingTilesHorizontal(player.Rect);
 
-            player.Grounded = false;
+            if (!boxIsCollide)
+            {
+                player.Grounded = false;
+            }
 
             foreach (var rect in intersections)
             {
@@ -277,6 +294,7 @@ namespace StartingOver
 
                 }
             }
+            Debug.WriteLine($"Grounded: {player.Grounded}, Velocity: {player.Velocity}");
 
             //camera.Follow(player.Rect, new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
 
@@ -299,6 +317,48 @@ namespace StartingOver
             //}
 
             camera.Approach(player.Rect.Location.ToVector2() + new Vector2(0, player.Rect.Height), 0.2f);
+
+        }
+
+        private void HandleBoxCollision(Box box)
+        {
+            Rectangle playerRect = player.Rect;
+            Rectangle boxRect = box.Rect;
+
+            if (playerRect.Intersects(boxRect))
+            {
+                // Calculate overlap amounts
+                int overlapX = Math.Min(playerRect.Right - boxRect.Left, boxRect.Right - playerRect.Left);
+                int overlapY = Math.Min(playerRect.Bottom - boxRect.Top, boxRect.Bottom - playerRect.Top);
+
+                if (overlapX < overlapY) // Horizontal collision
+                {
+                    if (player.Velocity.X > 0.0f) // Moving right
+                    {
+                        player.Rect.X = box.Rect.Left - player.Rect.Width;
+                    }
+                    else if (player.Velocity.X < 0.0f) // Moving left
+                    {
+                        player.Rect.X = box.Rect.Right;
+                    }
+                    player.Velocity.X = 0.0f; // Stop horizontal movement
+                }
+                else // Vertical collision
+                {
+                    if (player.Velocity.Y > 0.0f) // Moving down
+                    {
+                        player.Rect.Y = box.Rect.Top - player.Rect.Height;
+                        player.Velocity.Y = 1.0f;
+                        player.Grounded = true; // Set grounded to true
+                    }
+                    else if (player.Velocity.Y < 0.0f) // Moving up
+                    {
+                        player.Rect.Y = box.Rect.Bottom;
+                        player.Velocity.Y = 0.0f; // Reset vertical velocity
+                    }
+                }
+            }
+
 
         }
 
