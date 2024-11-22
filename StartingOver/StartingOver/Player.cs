@@ -81,8 +81,9 @@ namespace StartingOver
 
             if(HeldBox != null)
             {
+                Debug.WriteLine("box should move");
                 //do thingies here
-                HeldBox.Position.X = Position.X + boxOffset.X;
+                HeldBox.Rect.X += (int)Velocity.X;
                 //
             }
             
@@ -93,6 +94,11 @@ namespace StartingOver
             HeldBox = box;
             boxOffset = box.Position;
             //record it's inital offset
+        }
+
+        public void DetachBox()
+        {
+            HeldBox = null;
         }
 
         private Box HeldBox;

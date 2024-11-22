@@ -194,8 +194,10 @@ namespace StartingOver
                 boxIsCollide = false;
             }
 
+            //if(boxIsCollide) {Debug.WriteLine(player.Velocity.X.ToString());}
             // add player's velocity and grab the intersecting tiles
             player.Rect.X += (int)player.Velocity.X;
+
             intersections = getIntersectingTilesHorizontal(player.Rect);
 
             if (!boxIsCollide)
@@ -292,10 +294,12 @@ namespace StartingOver
                         player.Rect.Y = collision.Bottom;
                     }
 
+
+
                 }
             }
-            Debug.WriteLine($"Grounded: {player.Grounded}, Velocity: {player.Velocity}");
-
+            //Debug.WriteLine($"Grounded: {player.Grounded}, Velocity: {player.Velocity}");
+            //Debug.WriteLine(player.Rect.ToString());
             //camera.Follow(player.Rect, new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
 
             //if (!spacePressed && Keyboard.GetState().IsKeyDown(Keys.G))
@@ -336,10 +340,26 @@ namespace StartingOver
                     if (player.Velocity.X > 0.0f) // Moving right
                     {
                         player.Rect.X = box.Rect.Left - player.Rect.Width;
+                        if (Keyboard.GetState().IsKeyDown(Keys.X))
+                        {
+                            player.AttachBox(box);
+                        }
+                        else
+                        {
+                            player.DetachBox();
+                        }
                     }
                     else if (player.Velocity.X < 0.0f) // Moving left
                     {
                         player.Rect.X = box.Rect.Right;
+                        if (Keyboard.GetState().IsKeyDown(Keys.X))
+                        {
+                            player.AttachBox(box);
+                        }
+                        else
+                        {
+                            player.DetachBox();
+                        }
                     }
                     player.Velocity.X = 0.0f; // Stop horizontal movement
                 }
@@ -351,7 +371,7 @@ namespace StartingOver
                         player.Velocity.Y = 1.0f;
                         player.Grounded = true; // Set grounded to true
                     }
-                    else if (player.Velocity.Y < 0.0f) // Moving up
+                    else if (player.Velocity.Y < 0.0f && player.Rect.Y > box.Rect.Bottom) // Moving up
                     {
                         player.Rect.Y = box.Rect.Bottom;
                         player.Velocity.Y = 0.0f; // Reset vertical velocity
