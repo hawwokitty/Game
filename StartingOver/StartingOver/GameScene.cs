@@ -28,6 +28,8 @@ namespace StartingOver
         private AnimationManager boxAm;
         private AnimationManager am;
 
+        private bool isJumping;
+
         private bool boxIsCollide;
 
         private Dictionary<string, AnimationManager> animations;
@@ -56,7 +58,7 @@ namespace StartingOver
             this.graphicsDevice = graphicsDevice;
             this.graphics = graphics;
             intersections = new();
-            tilemap = LoadMap("../../../Content/Tilemaps/testmap3.csv");
+            tilemap = LoadMap("../../../Content/Tilemaps/LEVEL1.csv");
             textureStore = new()
             {
                 new Rectangle(0, 0, 16, 16),
@@ -145,10 +147,10 @@ namespace StartingOver
                         new Vector2(32, 32), 0, 0)
                 }
             };
-            box = new Box(boxAnimation, new Vector2(272 * 3, 208 * 3), 32 * 3, 32 * 3);
+            box = new Box(boxAnimation, new Vector2(144 * 3, 48 * 3), 32 * 3, 32 * 3);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
-            player = new Player(animations, new Vector2(100, 50), 96, 48);
+            player = new Player(animations, new Vector2(80, 500), 96, 48);
             //am = animations["IdleDown"];
 
             rectangleTexture = new Texture2D(graphicsDevice, 1, 1);
@@ -164,7 +166,15 @@ namespace StartingOver
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
         {
             player.Update(Keyboard.GetState(), prevKeyState, gameTime);
-            //box.Update(Keyboard.GetState(), prevKeyState, gameTime);
+            box.Update(Keyboard.GetState(), prevKeyState, gameTime);
+
+            // Check for jump input
+            KeyboardState currentKeyState = Keyboard.GetState();
+            if (currentKeyState.IsKeyDown(Keys.Space) && !prevKeyState.IsKeyDown(Keys.Space) && player.Grounded)
+            {
+                isJumping = true;
+                player.Grounded = false;
+            }
 
             prevKeyState = Keyboard.GetState();
 
@@ -194,110 +204,9 @@ namespace StartingOver
                 boxIsCollide = false;
             }
 
-            //if(boxIsCollide) {Debug.WriteLine(player.Velocity.X.ToString());}
             // add player's velocity and grab the intersecting tiles
-            player.Rect.X += (int)player.Velocity.X;
-
-            intersections = getIntersectingTilesHorizontal(player.Rect);
-
-            if (!boxIsCollide)
-            {
-                player.Grounded = false;
-            }
-
-            foreach (var rect in intersections)
-            {
-
-                // handle collisions if the tile position exists in the tile map layer.
-                if (tilemap.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
-                {
-
-                    // create temp rect to handle collisions (not necessary, you can optimize!)
-                    Rectangle collision = new(
-                        rect.X * TILESIZE,
-                        rect.Y * TILESIZE,
-                        TILESIZE,
-                        TILESIZE
-                    );
-
-                    if (!player.Rect.Intersects(collision))
-                    {
-                        continue;
-                    }
-
-                    if (_val == 1)
-                    {
-                        // Only handle top-face collision if the player is moving down
-                        if (player.Velocity.Y > 0.0f)
-                        {
-                            player.Rect.Y = collision.Top - player.Rect.Height;
-                            player.Velocity.Y = 1.0f;
-                            player.Grounded = true;
-                        }
-                    }
-                    // handle collisions based on the direction the player is moving
-                    else if (player.Velocity.X > 0.0f)
-                    {
-                        player.Rect.X = collision.Left - player.Rect.Width;
-                    }
-                    else if (player.Velocity.X < 0.0f)
-                    {
-                        player.Rect.X = collision.Right;
-                    }
-
-                }
-
-            }
-
-            // same as horizontal collisions
-
-            player.Rect.Y += (int)player.Velocity.Y;
-            intersections = getIntersectingTilesVertical(player.Rect);
-
-            foreach (var rect in intersections)
-            {
-
-                if (tilemap.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
-                {
-
-                    Rectangle collision = new Rectangle(
-                        rect.X * TILESIZE,
-                        rect.Y * TILESIZE,
-                        TILESIZE,
-                        TILESIZE
-                    );
-
-                    if (!player.Rect.Intersects(collision))
-                    {
-                        continue;
-                    }
-
-                    if (_val == 1)
-                    {
-                        // Only handle top-face collision if the player is moving down
-                        if (player.Velocity.Y > 0.0f)
-                        {
-                            player.Rect.Y = collision.Top - player.Rect.Height;
-                            player.Velocity.Y = 1.0f;
-                            player.Grounded = true;
-                        }
-                    }
-                    // handle collisions based on the direction the player is moving
-                    else if (player.Velocity.Y > 0.0f)
-                    {
-                        player.Rect.Y = collision.Top - player.Rect.Height;
-                        player.Velocity.Y = 1.0f;
-                        player.Grounded = true;
-                    }
-                    else if (player.Velocity.Y < 0.0f)
-                    {
-                        player.Rect.Y = collision.Bottom;
-                    }
-
-
-
-                }
-            }
+            ApplyGravity(player);
+            ApplyGravity(box);
             //Debug.WriteLine($"Grounded: {player.Grounded}, Velocity: {player.Velocity}");
             //Debug.WriteLine(player.Rect.ToString());
             //camera.Follow(player.Rect, new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
@@ -324,6 +233,151 @@ namespace StartingOver
 
         }
 
+        private void ApplyGravity(Sprite entity)
+        {
+            entity.Rect.X += (int)entity.Velocity.X;
+
+            intersections = getIntersectingTilesHorizontal(entity.Rect);
+
+            if (!boxIsCollide)
+            {
+                entity.Grounded = false;
+            }
+
+            foreach (var rect in intersections)
+            {
+
+                // handle collisions if the tile position exists in the tile map layer.
+                if (tilemap.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
+                {
+
+                    // create temp rect to handle collisions (not necessary, you can optimize!)
+                    Rectangle collision = new(
+                        rect.X * TILESIZE,
+                        rect.Y * TILESIZE,
+                        TILESIZE,
+                        TILESIZE
+                    );
+
+                    if (!entity.Rect.Intersects(collision))
+                    {
+                        continue;
+                    }
+
+                    if (_val == 1)
+                    {
+                        // Allow the player to jump through tiles above
+                        if (entity.Velocity.Y < 0.0f || isJumping)
+                        {
+                            continue; // Skip collision if jumping
+                        }
+
+                        if (entity.Velocity.Y > 0.0f)
+                        {
+                            entity.Rect.Y = collision.Top - entity.Rect.Height;
+                            entity.Velocity.Y = 1.0f;
+                            entity.Grounded = true;
+                        }
+                    }
+                    else if (_val == 5)
+                    {
+                        // Only handle top-face collision if the player is moving down
+                        if (entity.Velocity.Y > 0.0f)
+                        {
+                            entity.Velocity.Y = 1.0f;
+                            entity.Grounded = true;
+                        }
+                    }
+                    // handle collisions based on the direction the player is moving
+                    else if (entity.Velocity.X > 0.0f)
+                    {
+                        entity.Rect.X = collision.Left - entity.Rect.Width;
+                    }
+                    else if (entity.Velocity.X < 0.0f)
+                    {
+                        entity.Rect.X = collision.Right;
+                    }
+
+                }
+                // Reset the jump flag once upward motion stops
+                if (entity.Velocity.Y >= 0.0f)
+                {
+                    isJumping = false;
+                }
+
+            }
+
+            // same as horizontal collisions
+
+            entity.Rect.Y += (int)entity.Velocity.Y;
+            intersections = getIntersectingTilesVertical(entity.Rect);
+
+            foreach (var rect in intersections)
+            {
+
+                if (tilemap.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
+                {
+
+                    Rectangle collision = new Rectangle(
+                        rect.X * TILESIZE,
+                        rect.Y * TILESIZE,
+                        TILESIZE,
+                        TILESIZE
+                    );
+
+                    if (!entity.Rect.Intersects(collision))
+                    {
+                        continue;
+                    }
+
+                    if (_val == 1)
+                    {
+                        // Allow the player to jump through tiles above
+                        if (entity.Velocity.Y < 0.0f || isJumping)
+                        {
+                            continue; // Skip collision if jumping
+                        }
+
+                        if (entity.Velocity.Y > 0.0f)
+                        {
+                            entity.Rect.Y = collision.Top - entity.Rect.Height;
+                            entity.Velocity.Y = 1.0f;
+                            entity.Grounded = true;
+                        }
+                    }
+                    else if (_val == 5)
+                    {
+                        // Only handle top-face collision if the player is moving down
+                        if (entity.Velocity.Y > 0.0f)
+                        {
+
+                            entity.Velocity.Y = 1.0f;
+                            entity.Grounded = true;
+                        }
+                    }
+                    // handle collisions based on the direction the player is moving
+                    else if (entity.Velocity.Y > 0.0f)
+                    {
+                        entity.Rect.Y = collision.Top - entity.Rect.Height;
+                        entity.Velocity.Y = 1.0f;
+                        entity.Grounded = true;
+                    }
+                    else if (entity.Velocity.Y < 0.0f)
+                    {
+                        entity.Rect.Y = collision.Bottom;
+                    }
+
+
+
+                }
+                // Reset the jump flag once upward motion stops
+                if (entity.Velocity.Y >= 0.0f)
+                {
+                    isJumping = false;
+                }
+            }
+        }
+
         private void HandleBoxCollision(Box box)
         {
             Rectangle playerRect = player.Rect;
@@ -335,31 +389,27 @@ namespace StartingOver
                 int overlapX = Math.Min(playerRect.Right - boxRect.Left, boxRect.Right - playerRect.Left);
                 int overlapY = Math.Min(playerRect.Bottom - boxRect.Top, boxRect.Bottom - playerRect.Top);
 
+                if(Keyboard.GetState().IsKeyDown(Keys.X))
+                {
+                    player.AttachBox(box);
+                }
+
+                if(Keyboard.GetState().IsKeyUp(Keys.X))
+                {
+                    player.DetachBox();
+                }
+
                 if (overlapX < overlapY) // Horizontal collision
                 {
                     if (player.Velocity.X > 0.0f) // Moving right
                     {
                         player.Rect.X = box.Rect.Left - player.Rect.Width;
-                        if (Keyboard.GetState().IsKeyDown(Keys.X))
-                        {
-                            player.AttachBox(box);
-                        }
-                        else
-                        {
-                            player.DetachBox();
-                        }
+                       
                     }
                     else if (player.Velocity.X < 0.0f) // Moving left
                     {
                         player.Rect.X = box.Rect.Right;
-                        if (Keyboard.GetState().IsKeyDown(Keys.X))
-                        {
-                            player.AttachBox(box);
-                        }
-                        else
-                        {
-                            player.DetachBox();
-                        }
+                        
                     }
                     player.Velocity.X = 0.0f; // Stop horizontal movement
                 }

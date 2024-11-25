@@ -16,6 +16,8 @@ namespace StartingOver
         public int Height;
         public int Width;
         public Rectangle Rect;
+        public Vector2 Velocity;
+        public bool Grounded { get; set; }
 
         protected Dictionary<string, AnimationManager> _animation;
 

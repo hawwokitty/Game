@@ -19,8 +19,6 @@ namespace StartingOver
     internal class Player : Sprite
     {
         
-        public Vector2 Velocity;
-        public bool Grounded { get; set; }
         public PlayerState State { get; private set; } = PlayerState.IdleRight;
 
         public Player(Dictionary<string, AnimationManager> _animation, Vector2 position, int height, int width) : base(_animation, position, height, width)
@@ -76,12 +74,12 @@ namespace StartingOver
             //jumping
             if (Grounded && keystate.IsKeyDown(Keys.Space) && !prevKeyState.IsKeyDown(Keys.Space))
             {
-                Velocity.Y = -650 * dt;
+                Velocity.Y = -740 * dt;
             }
 
             if(HeldBox != null)
             {
-                Debug.WriteLine("box should move");
+                //Debug.WriteLine("box should move");
                 //do thingies here
                 HeldBox.Rect.X += (int)Velocity.X;
                 //
