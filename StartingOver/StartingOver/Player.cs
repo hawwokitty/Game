@@ -74,7 +74,7 @@ namespace StartingOver
             //jumping
             if (Grounded && keystate.IsKeyDown(Keys.Space) && !prevKeyState.IsKeyDown(Keys.Space))
             {
-                Velocity.Y = -740 * dt;
+                Velocity.Y = -940 * dt;
             }
 
             if(HeldBox != null)
@@ -82,8 +82,14 @@ namespace StartingOver
                 //Debug.WriteLine("box should move");
                 //do thingies here
                 HeldBox.Rect.X += (int)Velocity.X;
-                //
+                int overlapY = Math.Min(Rect.Bottom - HeldBox.Rect.Top, HeldBox.Rect.Bottom - Rect.Top);
+
+                if (overlapY > 96 || overlapY < 32)
+                {
+                    DetachBox();
+                }
             }
+
             
         }
 

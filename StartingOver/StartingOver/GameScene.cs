@@ -150,7 +150,7 @@ namespace StartingOver
             box = new Box(boxAnimation, new Vector2(144 * 3, 48 * 3), 32 * 3, 32 * 3);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
-            player = new Player(animations, new Vector2(80, 500), 96, 48);
+            player = new Player(animations, new Vector2(80, 400), 96, 48);
             //am = animations["IdleDown"];
 
             rectangleTexture = new Texture2D(graphicsDevice, 1, 1);
@@ -165,19 +165,32 @@ namespace StartingOver
 
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
         {
-            player.Update(Keyboard.GetState(), prevKeyState, gameTime);
-            box.Update(Keyboard.GetState(), prevKeyState, gameTime);
-
-            // Check for jump input
             KeyboardState currentKeyState = Keyboard.GetState();
+
+            player.Update(currentKeyState, prevKeyState, gameTime);
+            box.Update(currentKeyState, prevKeyState, gameTime);
+
+            HandleJumpInput(currentKeyState);
+
+            UpdatePlayerAnimation();
+            HandleCollisions();
+
+            camera.Approach(player.Rect.Location.ToVector2() + new Vector2(0, player.Rect.Height), 0.2f);
+
+            prevKeyState = currentKeyState;
+        }
+
+        private void HandleJumpInput(KeyboardState currentKeyState)
+        {
             if (currentKeyState.IsKeyDown(Keys.Space) && !prevKeyState.IsKeyDown(Keys.Space) && player.Grounded)
             {
                 isJumping = true;
                 player.Grounded = false;
             }
+        }
 
-            prevKeyState = Keyboard.GetState();
-
+        private void UpdatePlayerAnimation()
+        {
             am = player.State switch
             {
                 PlayerState.WalkUp => animations["WalkUp"],
@@ -192,8 +205,13 @@ namespace StartingOver
             };
 
             am.Update();
+        }
 
-            // Handle collisions with the box
+        private void HandleCollisions()
+        {
+            ApplyGravity(player);
+            ApplyGravity(box);
+
             if (player.Rect.Intersects(box.Rect))
             {
                 boxIsCollide = true;
@@ -203,82 +221,32 @@ namespace StartingOver
             {
                 boxIsCollide = false;
             }
-
-            // add player's velocity and grab the intersecting tiles
-            ApplyGravity(player);
-            ApplyGravity(box);
-            //Debug.WriteLine($"Grounded: {player.Grounded}, Velocity: {player.Velocity}");
-            //Debug.WriteLine(player.Rect.ToString());
-            //camera.Follow(player.Rect, new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
-
-            //if (!spacePressed && Keyboard.GetState().IsKeyDown(Keys.G))
-            //{
-            //    if (sceneManager.GetCurrentScene() != startScene)
-            //    {
-            //        sceneManager.AddScene(startScene);
-            //    }
-            //    spacePressed = true;
-            //}
-
-            //if (spacePressed && Keyboard.GetState().IsKeyUp(Keys.G))
-            //{
-            //    if (sceneManager.GetCurrentScene() == startScene)
-            //    {
-            //        sceneManager.RemoveScene(startScene);
-            //    }
-            //    spacePressed = false;
-            //}
-
-            camera.Approach(player.Rect.Location.ToVector2() + new Vector2(0, player.Rect.Height), 0.2f);
-
         }
 
         private void ApplyGravity(Sprite entity)
         {
+            // Handle horizontal movement and collisions
             entity.Rect.X += (int)entity.Velocity.X;
-
-            intersections = getIntersectingTilesHorizontal(entity.Rect);
-
-            if (!boxIsCollide)
-            {
-                entity.Grounded = false;
-            }
+            intersections = GetIntersectingTiles(entity.Rect, horizontal: true);
 
             foreach (var rect in intersections)
             {
-
-                // handle collisions if the tile position exists in the tile map layer.
                 if (tilemap.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
                 {
-
-                    // create temp rect to handle collisions (not necessary, you can optimize!)
-                    Rectangle collision = new(
+                    Rectangle collision = new Rectangle(
                         rect.X * TILESIZE,
                         rect.Y * TILESIZE,
                         TILESIZE,
                         TILESIZE
                     );
 
-                    if (!entity.Rect.Intersects(collision))
-                    {
-                        continue;
-                    }
+                    if (!entity.Rect.Intersects(collision)) continue;
 
                     if (_val == 1)
                     {
-                        // Allow the player to jump through tiles above
-                        if (entity.Velocity.Y < 0.0f || isJumping)
-                        {
-                            continue; // Skip collision if jumping
-                        }
-
-                        if (entity.Velocity.Y > 0.0f)
-                        {
-                            entity.Rect.Y = collision.Top - entity.Rect.Height;
-                            entity.Velocity.Y = 1.0f;
-                            entity.Grounded = true;
-                        }
+                        // this needs to be here!
                     }
+
                     else if (_val == 5)
                     {
                         // Only handle top-face collision if the player is moving down
@@ -299,18 +267,14 @@ namespace StartingOver
                     }
 
                 }
-                // Reset the jump flag once upward motion stops
-                if (entity.Velocity.Y >= 0.0f)
-                {
-                    isJumping = false;
-                }
+
 
             }
 
-            // same as horizontal collisions
-
+            // Handle vertical movement and collisions
+            float entityPastY = entity.Rect.Bottom;
             entity.Rect.Y += (int)entity.Velocity.Y;
-            intersections = getIntersectingTilesVertical(entity.Rect);
+            intersections = GetIntersectingTiles(entity.Rect, horizontal: true);
 
             foreach (var rect in intersections)
             {
@@ -330,19 +294,23 @@ namespace StartingOver
                         continue;
                     }
 
+
                     if (_val == 1)
                     {
-                        // Allow the player to jump through tiles above
-                        if (entity.Velocity.Y < 0.0f || isJumping)
+                        if (entity.Velocity.Y < 0.0f) // if moving down
                         {
-                            continue; // Skip collision if jumping
+                            if (entity.Rect.Bottom > (collision.Top + 2)) // if not yet reached top of tile
+                            {
+                                continue; // dont collide
+                            }
                         }
-
-                        if (entity.Velocity.Y > 0.0f)
+                        else if (entity.Velocity.Y > 0.0f && entityPastY < (collision.Top + 2))
                         {
-                            entity.Rect.Y = collision.Top - entity.Rect.Height;
-                            entity.Velocity.Y = 1.0f;
-                            entity.Grounded = true;
+                            {
+                                entity.Rect.Y = collision.Top - entity.Rect.Height;
+                                entity.Velocity.Y = 1.0f;
+                                entity.Grounded = true;
+                            }
                         }
                     }
                     else if (_val == 5)
@@ -389,12 +357,12 @@ namespace StartingOver
                 int overlapX = Math.Min(playerRect.Right - boxRect.Left, boxRect.Right - playerRect.Left);
                 int overlapY = Math.Min(playerRect.Bottom - boxRect.Top, boxRect.Bottom - playerRect.Top);
 
-                if(Keyboard.GetState().IsKeyDown(Keys.X))
+                if (Keyboard.GetState().IsKeyDown(Keys.X))
                 {
                     player.AttachBox(box);
                 }
 
-                if(Keyboard.GetState().IsKeyUp(Keys.X))
+                if (Keyboard.GetState().IsKeyUp(Keys.X))
                 {
                     player.DetachBox();
                 }
@@ -404,12 +372,12 @@ namespace StartingOver
                     if (player.Velocity.X > 0.0f) // Moving right
                     {
                         player.Rect.X = box.Rect.Left - player.Rect.Width;
-                       
+
                     }
                     else if (player.Velocity.X < 0.0f) // Moving left
                     {
                         player.Rect.X = box.Rect.Right;
-                        
+
                     }
                     player.Velocity.X = 0.0f; // Stop horizontal movement
                 }
@@ -432,58 +400,21 @@ namespace StartingOver
 
         }
 
-        public List<Rectangle> getIntersectingTilesHorizontal(Rectangle target)
+        private List<Rectangle> GetIntersectingTiles(Rectangle entityRect, bool horizontal)
         {
-
             List<Rectangle> intersections = new();
+            int startX = horizontal ? entityRect.Left / TILESIZE : entityRect.Left / TILESIZE;
+            int endX = horizontal ? entityRect.Right / TILESIZE : entityRect.Right / TILESIZE;
+            int startY = horizontal ? entityRect.Top / TILESIZE : entityRect.Top / TILESIZE;
+            int endY = horizontal ? entityRect.Bottom / TILESIZE : entityRect.Bottom / TILESIZE;
 
-            int widthInTiles = (target.Width - (target.Width % TILESIZE)) / TILESIZE;
-            int heightInTiles = (target.Height - (target.Height % TILESIZE)) / TILESIZE;
-
-            for (int x = 0; x <= widthInTiles; x++)
+            for (int x = startX; x <= endX; x++)
             {
-                for (int y = 0; y <= heightInTiles; y++)
+                for (int y = startY; y <= endY; y++)
                 {
-
-                    intersections.Add(new Rectangle(
-
-                        (target.X + x * TILESIZE) / TILESIZE,
-                        (target.Y + y * (TILESIZE - 1)) / TILESIZE,
-                        TILESIZE,
-                        TILESIZE
-
-                    ));
-
+                    intersections.Add(new Rectangle(x, y, TILESIZE, TILESIZE));
                 }
             }
-
-            return intersections;
-        }
-        public List<Rectangle> getIntersectingTilesVertical(Rectangle target)
-        {
-
-            List<Rectangle> intersections = new();
-
-            int widthInTiles = (target.Width - (target.Width % TILESIZE)) / TILESIZE;
-            int heightInTiles = (target.Height - (target.Height % TILESIZE)) / TILESIZE;
-
-            for (int x = 0; x <= widthInTiles; x++)
-            {
-                for (int y = 0; y <= heightInTiles; y++)
-                {
-
-                    intersections.Add(new Rectangle(
-
-                        (target.X + x * (TILESIZE - 1)) / TILESIZE,
-                        (target.Y + y * TILESIZE) / TILESIZE,
-                        TILESIZE,
-                        TILESIZE
-
-                    ));
-
-                }
-            }
-
             return intersections;
         }
 
