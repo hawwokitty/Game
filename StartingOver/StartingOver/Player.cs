@@ -79,9 +79,10 @@ namespace StartingOver
 
             if(HeldBox != null)
             {
-                //Debug.WriteLine("box should move");
+                Debug.WriteLine("box should move");
                 //do thingies here
-                HeldBox.Rect.X += (int)Velocity.X;
+                HeldBox.Velocity.X = Velocity.X;
+                //HeldBox.Rect.X += (int)Velocity.X;
                 int overlapY = Math.Min(Rect.Bottom - HeldBox.Rect.Top, HeldBox.Rect.Bottom - Rect.Top);
 
                 if (overlapY > 96 || overlapY < 32)
@@ -97,12 +98,14 @@ namespace StartingOver
         {
             HeldBox = box;
             boxOffset = box.Position;
+            Debug.WriteLine("attach box");
             //record it's inital offset
         }
 
         public void DetachBox()
         {
             HeldBox = null;
+            Debug.WriteLine("detached box");
         }
 
         private Box HeldBox;

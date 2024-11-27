@@ -58,7 +58,7 @@ namespace StartingOver
             this.graphicsDevice = graphicsDevice;
             this.graphics = graphics;
             intersections = new();
-            tilemap = LoadMap("../../../Content/Tilemaps/LEVEL1.csv");
+            tilemap = LoadMap("../../../Content/Tilemaps/toto.csv");
             textureStore = new()
             {
                 new Rectangle(0, 0, 16, 16),
@@ -260,10 +260,12 @@ namespace StartingOver
                     else if (entity.Velocity.X > 0.0f)
                     {
                         entity.Rect.X = collision.Left - entity.Rect.Width;
+                        //Debug.WriteLine(entity + "moving right");
                     }
                     else if (entity.Velocity.X < 0.0f)
                     {
                         entity.Rect.X = collision.Right;
+                        //Debug.WriteLine(entity + "moving left");
                     }
 
                 }
@@ -274,7 +276,7 @@ namespace StartingOver
             // Handle vertical movement and collisions
             float entityPastY = entity.Rect.Bottom;
             entity.Rect.Y += (int)entity.Velocity.Y;
-            intersections = GetIntersectingTiles(entity.Rect, horizontal: true);
+            intersections = GetIntersectingTiles(entity.Rect, horizontal: false);
 
             foreach (var rect in intersections)
             {
@@ -297,22 +299,16 @@ namespace StartingOver
 
                     if (_val == 1)
                     {
-                        if (entity.Velocity.Y < 0.0f) // if moving down
+                        bool movingDown = entity.Velocity.Y > 0.0f;
+                        bool justCrossedTileTop = entityPastY < (collision.Top + 2);
+                        if (movingDown && justCrossedTileTop)
                         {
-                            if (entity.Rect.Bottom > (collision.Top + 2)) // if not yet reached top of tile
-                            {
-                                continue; // dont collide
-                            }
-                        }
-                        else if (entity.Velocity.Y > 0.0f && entityPastY < (collision.Top + 2))
-                        {
-                            {
-                                entity.Rect.Y = collision.Top - entity.Rect.Height;
-                                entity.Velocity.Y = 1.0f;
-                                entity.Grounded = true;
-                            }
+                            entity.Rect.Y = collision.Top - entity.Rect.Height;
+                            entity.Velocity.Y = 1.0f;
+                            entity.Grounded = true;
                         }
                     }
+
                     else if (_val == 5)
                     {
                         // Only handle top-face collision if the player is moving down
@@ -329,10 +325,12 @@ namespace StartingOver
                         entity.Rect.Y = collision.Top - entity.Rect.Height;
                         entity.Velocity.Y = 1.0f;
                         entity.Grounded = true;
+                        //Debug.WriteLine(entity + " is moving down and is at " + entity.Rect.Y + " pos and " + entity.Velocity.X + " x velocity");
                     }
                     else if (entity.Velocity.Y < 0.0f)
                     {
                         entity.Rect.Y = collision.Bottom;
+                        //Debug.WriteLine(entity + " is moving up");
                     }
 
 
@@ -364,6 +362,7 @@ namespace StartingOver
 
                 if (Keyboard.GetState().IsKeyUp(Keys.X))
                 {
+                    Debug.WriteLine("x is not pressed");
                     player.DetachBox();
                 }
 
@@ -389,15 +388,15 @@ namespace StartingOver
                         player.Velocity.Y = 1.0f;
                         player.Grounded = true; // Set grounded to true
                     }
-                    else if (player.Velocity.Y < 0.0f && player.Rect.Y > box.Rect.Bottom) // Moving up
+                    else if (player.Velocity.Y < 0.0f) // Moving up
                     {
+
                         player.Rect.Y = box.Rect.Bottom;
                         player.Velocity.Y = 0.0f; // Reset vertical velocity
+
                     }
                 }
             }
-
-
         }
 
         private List<Rectangle> GetIntersectingTiles(Rectangle entityRect, bool horizontal)
