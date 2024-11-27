@@ -74,12 +74,12 @@ namespace StartingOver
             //jumping
             if (Grounded && keystate.IsKeyDown(Keys.Space) && !prevKeyState.IsKeyDown(Keys.Space))
             {
-                Velocity.Y = -940 * dt;
+                Velocity.Y = -740 * dt;
             }
 
             if(HeldBox != null)
             {
-                Debug.WriteLine("box should move");
+                //Debug.WriteLine("box should move");
                 //do thingies here
                 HeldBox.Velocity.X = Velocity.X;
                 //HeldBox.Rect.X += (int)Velocity.X;
@@ -98,17 +98,22 @@ namespace StartingOver
         {
             HeldBox = box;
             boxOffset = box.Position;
-            Debug.WriteLine("attach box");
+            //Debug.WriteLine("attach box");
             //record it's inital offset
         }
 
         public void DetachBox()
         {
+            if (HeldBox != null)
+            {
+                HeldBox.Velocity.X = 0;
+            }
+
             HeldBox = null;
-            Debug.WriteLine("detached box");
+            //Debug.WriteLine("detached box");
         }
 
-        private Box HeldBox;
+        public Box HeldBox;
         private Vector2 boxOffset;
 
         public override void Draw(SpriteBatch spriteBatch, AnimationManager am)

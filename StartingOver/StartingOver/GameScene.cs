@@ -58,7 +58,7 @@ namespace StartingOver
             this.graphicsDevice = graphicsDevice;
             this.graphics = graphics;
             intersections = new();
-            tilemap = LoadMap("../../../Content/Tilemaps/toto.csv");
+            tilemap = LoadMap("../../../Content/Tilemaps/LEVEL1.csv");
             textureStore = new()
             {
                 new Rectangle(0, 0, 16, 16),
@@ -150,7 +150,7 @@ namespace StartingOver
             box = new Box(boxAnimation, new Vector2(144 * 3, 48 * 3), 32 * 3, 32 * 3);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
-            player = new Player(animations, new Vector2(80, 400), 96, 48);
+            player = new Player(animations, new Vector2(80, 578), 96, 48);
             //am = animations["IdleDown"];
 
             rectangleTexture = new Texture2D(graphicsDevice, 1, 1);
@@ -212,6 +212,12 @@ namespace StartingOver
             ApplyGravity(player);
             ApplyGravity(box);
 
+            if (Keyboard.GetState().IsKeyUp(Keys.X))
+            {
+                //Debug.WriteLine("x is not pressed");
+                player.DetachBox();
+            }
+
             if (player.Rect.Intersects(box.Rect))
             {
                 boxIsCollide = true;
@@ -259,12 +265,26 @@ namespace StartingOver
                     // handle collisions based on the direction the player is moving
                     else if (entity.Velocity.X > 0.0f)
                     {
+                        //entity.Velocity.X = 0.0f;
                         entity.Rect.X = collision.Left - entity.Rect.Width;
+                        if (entity == player)
+                        {
+                            if (player.HeldBox != null)
+                                player.HeldBox.Velocity.X = 0.0f;
+                        }
+
                         //Debug.WriteLine(entity + "moving right");
                     }
                     else if (entity.Velocity.X < 0.0f)
                     {
+                        //entity.Velocity.X = 0.0f;
                         entity.Rect.X = collision.Right;
+                        if (entity == player)
+                        {
+                            if (player.HeldBox != null)
+                                player.HeldBox.Velocity.X = 0.0f;
+                        }
+
                         //Debug.WriteLine(entity + "moving left");
                     }
 
@@ -330,6 +350,7 @@ namespace StartingOver
                     else if (entity.Velocity.Y < 0.0f)
                     {
                         entity.Rect.Y = collision.Bottom;
+                        entity.Velocity.Y = -1.0f;
                         //Debug.WriteLine(entity + " is moving up");
                     }
 
@@ -360,40 +381,35 @@ namespace StartingOver
                     player.AttachBox(box);
                 }
 
-                if (Keyboard.GetState().IsKeyUp(Keys.X))
-                {
-                    Debug.WriteLine("x is not pressed");
-                    player.DetachBox();
-                }
+                //Debug.WriteLine(string.Format("{0} Horizontal - {1} Vertical", overlapX, overlapY));
 
-                if (overlapX < overlapY) // Horizontal collision
+                // Determine which side to resolve based on the player's position
+                if (overlapX < overlapY || (overlapX == overlapY && Math.Abs(player.Velocity.X) > Math.Abs(player.Velocity.Y)))
                 {
-                    if (player.Velocity.X > 0.0f) // Moving right
+                    // Horizontal collision
+                    if (playerRect.Center.X < boxRect.Center.X) // Player is to the left of the box
                     {
                         player.Rect.X = box.Rect.Left - player.Rect.Width;
-
                     }
-                    else if (player.Velocity.X < 0.0f) // Moving left
+                    else if (playerRect.Center.X > boxRect.Center.X) // Player is to the right of the box
                     {
                         player.Rect.X = box.Rect.Right;
-
                     }
                     player.Velocity.X = 0.0f; // Stop horizontal movement
                 }
-                else // Vertical collision
+                else
                 {
-                    if (player.Velocity.Y > 0.0f) // Moving down
+                    // Vertical collision
+                    if (playerRect.Center.Y < boxRect.Center.Y) // Player is above the box
                     {
                         player.Rect.Y = box.Rect.Top - player.Rect.Height;
-                        player.Velocity.Y = 1.0f;
+                        player.Velocity.Y = 0.0f;
                         player.Grounded = true; // Set grounded to true
                     }
-                    else if (player.Velocity.Y < 0.0f) // Moving up
+                    else if (playerRect.Center.Y > boxRect.Center.Y) // Player is below the box
                     {
-
                         player.Rect.Y = box.Rect.Bottom;
                         player.Velocity.Y = 0.0f; // Reset vertical velocity
-
                     }
                 }
             }
@@ -421,7 +437,7 @@ namespace StartingOver
         {
             player.Draw(spriteBatch, am);
             box.Draw(spriteBatch, boxAm);
-            //DrawRectHollow(spriteBatch, player.Rect, 4);
+            DrawRectHollow(spriteBatch, player.ColliderRect, 4);
             foreach (var item in tilemap)
             {
                 int value = item.Value;

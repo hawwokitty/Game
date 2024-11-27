@@ -16,6 +16,7 @@ namespace StartingOver
         public int Height;
         public int Width;
         public Rectangle Rect;
+        public Rectangle ColliderRect;
         public Vector2 Velocity;
         public bool Grounded { get; set; }
 
@@ -29,6 +30,12 @@ namespace StartingOver
             Width = width;
             Rect = new((int)Position.X, (int)Position.Y, Width, Height);
         }
+
+        //public void ApplyVelocityX(int value)
+        //{
+        //    Rect.X += value;
+        //    ColliderRect.X = Rect.X + offset.X;
+        //}
 
         public virtual void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime)
         {
