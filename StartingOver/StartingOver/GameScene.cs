@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using StartingOver.Content;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace StartingOver
@@ -25,7 +26,9 @@ namespace StartingOver
 
         private Player player;
         private Box box;
+        private Key key;
         private AnimationManager boxAm;
+        private AnimationManager keyAm;
         private AnimationManager am;
 
         private bool isJumping;
@@ -146,9 +149,18 @@ namespace StartingOver
                     new AnimationManager(contentManager.Load<Texture2D>("box"), 0, 0,
                         new Vector2(32, 32), 0, 0)
                 }
+            };var keyAnimation = new Dictionary<string, AnimationManager>()
+            {
+                {
+                    "key",
+                    new AnimationManager(contentManager.Load<Texture2D>("key"), 0, 0,
+                        new Vector2(32, 32), 0, 0)
+                }
             };
             box = new Box(boxAnimation, new Vector2(144 * 3, 48 * 3), 32 * 3, 32 * 3);
+            key = new Key(keyAnimation, new Vector2(240 * 3, 48 * 3), 32 * 3, 32 * 3);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
+            keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
             player = new Player(animations, new Vector2(80, 578), 96, 48);
             //am = animations["IdleDown"];
@@ -232,8 +244,9 @@ namespace StartingOver
         private void ApplyGravity(Sprite entity)
         {
             // Handle horizontal movement and collisions
-            entity.Rect.X += (int)entity.Velocity.X;
-            intersections = GetIntersectingTiles(entity.Rect, horizontal: true);
+            //entity.Rect.X += (int)entity.Velocity.X;
+            entity.ApplyVelocityX((int)entity.Velocity.X);
+            intersections = GetIntersectingTiles(entity.ColliderRect, horizontal: true);
 
             foreach (var rect in intersections)
             {
@@ -295,8 +308,9 @@ namespace StartingOver
 
             // Handle vertical movement and collisions
             float entityPastY = entity.Rect.Bottom;
-            entity.Rect.Y += (int)entity.Velocity.Y;
-            intersections = GetIntersectingTiles(entity.Rect, horizontal: false);
+            //entity.Rect.Y += (int)entity.Velocity.Y;
+            entity.ApplyVelocityY((int)entity.Velocity.Y);
+            intersections = GetIntersectingTiles(entity.ColliderRect, horizontal: false);
 
             foreach (var rect in intersections)
             {
@@ -437,7 +451,8 @@ namespace StartingOver
         {
             player.Draw(spriteBatch, am);
             box.Draw(spriteBatch, boxAm);
-            DrawRectHollow(spriteBatch, player.ColliderRect, 4);
+            key.Draw(spriteBatch, keyAm);
+            //DrawRectHollow(spriteBatch, player.ColliderRect, 4);
             foreach (var item in tilemap)
             {
                 int value = item.Value;

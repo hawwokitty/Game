@@ -29,13 +29,21 @@ namespace StartingOver
             Height = height;
             Width = width;
             Rect = new((int)Position.X, (int)Position.Y, Width, Height);
+            ColliderRect = Rect;
         }
 
-        //public void ApplyVelocityX(int value)
-        //{
-        //    Rect.X += value;
-        //    ColliderRect.X = Rect.X + offset.X;
-        //}
+        public void ApplyVelocityX(int value)
+        {
+            Rect.X += value;
+            ColliderRect.X = Rect.X;
+            //ColliderRect.Width = Width - 8;
+        }
+        public void ApplyVelocityY(int value)
+        {
+            Rect.Y += value;
+            ColliderRect.Y = Rect.Y + 10;
+            ColliderRect.Height = Height - 10;
+        }
 
         public virtual void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime)
         {

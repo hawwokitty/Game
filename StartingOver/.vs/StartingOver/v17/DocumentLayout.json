@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "D:\\get_stuff\\game\\Game\\StartingOver\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|d:\\get_stuff\\game\\game\\startingover\\startingover\\sprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|solutionrelative:startingover\\sprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|d:\\get_stuff\\game\\game\\startingover\\startingover\\gamescene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|solutionrelative:startingover\\gamescene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|d:\\get_stuff\\game\\game\\startingover\\startingover\\sprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|solutionrelative:startingover\\sprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|d:\\get_stuff\\game\\game\\startingover\\startingover\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|solutionrelative:startingover\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|d:\\get_stuff\\game\\game\\startingover\\startingover\\content\\key.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|solutionrelative:startingover\\content\\key.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|d:\\get_stuff\\game\\game\\startingover\\startingover\\box.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -50,11 +54,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 190,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "LEVEL1.csv",
               "DocumentMoniker": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Content\\Tilemaps\\LEVEL1.csv",
               "RelativeDocumentMoniker": "StartingOver\\Content\\Tilemaps\\LEVEL1.csv",
@@ -66,19 +70,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Box.cs",
-              "DocumentMoniker": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Box.cs",
-              "RelativeDocumentMoniker": "StartingOver\\Box.cs",
-              "ToolTip": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Box.cs",
-              "RelativeToolTip": "StartingOver\\Box.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAA1AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-18T10:12:39.332Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Animation.cs",
               "DocumentMoniker": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Animation.cs",
               "RelativeDocumentMoniker": "StartingOver\\Animation.cs",
@@ -90,7 +82,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Button.cs",
               "DocumentMoniker": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Button.cs",
               "RelativeDocumentMoniker": "StartingOver\\Button.cs",
@@ -102,13 +94,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "GameScene.cs",
               "DocumentMoniker": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\GameScene.cs",
               "RelativeDocumentMoniker": "StartingOver\\GameScene.cs",
               "ToolTip": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\GameScene.cs",
               "RelativeToolTip": "StartingOver\\GameScene.cs",
-              "ViewState": "AQIAANYAAAAAAAAAAAAwwJgAAAA/AAAA",
+              "ViewState": "AQIAALYBAAAAAAAAAAAkwMYBAABCAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "OverriddenGroupName": "StartingOver",
               "WhenOpened": "2024-10-21T10:52:31.97Z",
@@ -116,7 +108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "SceneManager.cs",
               "DocumentMoniker": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\SceneManager.cs",
               "RelativeDocumentMoniker": "StartingOver\\SceneManager.cs",
@@ -128,7 +120,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "AnimationManager.cs",
               "DocumentMoniker": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\AnimationManager.cs",
               "RelativeDocumentMoniker": "StartingOver\\AnimationManager.cs",
@@ -140,7 +132,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Game1.cs",
               "DocumentMoniker": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Game1.cs",
               "RelativeDocumentMoniker": "StartingOver\\Game1.cs",
@@ -164,22 +156,48 @@
               "RelativeDocumentMoniker": "StartingOver\\Player.cs",
               "ToolTip": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Player.cs",
               "RelativeToolTip": "StartingOver\\Player.cs",
-              "ViewState": "AQIAAEQAAAAAAAAAAAAIwEwAAAAfAAAA",
+              "ViewState": "AQIAACwAAAAAAAAAAAAIwEwAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-21T08:39:47.961Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Sprite.cs",
               "DocumentMoniker": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Sprite.cs",
               "RelativeDocumentMoniker": "StartingOver\\Sprite.cs",
               "ToolTip": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Sprite.cs",
               "RelativeToolTip": "StartingOver\\Sprite.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAACQAAAAwAAAA",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAQwCwAAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-21T08:32:12.376Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Box.cs",
+              "DocumentMoniker": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Box.cs",
+              "RelativeDocumentMoniker": "StartingOver\\Box.cs",
+              "ToolTip": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Box.cs",
+              "RelativeToolTip": "StartingOver\\Box.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-18T10:12:39.332Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Key.cs",
+              "DocumentMoniker": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Content\\Key.cs",
+              "RelativeDocumentMoniker": "StartingOver\\Content\\Key.cs",
+              "ToolTip": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Content\\Key.cs",
+              "RelativeToolTip": "StartingOver\\Content\\Key.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T12:02:29.119Z",
               "EditorCaption": ""
             }
           ]
