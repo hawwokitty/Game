@@ -91,13 +91,21 @@ namespace StartingOver
                 }
             }
 
+            if (HeldKey != null)
+            {
+                HeldKey.Rect.X = Rect.X;
+                HeldKey.Rect.Y = Rect.Y;
+
+                //Debug.WriteLine("key should move");
+            }
+
             
         }
 
         public void AttachBox(Box box)
         {
             HeldBox = box;
-            boxOffset = box.Position;
+            //boxOffset = box.Position;
             //Debug.WriteLine("attach box");
             //record it's inital offset
         }
@@ -113,8 +121,13 @@ namespace StartingOver
             //Debug.WriteLine("detached box");
         }
 
+        public void AttachKey(Key key)
+        {
+            HeldKey = key;
+        }
+
         public Box HeldBox;
-        private Vector2 boxOffset;
+        public Key HeldKey;
 
         public override void Draw(SpriteBatch spriteBatch, AnimationManager am)
         {

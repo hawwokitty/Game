@@ -60,3 +60,4 @@ D:\get_stuff\game\Game\StartingOver\StartingOver\obj\Debug\net6.0\ref\StartingOv
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Character\Unarmed_Idle_full2.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\box.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\key.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\door1.xnb

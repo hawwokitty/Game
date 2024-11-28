@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using StartingOver.Content;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace StartingOver
@@ -27,8 +26,10 @@ namespace StartingOver
         private Player player;
         private Box box;
         private Key key;
+        private Door door;
         private AnimationManager boxAm;
         private AnimationManager keyAm;
+        private AnimationManager doorAm;
         private AnimationManager am;
 
         private bool isJumping;
@@ -149,7 +150,8 @@ namespace StartingOver
                     new AnimationManager(contentManager.Load<Texture2D>("box"), 0, 0,
                         new Vector2(32, 32), 0, 0)
                 }
-            };var keyAnimation = new Dictionary<string, AnimationManager>()
+            }; 
+            var keyAnimation = new Dictionary<string, AnimationManager>()
             {
                 {
                     "key",
@@ -157,10 +159,20 @@ namespace StartingOver
                         new Vector2(32, 32), 0, 0)
                 }
             };
+            var doorAnimation = new Dictionary<string, AnimationManager>()
+            {
+                {
+                    "door1",
+                    new AnimationManager(contentManager.Load<Texture2D>("door1"), 0, 0,
+                        new Vector2(5, 32), 0, 0)
+                }
+            };
             box = new Box(boxAnimation, new Vector2(144 * 3, 48 * 3), 32 * 3, 32 * 3);
             key = new Key(keyAnimation, new Vector2(240 * 3, 48 * 3), 32 * 3, 32 * 3);
+            door = new Door(doorAnimation, new Vector2(364 * 3, 80 * 3), 32 * 3, 5 * 3);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
+            doorAm = new AnimationManager(doorAnimation["door1"].Texture, 0, 0, new Vector2(5, 32), 0, 0);
             texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
             player = new Player(animations, new Vector2(80, 578), 96, 48);
             //am = animations["IdleDown"];
@@ -181,6 +193,7 @@ namespace StartingOver
 
             player.Update(currentKeyState, prevKeyState, gameTime);
             box.Update(currentKeyState, prevKeyState, gameTime);
+            key.Update(currentKeyState, prevKeyState, gameTime);
 
             HandleJumpInput(currentKeyState);
 
@@ -238,6 +251,11 @@ namespace StartingOver
             else
             {
                 boxIsCollide = false;
+            }
+
+            if (player.Rect.Intersects(key.Rect))
+            {
+                player.AttachKey(key);
             }
         }
 
@@ -359,10 +377,16 @@ namespace StartingOver
                         entity.Rect.Y = collision.Top - entity.Rect.Height;
                         entity.Velocity.Y = 1.0f;
                         entity.Grounded = true;
+                        //if (entity == player && boxIsCollide)
+                        //{
+                        //    Debug.WriteLine("colliding with box");
+                        //}
                         //Debug.WriteLine(entity + " is moving down and is at " + entity.Rect.Y + " pos and " + entity.Velocity.X + " x velocity");
                     }
                     else if (entity.Velocity.Y < 0.0f)
                     {
+
+
                         entity.Rect.Y = collision.Bottom;
                         entity.Velocity.Y = -1.0f;
                         //Debug.WriteLine(entity + " is moving up");
@@ -372,10 +396,10 @@ namespace StartingOver
 
                 }
                 // Reset the jump flag once upward motion stops
-                if (entity.Velocity.Y >= 0.0f)
-                {
-                    isJumping = false;
-                }
+                //if (entity.Velocity.Y >= 0.0f)
+                //{
+                //    isJumping = false;
+                //}
             }
         }
 
@@ -395,8 +419,6 @@ namespace StartingOver
                     player.AttachBox(box);
                 }
 
-                //Debug.WriteLine(string.Format("{0} Horizontal - {1} Vertical", overlapX, overlapY));
-
                 // Determine which side to resolve based on the player's position
                 if (overlapX < overlapY || (overlapX == overlapY && Math.Abs(player.Velocity.X) > Math.Abs(player.Velocity.Y)))
                 {
@@ -404,12 +426,13 @@ namespace StartingOver
                     if (playerRect.Center.X < boxRect.Center.X) // Player is to the left of the box
                     {
                         player.Rect.X = box.Rect.Left - player.Rect.Width;
+                        player.Velocity.X = 0.0f; // Stop horizontal movement
                     }
                     else if (playerRect.Center.X > boxRect.Center.X) // Player is to the right of the box
                     {
                         player.Rect.X = box.Rect.Right;
+                        player.Velocity.X = 0.0f; // Stop horizontal movement
                     }
-                    player.Velocity.X = 0.0f; // Stop horizontal movement
                 }
                 else
                 {
@@ -422,8 +445,16 @@ namespace StartingOver
                     }
                     else if (playerRect.Center.Y > boxRect.Center.Y) // Player is below the box
                     {
+                        // Stop the box's downward velocity if it is falling onto the player's head
+                        if (box.Velocity.Y > 0)
+                        {
+                            box.Velocity.Y = 0.0f; // Stop the box's downward movement
+                            box.Rect.Y = player.Rect.Top - box.Rect.Height; // Align the box just above the player
+                        }
+
+                        // Keep the original player behavior
                         player.Rect.Y = box.Rect.Bottom;
-                        player.Velocity.Y = 0.0f; // Reset vertical velocity
+                        player.Velocity.Y = 1.0f; // Reset vertical velocity
                     }
                 }
             }
@@ -452,6 +483,7 @@ namespace StartingOver
             player.Draw(spriteBatch, am);
             box.Draw(spriteBatch, boxAm);
             key.Draw(spriteBatch, keyAm);
+            door.Draw(spriteBatch, keyAm);
             //DrawRectHollow(spriteBatch, player.ColliderRect, 4);
             foreach (var item in tilemap)
             {
