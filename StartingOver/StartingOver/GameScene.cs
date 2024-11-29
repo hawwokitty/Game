@@ -169,7 +169,7 @@ namespace StartingOver
             };
             box = new Box(boxAnimation, new Vector2(144 * 3, 48 * 3), 32 * 3, 32 * 3);
             key = new Key(keyAnimation, new Vector2(240 * 3, 48 * 3), 32 * 3, 32 * 3);
-            door = new Door(doorAnimation, new Vector2(364 * 3, 80 * 3), 32 * 3, 5 * 3);
+            door = new Door(doorAnimation, new Vector2(363 * 3, 80 * 3), 32 * 3, 5 * 3);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             doorAm = new AnimationManager(doorAnimation["door1"].Texture, 0, 0, new Vector2(5, 32), 0, 0);
@@ -483,7 +483,7 @@ namespace StartingOver
             player.Draw(spriteBatch, am);
             box.Draw(spriteBatch, boxAm);
             key.Draw(spriteBatch, keyAm);
-            door.Draw(spriteBatch, keyAm);
+            door.Draw(spriteBatch, doorAm);
             //DrawRectHollow(spriteBatch, player.ColliderRect, 4);
             foreach (var item in tilemap)
             {

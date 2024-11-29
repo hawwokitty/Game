@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/door1.png</SourceFile>
-  <SourceTime>2024-11-28T14:48:36.2893877+01:00</SourceTime>
+  <SourceTime>2024-11-29T10:48:15.9940719+01:00</SourceTime>
   <DestFile>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/Content/door1.xnb</DestFile>
-  <DestTime>2024-11-28T15:03:00.8260336+01:00</DestTime>
+  <DestTime>2024-11-29T10:49:35.4810253+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
