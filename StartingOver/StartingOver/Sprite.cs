@@ -36,7 +36,7 @@ namespace StartingOver
         {
             Rect.X += value;
             ColliderRect.X = Rect.X;
-            //ColliderRect.Width = Width - 8;
+            //ColliderRect.Width = Width - 10;
         }
         public void ApplyVelocityY(int value)
         {

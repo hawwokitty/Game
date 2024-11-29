@@ -125,6 +125,11 @@ namespace StartingOver
         {
             HeldKey = key;
         }
+        public void DetachKey()
+        {
+            HeldKey = null;
+            //Debug.WriteLine("key should byebye");
+        }
 
         public Box HeldBox;
         public Key HeldKey;

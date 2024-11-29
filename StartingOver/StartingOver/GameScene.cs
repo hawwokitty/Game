@@ -150,7 +150,7 @@ namespace StartingOver
                     new AnimationManager(contentManager.Load<Texture2D>("box"), 0, 0,
                         new Vector2(32, 32), 0, 0)
                 }
-            }; 
+            };
             var keyAnimation = new Dictionary<string, AnimationManager>()
             {
                 {
@@ -246,7 +246,7 @@ namespace StartingOver
             if (player.Rect.Intersects(box.Rect))
             {
                 boxIsCollide = true;
-                HandleBoxCollision(box);
+                HandleEntityCollision(box);
             }
             else
             {
@@ -256,6 +256,14 @@ namespace StartingOver
             if (player.Rect.Intersects(key.Rect))
             {
                 player.AttachKey(key);
+            }
+            if (player.Rect.Intersects(door.Rect))
+            {
+                if (player.HeldKey == null)
+                {
+                    HandleEntityCollision(door);
+                    player.DetachKey();
+                }
             }
         }
 
@@ -403,57 +411,60 @@ namespace StartingOver
             }
         }
 
-        private void HandleBoxCollision(Box box)
+        private void HandleEntityCollision(Sprite entity)
         {
             Rectangle playerRect = player.Rect;
-            Rectangle boxRect = box.Rect;
+            Rectangle entityRect = entity.Rect;
 
-            if (playerRect.Intersects(boxRect))
+            if (playerRect.Intersects(entityRect))
             {
                 // Calculate overlap amounts
-                int overlapX = Math.Min(playerRect.Right - boxRect.Left, boxRect.Right - playerRect.Left);
-                int overlapY = Math.Min(playerRect.Bottom - boxRect.Top, boxRect.Bottom - playerRect.Top);
+                int overlapX = Math.Min(playerRect.Right - entityRect.Left, entityRect.Right - playerRect.Left);
+                int overlapY = Math.Min(playerRect.Bottom - entityRect.Top, entityRect.Bottom - playerRect.Top);
 
                 if (Keyboard.GetState().IsKeyDown(Keys.X))
                 {
-                    player.AttachBox(box);
+                    if (entity is Box box)
+                    {
+                        player.AttachBox(box);
+                    }
                 }
 
                 // Determine which side to resolve based on the player's position
                 if (overlapX < overlapY || (overlapX == overlapY && Math.Abs(player.Velocity.X) > Math.Abs(player.Velocity.Y)))
                 {
                     // Horizontal collision
-                    if (playerRect.Center.X < boxRect.Center.X) // Player is to the left of the box
+                    if (playerRect.Center.X < entityRect.Center.X) // Player is to the left of the box
                     {
-                        player.Rect.X = box.Rect.Left - player.Rect.Width;
+                        player.Rect.X = entity.Rect.Left - player.Rect.Width;
                         player.Velocity.X = 0.0f; // Stop horizontal movement
                     }
-                    else if (playerRect.Center.X > boxRect.Center.X) // Player is to the right of the box
+                    else if (playerRect.Center.X > entityRect.Center.X) // Player is to the right of the box
                     {
-                        player.Rect.X = box.Rect.Right;
+                        player.Rect.X = entity.Rect.Right;
                         player.Velocity.X = 0.0f; // Stop horizontal movement
                     }
                 }
                 else
                 {
                     // Vertical collision
-                    if (playerRect.Center.Y < boxRect.Center.Y) // Player is above the box
+                    if (playerRect.Center.Y < entityRect.Center.Y) // Player is above the box
                     {
-                        player.Rect.Y = box.Rect.Top - player.Rect.Height;
+                        player.Rect.Y = entity.Rect.Top - player.Rect.Height;
                         player.Velocity.Y = 0.0f;
                         player.Grounded = true; // Set grounded to true
                     }
-                    else if (playerRect.Center.Y > boxRect.Center.Y) // Player is below the box
+                    else if (playerRect.Center.Y > entityRect.Center.Y) // Player is below the box
                     {
                         // Stop the box's downward velocity if it is falling onto the player's head
-                        if (box.Velocity.Y > 0)
+                        if (entity.Velocity.Y > 0)
                         {
-                            box.Velocity.Y = 0.0f; // Stop the box's downward movement
-                            box.Rect.Y = player.Rect.Top - box.Rect.Height; // Align the box just above the player
+                            entity.Velocity.Y = 0.0f; // Stop the box's downward movement
+                            entity.Rect.Y = player.Rect.Top - entity.Rect.Height; // Align the box just above the player
                         }
 
                         // Keep the original player behavior
-                        player.Rect.Y = box.Rect.Bottom;
+                        player.Rect.Y = entity.Rect.Bottom;
                         player.Velocity.Y = 1.0f; // Reset vertical velocity
                     }
                 }
