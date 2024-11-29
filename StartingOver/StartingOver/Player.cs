@@ -21,6 +21,15 @@ namespace StartingOver
         
         public PlayerState State { get; private set; } = PlayerState.IdleRight;
 
+        private bool isJumping;
+        private float jumpTime;
+        private const float MaxJumpTime = 0.3f; // Maximum time the jump can be sustained
+        private const float InitialJumpVelocity = -440.0f;
+        private const float HoldJumpForce = -30.0f;
+
+        private float coyoteTime = 0.15f;
+        private float coyoteTimeCounter;
+
         public Player(Dictionary<string, AnimationManager> _animation, Vector2 position, int height, int width) : base(_animation, position, height, width)
         {
             Velocity = new();
@@ -71,13 +80,39 @@ namespace StartingOver
             Velocity.X = Math.Max(-300, Math.Min(300, Velocity.X));
             Velocity.X *= 0.91f;
 
-            //jumping
-            if (Grounded && keystate.IsKeyDown(Keys.Space) && !prevKeyState.IsKeyDown(Keys.Space))
+            // Jump logic
+            if (Grounded)
             {
-                Velocity.Y = -740 * dt;
+                coyoteTimeCounter = coyoteTime;
+            }
+            else
+            {
+                coyoteTimeCounter -= dt;
             }
 
-            if(HeldBox != null)
+            if (coyoteTimeCounter > 0f && keystate.IsKeyDown(Keys.Space) && !prevKeyState.IsKeyDown(Keys.Space))
+            {
+                isJumping = true;
+                jumpTime = 0f;
+                Velocity.Y = InitialJumpVelocity * dt;
+                coyoteTimeCounter = 0;
+            }
+
+            if (isJumping)
+            {
+                jumpTime += dt;
+
+                if (keystate.IsKeyDown(Keys.Space) && jumpTime < MaxJumpTime)
+                {
+                    Velocity.Y += HoldJumpForce * dt;
+                }
+                else
+                {
+                    isJumping = false;
+                }
+            }
+
+            if (HeldBox != null)
             {
                 //Debug.WriteLine("box should move");
                 //do thingies here

@@ -234,6 +234,7 @@ namespace StartingOver
 
         private void HandleCollisions()
         {
+            player.Grounded = false;
             ApplyGravity(player);
             ApplyGravity(box);
 
@@ -495,7 +496,7 @@ namespace StartingOver
             box.Draw(spriteBatch, boxAm);
             key.Draw(spriteBatch, keyAm);
             door.Draw(spriteBatch, doorAm);
-            //DrawRectHollow(spriteBatch, player.ColliderRect, 4);
+            DrawRectHollow(spriteBatch, player.ColliderRect, 4);
             foreach (var item in tilemap)
             {
                 int value = item.Value;

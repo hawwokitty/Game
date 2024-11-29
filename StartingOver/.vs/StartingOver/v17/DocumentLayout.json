@@ -57,7 +57,7 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 224,
+          "DockedWidth": 185,
           "SelectedChildIndex": 4,
           "Children": [
             {
@@ -116,7 +116,7 @@
               "RelativeDocumentMoniker": "StartingOver\\GameScene.cs",
               "ToolTip": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\GameScene.cs",
               "RelativeToolTip": "StartingOver\\GameScene.cs",
-              "ViewState": "AQIAAOgAAAAAAAAAAAAAAPQAAAAAAAAA",
+              "ViewState": "AQIAANYBAAAAAAAAAAAAAOkBAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "OverriddenGroupName": "StartingOver",
               "WhenOpened": "2024-10-21T10:52:31.97Z",
@@ -161,7 +161,7 @@
           ]
         },
         {
-          "DockedWidth": 146,
+          "DockedWidth": 185,
           "SelectedChildIndex": 0,
           "Children": [
             {
@@ -172,7 +172,7 @@
               "RelativeDocumentMoniker": "StartingOver\\Player.cs",
               "ToolTip": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Player.cs",
               "RelativeToolTip": "StartingOver\\Player.cs",
-              "ViewState": "AQIAAF8AAAAAAAAAAAAIwIIAAAAzAAAA",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABsAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-21T08:39:47.961Z",
               "EditorCaption": ""
@@ -185,7 +185,7 @@
               "RelativeDocumentMoniker": "StartingOver\\Sprite.cs",
               "ToolTip": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Sprite.cs",
               "RelativeToolTip": "StartingOver\\Sprite.cs",
-              "ViewState": "AQIAABEAAAAAAAAAAAAQwCUAAAAkAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-21T08:32:12.376Z",
               "EditorCaption": ""
