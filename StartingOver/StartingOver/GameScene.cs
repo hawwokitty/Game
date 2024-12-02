@@ -27,14 +27,18 @@ namespace StartingOver
         private Box box;
         private Key key;
         private Door door;
+        //private List<Rope> rope;
+        private Rope rope;
         private AnimationManager boxAm;
         private AnimationManager keyAm;
         private AnimationManager doorAm;
         private AnimationManager am;
+        private AnimationManager ropeAm;
 
         private bool isJumping;
 
         private bool boxIsCollide;
+        private bool doorAndKeyIsCollide;
 
         private Dictionary<string, AnimationManager> animations;
 
@@ -167,12 +171,33 @@ namespace StartingOver
                         new Vector2(5, 32), 0, 0)
                 }
             };
+            var ropeAnimation = new Dictionary<string, AnimationManager>()
+            {
+                {
+                    "rope",
+                    new AnimationManager(contentManager.Load<Texture2D>("rope"), 0, 0,
+                        new Vector2(3, 80), 0, 0)
+                }
+            };
             box = new Box(boxAnimation, new Vector2(144 * 3, 48 * 3), 32 * 3, 32 * 3);
-            key = new Key(keyAnimation, new Vector2(240 * 3, 48 * 3), 32 * 3, 32 * 3);
+            key = new Key(keyAnimation, new Vector2(230 * 3, 48 * 3), 32 * 3, 32 * 3);
             door = new Door(doorAnimation, new Vector2(363 * 3, 80 * 3), 32 * 3, 5 * 3);
+            //rope = new List<Rope>
+            //{
+            //    new (ropeAnimation, new Vector2(471 * 3, 48 * 3), 8 * 3, 3 * 3),
+            //    new (ropeAnimation, new Vector2(471 * 3, 54 * 3), 8 * 3, 3 * 3),
+            //    new (ropeAnimation, new Vector2(471 * 3, 62 * 3), 8 * 3, 3 * 3),
+            //    new (ropeAnimation, new Vector2(471 * 3, 70 * 3), 8 * 3, 3 * 3),
+            //    new (ropeAnimation, new Vector2(471 * 3, 78 * 3), 8 * 3, 3 * 3),
+            //    new (ropeAnimation, new Vector2(471 * 3, 84 * 3), 8 * 3, 3 * 3),
+            //    new (ropeAnimation, new Vector2(471 * 3, 92 * 3), 8 * 3, 3 * 3),
+            //    new (ropeAnimation, new Vector2(471 * 3, 100 * 3), 8 * 3, 3 * 3),
+            //};
+            rope = new Rope(ropeAnimation, new Vector2(470 * 3, 48 * 3), 80 * 3, 3 * 3);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             doorAm = new AnimationManager(doorAnimation["door1"].Texture, 0, 0, new Vector2(5, 32), 0, 0);
+            ropeAm = new AnimationManager(ropeAnimation["rope"].Texture, 0, 0, new Vector2(3, 80), 0, 0);
             texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
             player = new Player(animations, new Vector2(80, 578), 96, 48);
             //am = animations["IdleDown"];
@@ -203,6 +228,7 @@ namespace StartingOver
             camera.Approach(player.Rect.Location.ToVector2() + new Vector2(0, player.Rect.Height), 0.2f);
 
             prevKeyState = currentKeyState;
+
         }
 
         private void HandleJumpInput(KeyboardState currentKeyState)
@@ -263,7 +289,12 @@ namespace StartingOver
                 if (player.HeldKey == null)
                 {
                     HandleEntityCollision(door);
-                    player.DetachKey();
+                }
+                else
+                {
+                    doorAndKeyIsCollide = true;
+                    //Debug.WriteLine("door and key is collide");
+                    //player.DetachKey();
                 }
             }
         }
@@ -494,9 +525,17 @@ namespace StartingOver
         {
             player.Draw(spriteBatch, am);
             box.Draw(spriteBatch, boxAm);
-            key.Draw(spriteBatch, keyAm);
+            if (!doorAndKeyIsCollide)
+            {
+                key.Draw(spriteBatch, keyAm);
+            }
             door.Draw(spriteBatch, doorAm);
-            DrawRectHollow(spriteBatch, player.ColliderRect, 4);
+            rope.Draw(spriteBatch, ropeAm);
+            //foreach (var item in rope)
+            //{
+            //    item.Draw(spriteBatch, ropeAm);
+            //}
+            //DrawRectHollow(spriteBatch, player.ColliderRect, 4);
             foreach (var item in tilemap)
             {
                 int value = item.Value;

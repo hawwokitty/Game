@@ -61,3 +61,4 @@ D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Charac
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\box.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\key.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\door1.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\rope.xnb

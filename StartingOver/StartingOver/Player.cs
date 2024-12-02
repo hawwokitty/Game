@@ -30,6 +30,9 @@ namespace StartingOver
         private float coyoteTime = 0.15f;
         private float coyoteTimeCounter;
 
+        private float jumpBufferTime = 0.2f;
+        private float jumpBufferCounter;
+
         public Player(Dictionary<string, AnimationManager> _animation, Vector2 position, int height, int width) : base(_animation, position, height, width)
         {
             Velocity = new();
@@ -90,12 +93,22 @@ namespace StartingOver
                 coyoteTimeCounter -= dt;
             }
 
-            if (coyoteTimeCounter > 0f && keystate.IsKeyDown(Keys.Space) && !prevKeyState.IsKeyDown(Keys.Space))
+            if (keystate.IsKeyDown(Keys.Space))
+            {
+                jumpBufferCounter = jumpBufferTime;
+            }
+            else
+            {
+                jumpBufferCounter -= dt;
+            }
+
+            if (coyoteTimeCounter > 0f && jumpBufferCounter > 0 && !prevKeyState.IsKeyDown(Keys.Space))
             {
                 isJumping = true;
                 jumpTime = 0f;
                 Velocity.Y = InitialJumpVelocity * dt;
                 coyoteTimeCounter = 0;
+                jumpBufferCounter = 0;
             }
 
             if (isJumping)
@@ -163,7 +176,7 @@ namespace StartingOver
         public void DetachKey()
         {
             HeldKey = null;
-            //Debug.WriteLine("key should byebye");
+            Debug.WriteLine("key should byebye");
         }
 
         public Box HeldBox;
