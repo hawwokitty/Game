@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace StartingOver
 {
@@ -18,7 +20,7 @@ namespace StartingOver
     }
     internal class Player : Sprite
     {
-        
+
         public PlayerState State { get; private set; } = PlayerState.IdleRight;
 
         private bool isJumping;
@@ -146,8 +148,18 @@ namespace StartingOver
 
                 //Debug.WriteLine("key should move");
             }
+            if (HeldRope != null)
+            {
+                //Debug.WriteLine("player x is: " + Rect.X);
+                //HeldRopePos.X = Rect.X;
+                //HeldRopePos.Y = Rect.Y;
+                //HeldRopeOnce++;
+                //Velocity.X = 0.0f;
+                //Velocity.Y = 0.0f;
+                Debug.WriteLine("rope is held");
+            }
 
-            
+
         }
 
         public void AttachBox(Box box)
@@ -178,9 +190,22 @@ namespace StartingOver
             HeldKey = null;
             Debug.WriteLine("key should byebye");
         }
+        public void DetachRope()
+        {
+            HeldRope = null;
+        }
+
+        public void AttachRope(Rope rope)
+        {
+            HeldRope = rope;
+            //HeldRopeOnce = 1;
+        }
 
         public Box HeldBox;
         public Key HeldKey;
+        public Rope HeldRope;
+        //public Vector2 HeldRopePos;
+        //private int HeldRopeOnce;
 
         public override void Draw(SpriteBatch spriteBatch, AnimationManager am)
         {

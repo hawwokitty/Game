@@ -219,6 +219,7 @@ namespace StartingOver
             player.Update(currentKeyState, prevKeyState, gameTime);
             box.Update(currentKeyState, prevKeyState, gameTime);
             key.Update(currentKeyState, prevKeyState, gameTime);
+            rope.Update(currentKeyState, prevKeyState, gameTime);
 
             HandleJumpInput(currentKeyState);
 
@@ -268,6 +269,7 @@ namespace StartingOver
             {
                 //Debug.WriteLine("x is not pressed");
                 player.DetachBox();
+                player.DetachRope();
             }
 
             if (player.Rect.Intersects(box.Rect))
@@ -283,6 +285,10 @@ namespace StartingOver
             if (player.Rect.Intersects(key.Rect))
             {
                 player.AttachKey(key);
+            }
+            if (player.Rect.Intersects(rope.Rect))
+            {
+                HandleRopeCollision(rope);
             }
             if (player.Rect.Intersects(door.Rect))
             {
@@ -500,6 +506,22 @@ namespace StartingOver
                         player.Velocity.Y = 1.0f; // Reset vertical velocity
                     }
                 }
+            }
+        }
+        private void HandleRopeCollision(Rope rope)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.X))
+            {
+
+                //Debug.WriteLine("x before: " + player.HeldRopePos.X);
+                //Debug.WriteLine("y before: " + player.HeldRopePos.Y);
+                player.AttachRope(rope);
+                //Debug.WriteLine("x after: " + player.HeldRopePos.X);
+                //Debug.WriteLine("y after: " + player.HeldRopePos.Y);
+
+                //player.Rect.X = (int)player.HeldRopePos.X;
+                //player.Rect.Y = (int)player.HeldRopePos.Y;
+                
             }
         }
 
