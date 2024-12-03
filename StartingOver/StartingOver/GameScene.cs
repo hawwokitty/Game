@@ -29,11 +29,15 @@ namespace StartingOver
         private Door door;
         //private List<Rope> rope;
         private Rope rope;
+        private Lever lever1;
+        private Lever lever2;
         private AnimationManager boxAm;
         private AnimationManager keyAm;
         private AnimationManager doorAm;
         private AnimationManager am;
         private AnimationManager ropeAm;
+        private AnimationManager leverAm1;
+        private AnimationManager leverAm2;
 
         private bool isJumping;
 
@@ -179,6 +183,18 @@ namespace StartingOver
                         new Vector2(3, 80), 0, 0)
                 }
             };
+            var leverAnimation = new Dictionary<string, AnimationManager>()
+            {
+                {
+                    "lever-left",
+                    new AnimationManager(contentManager.Load<Texture2D>("lever"), 2, 2,
+                        new Vector2(14, 9), 1, 0)
+                },{
+                    "lever-right",
+                    new AnimationManager(contentManager.Load<Texture2D>("lever"), 2, 2,
+                        new Vector2(14, 9), 0, 0)
+                },
+            };
             box = new Box(boxAnimation, new Vector2(144 * 3, 48 * 3), 32 * 3, 32 * 3);
             key = new Key(keyAnimation, new Vector2(230 * 3, 48 * 3), 32 * 3, 32 * 3);
             door = new Door(doorAnimation, new Vector2(363 * 3, 80 * 3), 32 * 3, 5 * 3);
@@ -194,10 +210,14 @@ namespace StartingOver
             //    new (ropeAnimation, new Vector2(471 * 3, 100 * 3), 8 * 3, 3 * 3),
             //};
             rope = new Rope(ropeAnimation, new Vector2(470 * 3, 48 * 3), 80 * 3, 3 * 3);
+            lever1 = new Lever(leverAnimation, new Vector2(374 * 3, 103 * 3), 9 * 3, 7 * 3);
+            lever2 = new Lever(leverAnimation, new Vector2(548 * 3, 103 * 3), 9 * 3, 7 * 3);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             doorAm = new AnimationManager(doorAnimation["door1"].Texture, 0, 0, new Vector2(5, 32), 0, 0);
             ropeAm = new AnimationManager(ropeAnimation["rope"].Texture, 0, 0, new Vector2(3, 80), 0, 0);
+            leverAm1 = new AnimationManager(leverAnimation["lever-left"].Texture, 0, 0, new Vector2(7, 9), 1, 0);
+            leverAm2 = new AnimationManager(leverAnimation["lever-right"].Texture, 0, 0, new Vector2(7, 9), 0, 0);
             texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
             player = new Player(animations, new Vector2(80, 578), 96, 48);
             //am = animations["IdleDown"];
@@ -521,8 +541,13 @@ namespace StartingOver
 
                 //player.Rect.X = (int)player.HeldRopePos.X;
                 //player.Rect.Y = (int)player.HeldRopePos.Y;
-                
+
             }
+        }
+
+        private void FlickLever(Lever lever)
+        {
+            
         }
 
         private List<Rectangle> GetIntersectingTiles(Rectangle entityRect, bool horizontal)
@@ -553,6 +578,8 @@ namespace StartingOver
             }
             door.Draw(spriteBatch, doorAm);
             rope.Draw(spriteBatch, ropeAm);
+            lever1.Draw(spriteBatch, leverAm1);
+            lever2.Draw(spriteBatch, leverAm2);
             //foreach (var item in rope)
             //{
             //    item.Draw(spriteBatch, ropeAm);

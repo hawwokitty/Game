@@ -11,10 +11,12 @@
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/collisions3.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/door1.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/key.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/lever.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/rope.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/start2.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

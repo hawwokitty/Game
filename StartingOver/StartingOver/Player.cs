@@ -95,22 +95,22 @@ namespace StartingOver
                 coyoteTimeCounter -= dt;
             }
 
-            if (keystate.IsKeyDown(Keys.Space))
-            {
-                jumpBufferCounter = jumpBufferTime;
-            }
-            else
-            {
-                jumpBufferCounter -= dt;
-            }
+            //if (keystate.IsKeyDown(Keys.Space))
+            //{
+            //    jumpBufferCounter = jumpBufferTime;
+            //}
+            //else
+            //{
+            //    jumpBufferCounter -= dt;
+            //}
 
-            if (coyoteTimeCounter > 0f && jumpBufferCounter > 0 && !prevKeyState.IsKeyDown(Keys.Space))
+            if (coyoteTimeCounter > 0f /* && jumpBufferCounter > 0 */ && keystate.IsKeyDown(Keys.Space) && !prevKeyState.IsKeyDown(Keys.Space))
             {
                 isJumping = true;
                 jumpTime = 0f;
                 Velocity.Y = InitialJumpVelocity * dt;
                 coyoteTimeCounter = 0;
-                jumpBufferCounter = 0;
+                //jumpBufferCounter = 0;
             }
 
             if (isJumping)
@@ -154,8 +154,8 @@ namespace StartingOver
                 //HeldRopePos.X = Rect.X;
                 //HeldRopePos.Y = Rect.Y;
                 //HeldRopeOnce++;
-                //Velocity.X = 0.0f;
-                //Velocity.Y = 0.0f;
+                Velocity.X = 0.0f;
+                Velocity.Y = 0.0f;
                 Debug.WriteLine("rope is held");
             }
 
