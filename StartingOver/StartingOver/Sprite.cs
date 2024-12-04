@@ -20,11 +20,11 @@ namespace StartingOver
         public Vector2 Velocity;
         public bool Grounded { get; set; }
 
-        protected Dictionary<string, AnimationManager> _animation;
+        public Dictionary<string, AnimationManager> Animation;
 
         public Sprite(Dictionary<string, AnimationManager> animation, Vector2 position, int height, int width)
         {
-            _animation = animation;
+            Animation = animation;
             this.Position = position;
             Height = height;
             Width = width;

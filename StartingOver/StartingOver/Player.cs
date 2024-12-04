@@ -53,13 +53,13 @@ namespace StartingOver
             {
                 Velocity.X += 30 * dt;
                 State = PlayerState.WalkRight;
-                Texture = _animation["WalkRight"].Texture;
+                Texture = Animation["WalkRight"].Texture;
             }
             else if (keystate.IsKeyDown(Keys.Left))
             {
                 Velocity.X += -30 * dt;
                 State = PlayerState.WalkLeft;
-                Texture = _animation["WalkLeft"].Texture;
+                Texture = Animation["WalkLeft"].Texture;
             }
             else
             {
@@ -74,10 +74,10 @@ namespace StartingOver
                 };
                 Texture = State switch
                 {
-                    PlayerState.IdleUp => _animation["IdleUp"].Texture,
-                    PlayerState.IdleDown => _animation["IdleDown"].Texture,
-                    PlayerState.IdleLeft => _animation["IdleLeft"].Texture,
-                    PlayerState.IdleRight => _animation["IdleRight"].Texture,
+                    PlayerState.IdleUp => Animation["IdleUp"].Texture,
+                    PlayerState.IdleDown => Animation["IdleDown"].Texture,
+                    PlayerState.IdleLeft => Animation["IdleLeft"].Texture,
+                    PlayerState.IdleRight => Animation["IdleRight"].Texture,
                     _ => Texture
                 };
             }
@@ -148,16 +148,19 @@ namespace StartingOver
 
                 //Debug.WriteLine("key should move");
             }
-            if (HeldRope != null)
+            if (HeldRope != null && HeldRopeOnce == 1)
             {
                 //Debug.WriteLine("player x is: " + Rect.X);
-                //HeldRopePos.X = Rect.X;
+                HeldRopePos.X = Rect.X;
                 //HeldRopePos.Y = Rect.Y;
-                //HeldRopeOnce++;
+                HeldRopeOnce++;
+                Debug.WriteLine(HeldRopeOnce);
                 Velocity.X = 0.0f;
                 Velocity.Y = 0.0f;
                 Debug.WriteLine("rope is held");
+                
             }
+
 
 
         }
@@ -198,18 +201,19 @@ namespace StartingOver
         public void AttachRope(Rope rope)
         {
             HeldRope = rope;
-            //HeldRopeOnce = 1;
+            HeldRopeOnce = 1;
         }
 
         public Box HeldBox;
         public Key HeldKey;
         public Rope HeldRope;
-        //public Vector2 HeldRopePos;
-        //private int HeldRopeOnce;
+        public Vector2 HeldRopePos;
+        private int HeldRopeOnce;
 
         public override void Draw(SpriteBatch spriteBatch, AnimationManager am)
         {
             base.Draw(spriteBatch, am);
         }
+
     }
 }

@@ -210,14 +210,14 @@ namespace StartingOver
             //    new (ropeAnimation, new Vector2(471 * 3, 100 * 3), 8 * 3, 3 * 3),
             //};
             rope = new Rope(ropeAnimation, new Vector2(470 * 3, 48 * 3), 80 * 3, 3 * 3);
-            lever1 = new Lever(leverAnimation, new Vector2(374 * 3, 103 * 3), 9 * 3, 7 * 3);
-            lever2 = new Lever(leverAnimation, new Vector2(548 * 3, 103 * 3), 9 * 3, 7 * 3);
+            leverAm1 = new AnimationManager(leverAnimation["lever-left"].Texture, 0, 0, new Vector2(7, 9), 1, 0);
+            leverAm2 = new AnimationManager(leverAnimation["lever-right"].Texture, 0, 0, new Vector2(7, 9), 0, 0);
+            lever1 = new Lever(leverAnimation, new Vector2(548 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm1);
+            lever2 = new Lever(leverAnimation, new Vector2(374 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm2);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             doorAm = new AnimationManager(doorAnimation["door1"].Texture, 0, 0, new Vector2(5, 32), 0, 0);
             ropeAm = new AnimationManager(ropeAnimation["rope"].Texture, 0, 0, new Vector2(3, 80), 0, 0);
-            leverAm1 = new AnimationManager(leverAnimation["lever-left"].Texture, 0, 0, new Vector2(7, 9), 1, 0);
-            leverAm2 = new AnimationManager(leverAnimation["lever-right"].Texture, 0, 0, new Vector2(7, 9), 0, 0);
             texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
             player = new Player(animations, new Vector2(80, 578), 96, 48);
             //am = animations["IdleDown"];
@@ -240,6 +240,8 @@ namespace StartingOver
             box.Update(currentKeyState, prevKeyState, gameTime);
             key.Update(currentKeyState, prevKeyState, gameTime);
             rope.Update(currentKeyState, prevKeyState, gameTime);
+            lever1.Update(currentKeyState, prevKeyState, gameTime);
+            lever2.Update(currentKeyState, prevKeyState, gameTime);
 
             HandleJumpInput(currentKeyState);
 
@@ -310,6 +312,14 @@ namespace StartingOver
             {
                 HandleRopeCollision(rope);
             }
+            if (player.Rect.Intersects(lever1.Rect))
+            {
+                HandleLever1Collision(lever1);
+            }
+            if (player.Rect.Intersects(lever2.Rect))
+            {
+                HandleLever1Collision(lever2);
+            }
             if (player.Rect.Intersects(door.Rect))
             {
                 if (player.HeldKey == null)
@@ -322,6 +332,34 @@ namespace StartingOver
                     //Debug.WriteLine("door and key is collide");
                     //player.DetachKey();
                 }
+            }
+        }
+
+        private void HandleLever1Collision(Lever lever)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.X) && !prevKeyState.IsKeyDown(Keys.X))
+            {
+                if (lever.leverAnimation == leverAm1)
+                {
+                    Debug.WriteLine("rope move right");
+                    lever.leverAnimation = leverAm2;
+                }
+                else
+                {
+                    Debug.WriteLine("rope move left");
+                    lever.leverAnimation = leverAm1;
+                    MoveRope(1);
+                }
+                Debug.WriteLine("flick lever");
+            }
+        }
+
+        private void MoveRope(int direction)
+        {
+            if (direction == 1)
+            {
+                rope.Velocity.X = -20;
+                Debug.WriteLine("rope x velocity is " + rope.Velocity.X);
             }
         }
 
@@ -536,18 +574,13 @@ namespace StartingOver
                 //Debug.WriteLine("x before: " + player.HeldRopePos.X);
                 //Debug.WriteLine("y before: " + player.HeldRopePos.Y);
                 player.AttachRope(rope);
-                //Debug.WriteLine("x after: " + player.HeldRopePos.X);
                 //Debug.WriteLine("y after: " + player.HeldRopePos.Y);
 
                 //player.Rect.X = (int)player.HeldRopePos.X;
                 //player.Rect.Y = (int)player.HeldRopePos.Y;
 
             }
-        }
-
-        private void FlickLever(Lever lever)
-        {
-            
+            //Debug.WriteLine("x after: " + player.HeldRopePos.X);
         }
 
         private List<Rectangle> GetIntersectingTiles(Rectangle entityRect, bool horizontal)
@@ -578,8 +611,9 @@ namespace StartingOver
             }
             door.Draw(spriteBatch, doorAm);
             rope.Draw(spriteBatch, ropeAm);
-            lever1.Draw(spriteBatch, leverAm1);
-            lever2.Draw(spriteBatch, leverAm2);
+            lever1.Draw(spriteBatch, lever1.leverAnimation);
+            lever2.Draw(spriteBatch, lever2.leverAnimation
+            );
             //foreach (var item in rope)
             //{
             //    item.Draw(spriteBatch, ropeAm);
