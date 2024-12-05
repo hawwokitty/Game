@@ -214,7 +214,7 @@ namespace StartingOver
             rope = new Rope(ropeAnimation, new Vector2(470 * 3, 48 * 3), 80 * 3, 3 * 3);
             leverAm1 = new AnimationManager(leverAnimation["lever-left"].Texture, 0, 0, new Vector2(7, 9), 1, 0);
             leverAm2 = new AnimationManager(leverAnimation["lever-right"].Texture, 0, 0, new Vector2(7, 9), 0, 0);
-            lever1 = new Lever(leverAnimation, new Vector2(548 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm1);
+            lever1 = new Lever(leverAnimation, new Vector2(548 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm2);
             lever2 = new Lever(leverAnimation, new Vector2(374 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm2);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
@@ -344,13 +344,13 @@ namespace StartingOver
             {
                 if (lever.leverAnimation == leverAm1)
                 {
-                    Debug.WriteLine("rope move right");
+                    //Debug.WriteLine("rope move right");
                     lever.leverAnimation = leverAm2;
                     moveRope = 2;
                 }
                 else
                 {
-                    Debug.WriteLine("rope move left");
+                    //Debug.WriteLine("rope move left");
                     lever.leverAnimation = leverAm1;
                     moveRope = 1;
                     //MoveRope(1);
@@ -371,7 +371,7 @@ namespace StartingOver
             }
             else if (moveRope == 2)
             {
-                if (rope.Rect.X < 530 * 3)
+                if (rope.Rect.X < 534 * 3)
                 {
                     rope.ApplyVelocityX((int)rope.Velocity.X);
                     //Debug.WriteLine("velocity positive");
@@ -412,12 +412,7 @@ namespace StartingOver
 
                     else if (_val == 5)
                     {
-                        // Only handle top-face collision if the player is moving down
-                        if (entity.Velocity.Y > 0.0f)
-                        {
-                            entity.Velocity.Y = 1.0f;
-                            entity.Grounded = true;
-                        }
+                        player.CollideWithLadder();
                     }
                     // handle collisions based on the direction the player is moving
                     else if (entity.Velocity.X > 0.0f)
@@ -489,13 +484,7 @@ namespace StartingOver
 
                     else if (_val == 5)
                     {
-                        // Only handle top-face collision if the player is moving down
-                        if (entity.Velocity.Y > 0.0f)
-                        {
-
-                            entity.Velocity.Y = 1.0f;
-                            entity.Grounded = true;
-                        }
+                        player.CollideWithLadder();
                     }
                     // handle collisions based on the direction the player is moving
                     else if (entity.Velocity.Y > 0.0f)

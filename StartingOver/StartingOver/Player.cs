@@ -46,8 +46,29 @@ namespace StartingOver
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
             //Debug.WriteLine(dt);
 
-            Velocity.Y += 30.0f * dt;
-            Velocity.Y = Math.Min(30.0f, Velocity.Y);
+            if (!overLadder)
+            {
+                // gravity
+                Velocity.Y += 30.0f * dt;
+                Velocity.Y = Math.Min(30.0f, Velocity.Y);
+            }
+            else 
+            {
+                Grounded = true;
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                {
+                    Velocity.Y = -200 * dt;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                {
+                    Velocity.Y = 200 * dt;
+                }
+                else
+                {
+                    Velocity.Y = 0;
+                }
+            }
 
             if (keystate.IsKeyDown(Keys.Right))
             {
@@ -154,13 +175,13 @@ namespace StartingOver
                 //HeldRopePos.X = Rect.X;
                 HeldRopePos.Y = Rect.Y;
                 HeldRopeOnce++;
-                Debug.WriteLine(HeldRopeOnce);
+                //Debug.WriteLine(HeldRopeOnce);
                 //Velocity.Y = 0.0f;
 
             }
             if (HeldRope != null)
             {
-                Debug.WriteLine("rope is held");
+                //Debug.WriteLine("rope is held");
                 Velocity.Y = 0.0f;
                 Velocity.X = 0.0f;
                 Rect.X = HeldRope.Rect.X - 20;
@@ -168,7 +189,9 @@ namespace StartingOver
                 if (keystate.IsKeyDown(Keys.Up))
                 {
                     if (Rect.Y > HeldRope.Rect.Y)
-                    Velocity.Y = -200 * dt;
+                    {
+                        Velocity.Y = -200 * dt;
+                    }
                 }
                 if (keystate.IsKeyDown(Keys.Down))
                 {
@@ -179,7 +202,9 @@ namespace StartingOver
                 }
             }
 
+           
 
+            overLadder = false;
 
         }
 
@@ -223,11 +248,17 @@ namespace StartingOver
             HeldRopeOnce = 1;
         }
 
+        public void CollideWithLadder()
+        {
+            overLadder = true;
+        }
+
         public Box HeldBox;
         public Key HeldKey;
         public Rope HeldRope;
         public Vector2 HeldRopePos;
         private int HeldRopeOnce;
+        private bool overLadder;
 
         public override void Draw(SpriteBatch spriteBatch, AnimationManager am)
         {
