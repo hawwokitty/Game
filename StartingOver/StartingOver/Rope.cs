@@ -17,13 +17,19 @@ namespace StartingOver
             Velocity = new();
         }
 
-        //public override void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime)
-        //{
-        //    float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        public void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime, int moveRope)
+        {
+            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        //    //Velocity.X = -300.0f * dt;
-        //    //Debug.WriteLine("velocity x is " + Velocity.X);
+            if (moveRope == 1)
+            {
+                Velocity.X = -160.0f * dt;
+            } else if (moveRope == 2)
+            {
+                Velocity.X = 160.0f * dt;
+            }
 
-        //}
+
+        }
     }
 }

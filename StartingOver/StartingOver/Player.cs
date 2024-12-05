@@ -151,14 +151,32 @@ namespace StartingOver
             if (HeldRope != null && HeldRopeOnce == 1)
             {
                 //Debug.WriteLine("player x is: " + Rect.X);
-                HeldRopePos.X = Rect.X;
-                //HeldRopePos.Y = Rect.Y;
+                //HeldRopePos.X = Rect.X;
+                HeldRopePos.Y = Rect.Y;
                 HeldRopeOnce++;
                 Debug.WriteLine(HeldRopeOnce);
-                Velocity.X = 0.0f;
-                Velocity.Y = 0.0f;
+                //Velocity.Y = 0.0f;
+
+            }
+            if (HeldRope != null)
+            {
                 Debug.WriteLine("rope is held");
-                
+                Velocity.Y = 0.0f;
+                Velocity.X = 0.0f;
+                Rect.X = HeldRope.Rect.X - 20;
+
+                if (keystate.IsKeyDown(Keys.Up))
+                {
+                    if (Rect.Y > HeldRope.Rect.Y)
+                    Velocity.Y = -200 * dt;
+                }
+                if (keystate.IsKeyDown(Keys.Down))
+                {
+                    if (Rect.Y < HeldRope.Rect.Bottom - 64)
+                    {
+                        Velocity.Y = 200 * dt;
+                    }
+                }
             }
 
 
@@ -196,6 +214,7 @@ namespace StartingOver
         public void DetachRope()
         {
             HeldRope = null;
+            HeldRopeOnce = 0;
         }
 
         public void AttachRope(Rope rope)

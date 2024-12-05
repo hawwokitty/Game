@@ -241,7 +241,7 @@ namespace StartingOver
             player.Update(currentKeyState, prevKeyState, gameTime);
             box.Update(currentKeyState, prevKeyState, gameTime);
             key.Update(currentKeyState, prevKeyState, gameTime);
-            rope.Update(currentKeyState, prevKeyState, gameTime);
+            rope.Update(currentKeyState, prevKeyState, gameTime, moveRope);
             lever1.Update(currentKeyState, prevKeyState, gameTime);
             lever2.Update(currentKeyState, prevKeyState, gameTime);
             MoveRope();
@@ -363,25 +363,25 @@ namespace StartingOver
         {
             if (moveRope == 1)
             {
-                if (rope.Rect.X > 400)
+                if (rope.Rect.X > 390 * 3)
                 {
-                    rope.ApplyVelocityX((int)-5);
-                    Debug.WriteLine("velocity negative");
+                    rope.ApplyVelocityX((int)rope.Velocity.X);
+                    //Debug.WriteLine("velocity negative");
                 }
             }
             else if (moveRope == 2)
             {
-                if (rope.Rect.X < 500)
+                if (rope.Rect.X < 530 * 3)
                 {
-                    rope.ApplyVelocityX((int)5);
-                    Debug.WriteLine("velocity positive");
+                    rope.ApplyVelocityX((int)rope.Velocity.X);
+                    //Debug.WriteLine("velocity positive");
 
                 }
             }
             else
             {
                 rope.ApplyVelocityX((int)0);
-                Debug.WriteLine("no velocity");
+                //Debug.WriteLine("no velocity");
             }
         }
 
