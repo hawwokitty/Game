@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace StartingOver
 {
@@ -13,6 +14,11 @@ namespace StartingOver
         {
             Texture = animation["key"].Texture;
             Velocity = new();
+        }
+
+        public override void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime)
+        {
+            Velocity.X = -30.0f;
         }
     }
 }

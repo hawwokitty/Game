@@ -41,6 +41,8 @@ namespace StartingOver
 
         private bool isJumping;
 
+        private int moveRope;
+
         private bool boxIsCollide;
         private bool doorAndKeyIsCollide;
 
@@ -242,6 +244,7 @@ namespace StartingOver
             rope.Update(currentKeyState, prevKeyState, gameTime);
             lever1.Update(currentKeyState, prevKeyState, gameTime);
             lever2.Update(currentKeyState, prevKeyState, gameTime);
+            MoveRope();
 
             HandleJumpInput(currentKeyState);
 
@@ -343,23 +346,42 @@ namespace StartingOver
                 {
                     Debug.WriteLine("rope move right");
                     lever.leverAnimation = leverAm2;
+                    moveRope = 2;
                 }
                 else
                 {
                     Debug.WriteLine("rope move left");
                     lever.leverAnimation = leverAm1;
-                    MoveRope(1);
+                    moveRope = 1;
+                    //MoveRope(1);
                 }
-                Debug.WriteLine("flick lever");
+                //Debug.WriteLine("flick lever");
             }
         }
 
-        private void MoveRope(int direction)
+        private void MoveRope()
         {
-            if (direction == 1)
+            if (moveRope == 1)
             {
-                rope.Velocity.X = -20;
-                Debug.WriteLine("rope x velocity is " + rope.Velocity.X);
+                if (rope.Rect.X > 400)
+                {
+                    rope.ApplyVelocityX((int)-5);
+                    Debug.WriteLine("velocity negative");
+                }
+            }
+            else if (moveRope == 2)
+            {
+                if (rope.Rect.X < 500)
+                {
+                    rope.ApplyVelocityX((int)5);
+                    Debug.WriteLine("velocity positive");
+
+                }
+            }
+            else
+            {
+                rope.ApplyVelocityX((int)0);
+                Debug.WriteLine("no velocity");
             }
         }
 

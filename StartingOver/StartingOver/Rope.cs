@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,13 +17,13 @@ namespace StartingOver
             Velocity = new();
         }
 
-        public override void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime)
-        {
-            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        //public override void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime)
+        //{
+        //    float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            Velocity.X += -30.0f * dt;
-            Velocity.X = Math.Min(30.0f, Velocity.Y);
+        //    //Velocity.X = -300.0f * dt;
+        //    //Debug.WriteLine("velocity x is " + Velocity.X);
 
-        }
+        //}
     }
 }
