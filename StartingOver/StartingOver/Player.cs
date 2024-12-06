@@ -54,7 +54,7 @@ namespace StartingOver
             }
             else 
             {
-                Grounded = true;
+                Grounded = true; // makes so u can jump from side of ladder if far enough out
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
@@ -66,7 +66,7 @@ namespace StartingOver
                 }
                 else
                 {
-                    Velocity.Y = 0;
+                    Velocity.Y = 0.0f;
                 }
             }
 

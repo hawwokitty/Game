@@ -72,7 +72,7 @@ namespace StartingOver
             this.graphicsDevice = graphicsDevice;
             this.graphics = graphics;
             intersections = new();
-            tilemap = LoadMap("../../../Content/Tilemaps/LEVEL1.csv");
+            tilemap = LoadMap("../../../Content/Tilemaps/LEVEL1_3.csv");
             textureStore = new()
             {
                 new Rectangle(0, 0, 16, 16),
@@ -211,11 +211,11 @@ namespace StartingOver
             //    new (ropeAnimation, new Vector2(471 * 3, 92 * 3), 8 * 3, 3 * 3),
             //    new (ropeAnimation, new Vector2(471 * 3, 100 * 3), 8 * 3, 3 * 3),
             //};
-            rope = new Rope(ropeAnimation, new Vector2(470 * 3, 48 * 3), 80 * 3, 3 * 3);
+            rope = new Rope(ropeAnimation, new Vector2(390 * 3, 48 * 3), 80 * 3, 3 * 3);
             leverAm1 = new AnimationManager(leverAnimation["lever-left"].Texture, 0, 0, new Vector2(7, 9), 1, 0);
             leverAm2 = new AnimationManager(leverAnimation["lever-right"].Texture, 0, 0, new Vector2(7, 9), 0, 0);
             lever1 = new Lever(leverAnimation, new Vector2(548 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm2);
-            lever2 = new Lever(leverAnimation, new Vector2(374 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm2);
+            //lever2 = new Lever(leverAnimation, new Vector2(374 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm2);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             doorAm = new AnimationManager(doorAnimation["door1"].Texture, 0, 0, new Vector2(5, 32), 0, 0);
@@ -243,7 +243,7 @@ namespace StartingOver
             key.Update(currentKeyState, prevKeyState, gameTime);
             rope.Update(currentKeyState, prevKeyState, gameTime, moveRope);
             lever1.Update(currentKeyState, prevKeyState, gameTime);
-            lever2.Update(currentKeyState, prevKeyState, gameTime);
+            //lever2.Update(currentKeyState, prevKeyState, gameTime);
             MoveRope();
 
             HandleJumpInput(currentKeyState);
@@ -319,10 +319,10 @@ namespace StartingOver
             {
                 HandleLever1Collision(lever1);
             }
-            if (player.Rect.Intersects(lever2.Rect))
-            {
-                HandleLever1Collision(lever2);
-            }
+            //if (player.Rect.Intersects(lever2.Rect))
+            //{
+            //    HandleLever1Collision(lever2);
+            //}
             if (player.Rect.Intersects(door.Rect))
             {
                 if (player.HeldKey == null)
@@ -410,7 +410,7 @@ namespace StartingOver
                         // this needs to be here!
                     }
 
-                    else if (_val == 5)
+                    else if (_val == 5 && entity is Player)
                     {
                         player.CollideWithLadder();
                     }
@@ -482,9 +482,17 @@ namespace StartingOver
                         }
                     }
 
-                    else if (_val == 5)
+                    else if (_val == 5 && entity is Player)
                     {
                         player.CollideWithLadder();
+                        bool movingDown = entity.Velocity.Y > 0.0f;
+                        bool justCrossedTileTop = entityPastY < (collision.Top + 2);
+                        if (movingDown && justCrossedTileTop && !Keyboard.GetState().IsKeyDown(Keys.Down))
+                        {
+                            entity.Rect.Y = collision.Top - entity.Rect.Height;
+                            entity.Velocity.Y = 0.0f;
+                            entity.Grounded = true;
+                        }
                     }
                     // handle collisions based on the direction the player is moving
                     else if (entity.Velocity.Y > 0.0f)
@@ -585,6 +593,8 @@ namespace StartingOver
                 //Debug.WriteLine("x before: " + player.HeldRopePos.X);
                 //Debug.WriteLine("y before: " + player.HeldRopePos.Y);
                 player.AttachRope(rope);
+                moveRope = 2;
+                MoveRope();
                 //Debug.WriteLine("y after: " + player.HeldRopePos.Y);
 
                 //player.Rect.X = (int)player.HeldRopePos.X;
@@ -623,8 +633,7 @@ namespace StartingOver
             door.Draw(spriteBatch, doorAm);
             rope.Draw(spriteBatch, ropeAm);
             lever1.Draw(spriteBatch, lever1.leverAnimation);
-            lever2.Draw(spriteBatch, lever2.leverAnimation
-            );
+            //lever2.Draw(spriteBatch, lever2.leverAnimation);
             //foreach (var item in rope)
             //{
             //    item.Draw(spriteBatch, ropeAm);
