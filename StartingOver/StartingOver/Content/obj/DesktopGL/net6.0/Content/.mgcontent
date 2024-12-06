@@ -13,9 +13,19 @@
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/key.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/lever.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/rope.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Scenes/menu_exit.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Scenes/menu_options.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Scenes/menu_restart.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Scenes/menu_resume.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Scenes/menu.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/start2.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

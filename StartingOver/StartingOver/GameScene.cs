@@ -50,7 +50,7 @@ namespace StartingOver
 
         private Texture2D rectangleTexture;
 
-        //private StartScene startScene;
+        private StartScene startScene;
         private bool spacePressed;
 
         private KeyboardState prevKeyState;
@@ -231,7 +231,7 @@ namespace StartingOver
 
             //camera1 = new FollowCamera(graphics, player.Position);
 
-            //startScene = new StartScene(contentManager);
+            startScene = new StartScene(contentManager, graphics);
         }
 
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
@@ -250,6 +250,11 @@ namespace StartingOver
 
             UpdatePlayerAnimation();
             HandleCollisions();
+
+            if (currentKeyState.IsKeyDown(Keys.M))
+            {
+                sceneManager.AddScene(startScene);
+            }
 
             camera.Approach(player.Rect.Location.ToVector2() + new Vector2(0, player.Rect.Height), 0.2f);
 
