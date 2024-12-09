@@ -231,7 +231,7 @@ namespace StartingOver
 
             //camera1 = new FollowCamera(graphics, player.Position);
 
-            startScene = new StartScene(contentManager, graphics);
+            startScene = new StartScene(contentManager, graphics, sceneManager);
         }
 
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)

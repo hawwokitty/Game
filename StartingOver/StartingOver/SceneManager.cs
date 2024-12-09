@@ -1,14 +1,19 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace StartingOver
 {
     internal class SceneManager
     {
+        public Game1 game1;
+
         private readonly Stack<IScene> _sceneStack;
 
         public SceneManager()
@@ -38,6 +43,27 @@ namespace StartingOver
             //    Debug.WriteLine(scene.ToString()); 
             //}
             return _sceneStack.Peek();
+        }
+
+        public void ExitGame()
+        {
+            game1.Exit();
+        }
+
+        public void OpenOptions()
+        {
+            Debug.WriteLine("open options");
+        }
+
+        public void RestartGame(IScene scene)
+        {
+            
+            RemoveScene(scene);
+        }
+
+        public void ResumeGame(IScene scene)
+        {
+            RemoveScene(scene);
         }
     }
 }

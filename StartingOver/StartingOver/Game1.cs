@@ -27,7 +27,10 @@ namespace StartingOver
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            sceneManager = new();
+            sceneManager = new()
+            {
+                game1 = this,
+            };
             
 
         }
