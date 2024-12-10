@@ -55,10 +55,10 @@ namespace StartingOver
             Debug.WriteLine("open options");
         }
 
-        public void RestartGame(IScene scene)
+        public void RestartGame()
         {
-            
-            RemoveScene(scene);
+            _sceneStack.Clear();
+            game1.makeGameScene();
         }
 
         public void ResumeGame(IScene scene)

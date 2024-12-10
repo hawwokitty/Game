@@ -232,6 +232,7 @@ namespace StartingOver
             //camera1 = new FollowCamera(graphics, player.Position);
 
             startScene = new StartScene(contentManager, graphics, sceneManager);
+            Debug.WriteLine("gamescene stuff loaded");
         }
 
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
@@ -251,7 +252,7 @@ namespace StartingOver
             UpdatePlayerAnimation();
             HandleCollisions();
 
-            if (currentKeyState.IsKeyDown(Keys.M))
+            if (currentKeyState.IsKeyDown(Keys.Escape))
             {
                 sceneManager.AddScene(startScene);
             }

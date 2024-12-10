@@ -55,7 +55,7 @@ namespace StartingOver
                         break;
 
                     case 1:
-                        sceneManager.RestartGame(sceneManager.GetCurrentScene());
+                        sceneManager.RestartGame();
                         break;
 
                     case 2:
