@@ -65,6 +65,8 @@ namespace StartingOver
         private Texture2D textureAtlas;
 
         private int TILESIZE = 48;
+
+        private bool loadIsLoaded;
         public GameScene(ContentManager contentManager, SceneManager sceneManager, GraphicsDevice graphicsDevice, GraphicsDeviceManager graphics)
         {
             this.contentManager = contentManager;
@@ -142,6 +144,7 @@ namespace StartingOver
         }
         public void Load()
         {
+            loadIsLoaded = false;
             animations = new Dictionary<string, AnimationManager>()
             {
                 {"WalkUp", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Walk_full2"),6, 6, new Vector2(15, 28), 0, 3)},
@@ -232,7 +235,7 @@ namespace StartingOver
             //camera1 = new FollowCamera(graphics, player.Position);
 
             startScene = new StartScene(contentManager, graphics, sceneManager);
-            Debug.WriteLine("gamescene stuff loaded");
+            loadIsLoaded = true;
         }
 
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
@@ -630,30 +633,34 @@ namespace StartingOver
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            player.Draw(spriteBatch, am);
-            box.Draw(spriteBatch, boxAm);
-            if (!doorAndKeyIsCollide)
+            if (loadIsLoaded)
             {
-                key.Draw(spriteBatch, keyAm);
-            }
-            door.Draw(spriteBatch, doorAm);
-            rope.Draw(spriteBatch, ropeAm);
-            lever1.Draw(spriteBatch, lever1.leverAnimation);
-            //lever2.Draw(spriteBatch, lever2.leverAnimation);
-            //foreach (var item in rope)
-            //{
-            //    item.Draw(spriteBatch, ropeAm);
-            //}
-            //DrawRectHollow(spriteBatch, player.ColliderRect, 4);
-            foreach (var item in tilemap)
-            {
-                int value = item.Value;
-                if (value >= 0 && value < textureStore.Count)
+                player.Draw(spriteBatch, am);
+                box.Draw(spriteBatch, boxAm);
+                if (!doorAndKeyIsCollide)
                 {
-                    Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
-                    Rectangle src = textureStore[value];
-                    spriteBatch.Draw(textureAtlas, dest, src, Color.White);
+                    key.Draw(spriteBatch, keyAm);
                 }
+                door.Draw(spriteBatch, doorAm);
+                rope.Draw(spriteBatch, ropeAm);
+                lever1.Draw(spriteBatch, lever1.leverAnimation);
+                //lever2.Draw(spriteBatch, lever2.leverAnimation);
+                //foreach (var item in rope)
+                //{
+                //    item.Draw(spriteBatch, ropeAm);
+                //}
+                //DrawRectHollow(spriteBatch, player.ColliderRect, 4);
+                foreach (var item in tilemap)
+                {
+                    int value = item.Value;
+                    if (value >= 0 && value < textureStore.Count)
+                    {
+                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
+                        Rectangle src = textureStore[value];
+                        spriteBatch.Draw(textureAtlas, dest, src, Color.White);
+                    }
+                }
+
             }
 
             //foreach (var rect in intersections)

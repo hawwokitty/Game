@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "D:\\get_stuff\\game\\Game\\StartingOver\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|d:\\get_stuff\\game\\game\\startingover\\startingover\\gamescene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|solutionrelative:startingover\\gamescene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|d:\\get_stuff\\game\\game\\startingover\\startingover\\sprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|solutionrelative:startingover\\sprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|d:\\get_stuff\\game\\game\\startingover\\startingover\\gamescene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|solutionrelative:startingover\\gamescene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{25CCFF93-A57C-4A1F-8A22-8B31E6125D0B}|StartingOver\\StartingOver.csproj|d:\\get_stuff\\game\\game\\startingover\\startingover\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -82,8 +82,7 @@
               "RelativeToolTip": "StartingOver\\StartScene.cs",
               "ViewState": "AQIAADEAAAAAAAAAAAAAwEEAAABcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-06T12:49:27.983Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-06T12:49:27.983Z"
             },
             {
               "$type": "Document",
@@ -131,8 +130,7 @@
               "RelativeToolTip": "StartingOver\\SceneManager.cs",
               "ViewState": "AQIAABUAAAAAAAAAAAAYwC4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-21T10:48:23.039Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-21T10:48:23.039Z"
             },
             {
               "$type": "Document",
@@ -151,7 +149,7 @@
         },
         {
           "DockedWidth": 177,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
@@ -179,13 +177,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Sprite.cs",
               "DocumentMoniker": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Sprite.cs",
               "RelativeDocumentMoniker": "StartingOver\\Sprite.cs",
               "ToolTip": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\Sprite.cs",
               "RelativeToolTip": "StartingOver\\Sprite.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAkwDYAAAAMAAAA",
+              "ViewState": "AQIAABwAAAAAAAAAAAAlwDgAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-21T08:32:12.376Z",
               "EditorCaption": ""
@@ -240,13 +238,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "GameScene.cs",
               "DocumentMoniker": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\GameScene.cs",
               "RelativeDocumentMoniker": "StartingOver\\GameScene.cs",
               "ToolTip": "D:\\get_stuff\\game\\Game\\StartingOver\\StartingOver\\GameScene.cs",
               "RelativeToolTip": "StartingOver\\GameScene.cs",
-              "ViewState": "AQIAAIgAAAAAAAAAAAAAAKUAAAARAAAA",
+              "ViewState": "AQIAAHYCAAAAAAAAAAAAAH0CAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "OverriddenGroupName": "StartingOver",
               "WhenOpened": "2024-10-21T10:52:31.97Z",
@@ -262,8 +260,7 @@
               "RelativeToolTip": "StartingOver\\Menu.cs",
               "ViewState": "AQIAAB4AAAAAAAAAAIA1wDkAAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-06T12:59:13.151Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-06T12:59:13.151Z"
             }
           ]
         }
