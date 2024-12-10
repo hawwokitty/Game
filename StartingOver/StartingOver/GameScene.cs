@@ -66,7 +66,7 @@ namespace StartingOver
 
         private int TILESIZE = 48;
 
-        private bool loadIsLoaded;
+        //private bool loadIsLoaded;
         public GameScene(ContentManager contentManager, SceneManager sceneManager, GraphicsDevice graphicsDevice, GraphicsDeviceManager graphics)
         {
             this.contentManager = contentManager;
@@ -144,7 +144,7 @@ namespace StartingOver
         }
         public void Load()
         {
-            loadIsLoaded = false;
+            //loadIsLoaded = false;
             animations = new Dictionary<string, AnimationManager>()
             {
                 {"WalkUp", new AnimationManager(contentManager.Load<Texture2D>("Character/Unarmed_Walk_full2"),6, 6, new Vector2(15, 28), 0, 3)},
@@ -234,8 +234,10 @@ namespace StartingOver
 
             //camera1 = new FollowCamera(graphics, player.Position);
 
+            UpdatePlayerAnimation();
+
             startScene = new StartScene(contentManager, graphics, sceneManager);
-            loadIsLoaded = true;
+            //loadIsLoaded = true;
         }
 
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
@@ -633,8 +635,8 @@ namespace StartingOver
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (loadIsLoaded)
-            {
+            //if (loadIsLoaded)
+            //{
                 player.Draw(spriteBatch, am);
                 box.Draw(spriteBatch, boxAm);
                 if (!doorAndKeyIsCollide)
@@ -661,7 +663,7 @@ namespace StartingOver
                     }
                 }
 
-            }
+            //}
 
             //foreach (var rect in intersections)
             //{
