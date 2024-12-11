@@ -68,3 +68,5 @@ D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Scenes
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Scenes\menu_options.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Scenes\menu_restart.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Scenes\menu_resume.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Character\char.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Character\character_s.xnb
