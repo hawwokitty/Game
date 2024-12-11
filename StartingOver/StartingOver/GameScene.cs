@@ -150,12 +150,12 @@ namespace StartingOver
             {
                 {"WalkUp", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s"),8, 8, new Vector2(16, 16), 0, 7)},
                 {"WalkDown", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s"),8, 8, new Vector2(16, 16), 0, 6)},
-                {"WalkRight", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s"),8, 8, new Vector2(16, 16), 0, 4)},
-                {"WalkLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s"),8, 8, new Vector2(16, 16), 0, 5)},
+                {"WalkRight", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color"),8, 8, new Vector2(16, 16), 0, 4)},
+                {"WalkLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color"),8, 8, new Vector2(16, 16), 0, 5)},
                 {"IdleUp", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s"),4, 4, new Vector2(16, 16), 0, 3)},
                 {"IdleDown", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s"),4, 4, new Vector2(16, 16), 0, 2)},
-                {"IdleRight", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s"),4, 4, new Vector2(16, 16), 0, 0)},
-                {"IdleLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s"),4, 4, new Vector2(16, 16), 0, 1)},
+                {"IdleRight", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color"),4, 4, new Vector2(16, 16), 0, 0)},
+                {"IdleLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color"),4, 4, new Vector2(16, 16), 0, 1)},
             };
             var boxAnimation = new Dictionary<string, AnimationManager>()
             {
@@ -169,8 +169,8 @@ namespace StartingOver
             {
                 {
                     "key",
-                    new AnimationManager(contentManager.Load<Texture2D>("key"), 0, 0,
-                        new Vector2(32, 32), 0, 0)
+                    new AnimationManager(contentManager.Load<Texture2D>("key_small2"), 0, 0,
+                        new Vector2(16, 16), 0, 0)
                 }
             };
             var doorAnimation = new Dictionary<string, AnimationManager>()
@@ -202,7 +202,7 @@ namespace StartingOver
                 },
             };
             box = new Box(boxAnimation, new Vector2(144 * 3, 48 * 3), 32 * 3, 32 * 3);
-            key = new Key(keyAnimation, new Vector2(230 * 3, 48 * 3), 32 * 3, 32 * 3);
+            key = new Key(keyAnimation, new Vector2(248 * 3, 64 * 3), 16 * 3, 16 * 3);
             door = new Door(doorAnimation, new Vector2(363 * 3, 80 * 3), 32 * 3, 5 * 3);
             //rope = new List<Rope>
             //{
@@ -221,7 +221,7 @@ namespace StartingOver
             lever1 = new Lever(leverAnimation, new Vector2(548 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm2);
             //lever2 = new Lever(leverAnimation, new Vector2(374 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm2);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
-            keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
+            keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(16, 16), 0, 0);
             doorAm = new AnimationManager(doorAnimation["door1"].Texture, 0, 0, new Vector2(5, 32), 0, 0);
             ropeAm = new AnimationManager(ropeAnimation["rope"].Texture, 0, 0, new Vector2(3, 80), 0, 0);
             //texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");

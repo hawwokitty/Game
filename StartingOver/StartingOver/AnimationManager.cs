@@ -38,7 +38,7 @@ namespace StartingOver
 
             counter = 0;
             activeFrame = 0;
-            interval = 10;
+            interval = 6;
 
             this.rowPos = rowPos;
             originalRowPos = rowPos;
