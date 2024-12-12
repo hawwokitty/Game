@@ -5,6 +5,7 @@
   <Config />
   <SourceFiles>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box1.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/char.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/character_s_color.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/character_s.png</File>
@@ -23,8 +24,11 @@
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Scenes/menu_resume.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Scenes/menu.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/start2.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Tiles.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

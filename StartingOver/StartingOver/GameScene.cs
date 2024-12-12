@@ -61,8 +61,19 @@ namespace StartingOver
         private List<Rectangle> intersections;
 
         private Dictionary<Vector2, int> tilemap;
+        private Dictionary<Vector2, int> bgT;
+        private Dictionary<Vector2, int> fg1T;
+        private Dictionary<Vector2, int> fg2T;
+        private Dictionary<Vector2, int> fg3T;
+        private Dictionary<Vector2, int> fg4T;
         private List<Rectangle> textureStore;
+        private List<Rectangle> textureStoreTilemap;
         private Texture2D textureAtlas;
+        private Texture2D bg;
+        private Texture2D fg1;
+        private Texture2D fg2;
+        private Texture2D fg3;
+        private Texture2D fg4;
 
         private int TILESIZE = 48;
 
@@ -74,8 +85,12 @@ namespace StartingOver
             this.graphicsDevice = graphicsDevice;
             this.graphics = graphics;
             intersections = new();
-            tilemap = LoadMap("../../../Content/Tilemaps/LEVEL1_5" +
-                              ".csv");
+            tilemap = LoadMap("../../../Content/Tilemaps/tilemap1_collisions.csv");
+            bgT = LoadMap("../../../Content/Tilemaps/tilemap1_background.csv");
+            fg1T = LoadMap("../../../Content/Tilemaps/tilemap1_foreground1.csv");
+            fg2T = LoadMap("../../../Content/Tilemaps/tilemap1_foreground2.csv");
+            fg3T = LoadMap("../../../Content/Tilemaps/tilemap1_foreground3.csv");
+            fg4T = LoadMap("../../../Content/Tilemaps/tilemap1_foreground4.csv");
             textureStore = new()
             {
                 new Rectangle(0, 0, 16, 16),
@@ -111,6 +126,23 @@ namespace StartingOver
                 new Rectangle(96, 48, 16,16),
 
             };
+
+            textureStoreTilemap = new List<Rectangle>();
+
+            int tileWidth = 16;
+            int tileHeight = 16;
+            int rows = 21;
+            int columns = 27;
+
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < columns; col++)
+                {
+                    textureStoreTilemap.Add(new Rectangle(col * tileWidth, row * tileHeight, tileWidth, tileHeight));
+                }
+            }
+
+
 
             camera = new FollowCamera(graphics, new Vector2(0, 0), 1, 0);
             camera.SetLimit(new Rectangle(0, 0, 1920, 768));
@@ -161,7 +193,7 @@ namespace StartingOver
             {
                 {
                     "box",
-                    new AnimationManager(contentManager.Load<Texture2D>("box"), 0, 0,
+                    new AnimationManager(contentManager.Load<Texture2D>("box1"), 0, 0,
                         new Vector2(32, 32), 0, 0)
                 }
             };
@@ -232,6 +264,11 @@ namespace StartingOver
             rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });
 
             textureAtlas = contentManager.Load<Texture2D>("collisions3");
+            bg = contentManager.Load<Texture2D>("Tiles");
+            fg1 = contentManager.Load<Texture2D>("Tiles");
+            fg2 = contentManager.Load<Texture2D>("Tiles");
+            fg3 = contentManager.Load<Texture2D>("Tiles");
+            fg4 = contentManager.Load<Texture2D>("Tiles");
 
             //camera1 = new FollowCamera(graphics, player.Position);
 
@@ -638,6 +675,66 @@ namespace StartingOver
         {
             //if (loadIsLoaded)
             //{
+                foreach (var item in tilemap)
+                {
+                    int value = item.Value;
+                    if (value >= 0 && value < textureStore.Count)
+                    {
+                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
+                        Rectangle src = textureStore[value];
+                        spriteBatch.Draw(textureAtlas, dest, src, Color.White);
+                    }
+                }
+                foreach (var item in bgT)
+                {
+                    int value = item.Value;
+                    if (value >= 0 && value < textureStoreTilemap.Count)
+                    {
+                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
+                        Rectangle src = textureStoreTilemap[value];
+                        spriteBatch.Draw(bg, dest, src, Color.White);
+                    }
+                }
+                foreach (var item in fg1T)
+                {
+                    int value = item.Value;
+                    if (value >= 0 && value < textureStoreTilemap.Count)
+                    {
+                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
+                        Rectangle src = textureStoreTilemap[value];
+                        spriteBatch.Draw(fg1, dest, src, Color.White);
+                    }
+                }
+                foreach (var item in fg2T)
+                {
+                    int value = item.Value;
+                    if (value >= 0 && value < textureStoreTilemap.Count)
+                    {
+                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
+                        Rectangle src = textureStoreTilemap[value];
+                        spriteBatch.Draw(fg2, dest, src, Color.White);
+                    }
+                }
+                foreach (var item in fg3T)
+                {
+                    int value = item.Value;
+                    if (value >= 0 && value < textureStoreTilemap.Count)
+                    {
+                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
+                        Rectangle src = textureStoreTilemap[value];
+                        spriteBatch.Draw(fg3, dest, src, Color.White);
+                    }
+                }
+                foreach (var item in fg4T)
+                {
+                    int value = item.Value;
+                    if (value >= 0 && value < textureStoreTilemap.Count)
+                    {
+                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
+                        Rectangle src = textureStoreTilemap[value];
+                        spriteBatch.Draw(fg4, dest, src, Color.White);
+                    }
+                }
                 player.Draw(spriteBatch, am);
                 box.Draw(spriteBatch, boxAm);
                 if (!doorAndKeyIsCollide)
@@ -653,16 +750,6 @@ namespace StartingOver
                 //    item.Draw(spriteBatch, ropeAm);
                 //}
                 //DrawRectHollow(spriteBatch, player.ColliderRect, 4);
-                foreach (var item in tilemap)
-                {
-                    int value = item.Value;
-                    if (value >= 0 && value < textureStore.Count)
-                    {
-                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
-                        Rectangle src = textureStore[value];
-                        spriteBatch.Draw(textureAtlas, dest, src, Color.White);
-                    }
-                }
 
             //}
 

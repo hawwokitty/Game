@@ -72,3 +72,5 @@ D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Charac
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Character\character_s.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\key_small2.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Character\character_s_color.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\box1.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Tiles.xnb

@@ -1,5 +1,6 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
 "D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box.png","D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/Content/box.xnb","TextureProcessor","Texture2DContent",285,4181,0.1054533
+"D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box1.png","D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/Content/box1.xnb","TextureProcessor","Texture2DContent",279,4181,0.1006805
 "D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/char.png","D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/Content/Character/char.xnb","TextureProcessor","Texture2DContent",2378,32853,0.0964596
 "D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/character_s_color.png","D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/Content/Character/character_s_color.xnb","TextureProcessor","Texture2DContent",5495,65621,0.0968876
 "D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/character_s.png","D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/Content/Character/character_s.xnb","TextureProcessor","Texture2DContent",4855,65621,0.0939304
@@ -18,3 +19,4 @@ Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Siz
 "D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Scenes/menu_resume.png","D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/Content/Scenes/menu_resume.xnb","TextureProcessor","Texture2DContent",2325,174165,0.006355
 "D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Scenes/menu.png","D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/Content/Scenes/menu.xnb","TextureProcessor","Texture2DContent",2289,174165,0.004689
 "D:/get_stuff/game/Game/StartingOver/StartingOver/Content/start2.png","D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/Content/start2.xnb","TextureProcessor","Texture2DContent",353,2805,0.0053366
+"D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Tiles.png","D:/get_stuff/game/Game/StartingOver/StartingOver/Content/bin/DesktopGL/Content/Tiles.xnb","TextureProcessor","Texture2DContent",29717,580693,0.1139419
