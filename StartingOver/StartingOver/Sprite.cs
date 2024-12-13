@@ -32,17 +32,15 @@ namespace StartingOver
             ColliderRect = Rect;
         }
 
-        public void ApplyVelocityX(int value)
+        public virtual void ApplyVelocityX(int value)
         {
             Rect.X += value;
-            ColliderRect.X = Rect.X + 5;
-            ColliderRect.Width = Width - 10;
+            ColliderRect = Rect;
         }
-        public void ApplyVelocityY(int value)
+        public virtual void ApplyVelocityY(int value)
         {
             Rect.Y += value;
-            ColliderRect.Y = Rect.Y + 10;
-            ColliderRect.Height = Height - 10;
+            ColliderRect = Rect;
         }
 
         public virtual void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime)

@@ -257,7 +257,7 @@ namespace StartingOver
             doorAm = new AnimationManager(doorAnimation["door1"].Texture, 0, 0, new Vector2(5, 32), 0, 0);
             ropeAm = new AnimationManager(ropeAnimation["rope"].Texture, 0, 0, new Vector2(3, 80), 0, 0);
             //texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
-            player = new Player(animations, new Vector2(80, 578), 16*3, 16*3);
+            player = new Player(animations, new Vector2(80, 578), 16 * 3, 16 * 3);
             //am = animations["IdleDown"];
 
             rectangleTexture = new Texture2D(graphicsDevice, 1, 1);
@@ -467,9 +467,10 @@ namespace StartingOver
                     else if (entity.Velocity.X > 0.0f)
                     {
                         //entity.Velocity.X = 0.0f;
-                        entity.Rect.X = collision.Left - entity.Rect.Width;
+                        entity.Rect.X = collision.Left - entity.Rect.Width - 1;
                         if (entity == player)
                         {
+                            //entity.Velocity.X = 0.0f;
                             if (player.HeldBox != null)
                                 player.HeldBox.Velocity.X = 0.0f;
                         }
@@ -482,6 +483,7 @@ namespace StartingOver
                         entity.Rect.X = collision.Right;
                         if (entity == player)
                         {
+                            //entity.Velocity.X = 0.0f;
                             if (player.HeldBox != null)
                                 player.HeldBox.Velocity.X = 0.0f;
                         }
@@ -675,81 +677,81 @@ namespace StartingOver
         {
             //if (loadIsLoaded)
             //{
-                foreach (var item in tilemap)
+            foreach (var item in tilemap)
+            {
+                int value = item.Value;
+                if (value >= 0 && value < textureStore.Count)
                 {
-                    int value = item.Value;
-                    if (value >= 0 && value < textureStore.Count)
-                    {
-                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
-                        Rectangle src = textureStore[value];
-                        spriteBatch.Draw(textureAtlas, dest, src, Color.White);
-                    }
+                    Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
+                    Rectangle src = textureStore[value];
+                    spriteBatch.Draw(textureAtlas, dest, src, Color.White);
                 }
-                foreach (var item in bgT)
+            }
+            foreach (var item in bgT)
+            {
+                int value = item.Value;
+                if (value >= 0 && value < textureStoreTilemap.Count)
                 {
-                    int value = item.Value;
-                    if (value >= 0 && value < textureStoreTilemap.Count)
-                    {
-                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
-                        Rectangle src = textureStoreTilemap[value];
-                        spriteBatch.Draw(bg, dest, src, Color.White);
-                    }
+                    Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
+                    Rectangle src = textureStoreTilemap[value];
+                    spriteBatch.Draw(bg, dest, src, Color.White);
                 }
-                foreach (var item in fg1T)
+            }
+            foreach (var item in fg1T)
+            {
+                int value = item.Value;
+                if (value >= 0 && value < textureStoreTilemap.Count)
                 {
-                    int value = item.Value;
-                    if (value >= 0 && value < textureStoreTilemap.Count)
-                    {
-                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
-                        Rectangle src = textureStoreTilemap[value];
-                        spriteBatch.Draw(fg1, dest, src, Color.White);
-                    }
+                    Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
+                    Rectangle src = textureStoreTilemap[value];
+                    spriteBatch.Draw(fg1, dest, src, Color.White);
                 }
-                foreach (var item in fg2T)
+            }
+            foreach (var item in fg2T)
+            {
+                int value = item.Value;
+                if (value >= 0 && value < textureStoreTilemap.Count)
                 {
-                    int value = item.Value;
-                    if (value >= 0 && value < textureStoreTilemap.Count)
-                    {
-                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
-                        Rectangle src = textureStoreTilemap[value];
-                        spriteBatch.Draw(fg2, dest, src, Color.White);
-                    }
+                    Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
+                    Rectangle src = textureStoreTilemap[value];
+                    spriteBatch.Draw(fg2, dest, src, Color.White);
                 }
-                foreach (var item in fg3T)
+            }
+            foreach (var item in fg3T)
+            {
+                int value = item.Value;
+                if (value >= 0 && value < textureStoreTilemap.Count)
                 {
-                    int value = item.Value;
-                    if (value >= 0 && value < textureStoreTilemap.Count)
-                    {
-                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
-                        Rectangle src = textureStoreTilemap[value];
-                        spriteBatch.Draw(fg3, dest, src, Color.White);
-                    }
+                    Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
+                    Rectangle src = textureStoreTilemap[value];
+                    spriteBatch.Draw(fg3, dest, src, Color.White);
                 }
-                foreach (var item in fg4T)
+            }
+            foreach (var item in fg4T)
+            {
+                int value = item.Value;
+                if (value >= 0 && value < textureStoreTilemap.Count)
                 {
-                    int value = item.Value;
-                    if (value >= 0 && value < textureStoreTilemap.Count)
-                    {
-                        Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
-                        Rectangle src = textureStoreTilemap[value];
-                        spriteBatch.Draw(fg4, dest, src, Color.White);
-                    }
+                    Rectangle dest = new((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
+                    Rectangle src = textureStoreTilemap[value];
+                    spriteBatch.Draw(fg4, dest, src, Color.White);
                 }
-                player.Draw(spriteBatch, am);
-                box.Draw(spriteBatch, boxAm);
-                if (!doorAndKeyIsCollide)
-                {
-                    key.Draw(spriteBatch, keyAm);
-                }
-                door.Draw(spriteBatch, doorAm);
-                rope.Draw(spriteBatch, ropeAm);
-                lever1.Draw(spriteBatch, lever1.leverAnimation);
-                //lever2.Draw(spriteBatch, lever2.leverAnimation);
-                //foreach (var item in rope)
-                //{
-                //    item.Draw(spriteBatch, ropeAm);
-                //}
-                //DrawRectHollow(spriteBatch, player.ColliderRect, 4);
+            }
+            player.Draw(spriteBatch, am);
+            box.Draw(spriteBatch, boxAm);
+            if (!doorAndKeyIsCollide)
+            {
+                key.Draw(spriteBatch, keyAm);
+            }
+            door.Draw(spriteBatch, doorAm);
+            rope.Draw(spriteBatch, ropeAm);
+            lever1.Draw(spriteBatch, lever1.leverAnimation);
+            //lever2.Draw(spriteBatch, lever2.leverAnimation);
+            //foreach (var item in rope)
+            //{
+            //    item.Draw(spriteBatch, ropeAm);
+            //}
+            DrawRectHollow(spriteBatch, player.ColliderRect, 4);
 
             //}
 

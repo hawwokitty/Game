@@ -253,6 +253,20 @@ namespace StartingOver
             overLadder = true;
         }
 
+        public override void ApplyVelocityX(int value)
+        {
+            Rect.X += value;
+            ColliderRect.X = Rect.X + 8;
+            ColliderRect.Width = Width - 16;
+        }
+
+        public override void ApplyVelocityY(int value)
+        {
+            Rect.Y += value;
+            ColliderRect.Y = Rect.Y + 10;
+            ColliderRect.Height = Height - 10;
+        }
+
         public Box HeldBox;
         public Key HeldKey;
         public Rope HeldRope;
