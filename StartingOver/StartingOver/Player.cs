@@ -211,9 +211,6 @@ namespace StartingOver
         public void AttachBox(Box box)
         {
             HeldBox = box;
-            //boxOffset = box.Position;
-            //Debug.WriteLine("attach box");
-            //record it's inital offset
         }
 
         public void DetachBox()
@@ -224,7 +221,6 @@ namespace StartingOver
             }
 
             HeldBox = null;
-            //Debug.WriteLine("detached box");
         }
 
         public void AttachKey(Key key)
@@ -234,7 +230,6 @@ namespace StartingOver
         public void DetachKey()
         {
             HeldKey = null;
-            Debug.WriteLine("key should byebye");
         }
         public void DetachRope()
         {

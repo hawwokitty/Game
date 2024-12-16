@@ -27,7 +27,6 @@ namespace StartingOver
         private Box box;
         private Key key;
         private Door door;
-        //private List<Rope> rope;
         private Rope rope;
         private Lever lever1;
         private Lever lever2;
@@ -51,11 +50,9 @@ namespace StartingOver
         private Texture2D rectangleTexture;
 
         private StartScene startScene;
-        private bool spacePressed;
 
         private KeyboardState prevKeyState;
 
-        //private FollowCamera camera1;
         public FollowCamera camera;
 
         private List<Rectangle> intersections;
@@ -77,7 +74,6 @@ namespace StartingOver
 
         private int TILESIZE = 48;
 
-        //private bool loadIsLoaded;
         public GameScene(ContentManager contentManager, SceneManager sceneManager, GraphicsDevice graphicsDevice, GraphicsDeviceManager graphics)
         {
             this.contentManager = contentManager;
@@ -177,7 +173,6 @@ namespace StartingOver
         }
         public void Load()
         {
-            //loadIsLoaded = false;
             animations = new Dictionary<string, AnimationManager>()
             {
                 {"WalkUp", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s"),8, 8, new Vector2(16, 16), 0, 7)},
@@ -236,29 +231,15 @@ namespace StartingOver
             box = new Box(boxAnimation, new Vector2(144 * 3, 48 * 3), 32 * 3, 32 * 3);
             key = new Key(keyAnimation, new Vector2(248 * 3, 64 * 3), 16 * 3, 16 * 3);
             door = new Door(doorAnimation, new Vector2(363 * 3, 80 * 3), 32 * 3, 5 * 3);
-            //rope = new List<Rope>
-            //{
-            //    new (ropeAnimation, new Vector2(471 * 3, 48 * 3), 8 * 3, 3 * 3),
-            //    new (ropeAnimation, new Vector2(471 * 3, 54 * 3), 8 * 3, 3 * 3),
-            //    new (ropeAnimation, new Vector2(471 * 3, 62 * 3), 8 * 3, 3 * 3),
-            //    new (ropeAnimation, new Vector2(471 * 3, 70 * 3), 8 * 3, 3 * 3),
-            //    new (ropeAnimation, new Vector2(471 * 3, 78 * 3), 8 * 3, 3 * 3),
-            //    new (ropeAnimation, new Vector2(471 * 3, 84 * 3), 8 * 3, 3 * 3),
-            //    new (ropeAnimation, new Vector2(471 * 3, 92 * 3), 8 * 3, 3 * 3),
-            //    new (ropeAnimation, new Vector2(471 * 3, 100 * 3), 8 * 3, 3 * 3),
-            //};
             rope = new Rope(ropeAnimation, new Vector2(390 * 3, 48 * 3), 80 * 3, 3 * 3);
             leverAm1 = new AnimationManager(leverAnimation["lever-left"].Texture, 0, 0, new Vector2(7, 10), 1, 0);
             leverAm2 = new AnimationManager(leverAnimation["lever-right"].Texture, 0, 0, new Vector2(7, 10), 0, 0);
             lever1 = new Lever(leverAnimation, new Vector2(548 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm2);
-            //lever2 = new Lever(leverAnimation, new Vector2(374 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm2);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(16, 16), 0, 0);
             doorAm = new AnimationManager(doorAnimation["door1"].Texture, 0, 0, new Vector2(5, 32), 0, 0);
             ropeAm = new AnimationManager(ropeAnimation["rope"].Texture, 0, 0, new Vector2(3, 80), 0, 0);
-            //texture = contentManager.Load<Texture2D>("Character/Unarmed_Idle_full2");
             player = new Player(animations, new Vector2(80, 578), 16 * 3, 16 * 3);
-            //am = animations["IdleDown"];
 
             rectangleTexture = new Texture2D(graphicsDevice, 1, 1);
             rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });
@@ -270,12 +251,9 @@ namespace StartingOver
             fg3 = contentManager.Load<Texture2D>("Tiles");
             fg4 = contentManager.Load<Texture2D>("Tiles");
 
-            //camera1 = new FollowCamera(graphics, player.Position);
-
             UpdatePlayerAnimation();
 
             startScene = new StartScene(contentManager, graphics, sceneManager);
-            //loadIsLoaded = true;
         }
 
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)
@@ -287,7 +265,6 @@ namespace StartingOver
             key.Update(currentKeyState, prevKeyState, gameTime);
             rope.Update(currentKeyState, prevKeyState, gameTime, moveRope);
             lever1.Update(currentKeyState, prevKeyState, gameTime);
-            //lever2.Update(currentKeyState, prevKeyState, gameTime);
             MoveRope();
 
             HandleJumpInput(currentKeyState);
@@ -341,7 +318,6 @@ namespace StartingOver
 
             if (Keyboard.GetState().IsKeyUp(Keys.X))
             {
-                //Debug.WriteLine("x is not pressed");
                 player.DetachBox();
                 player.DetachRope();
             }
@@ -368,10 +344,6 @@ namespace StartingOver
             {
                 HandleLever1Collision(lever1);
             }
-            //if (player.Rect.Intersects(lever2.Rect))
-            //{
-            //    HandleLever1Collision(lever2);
-            //}
             if (player.Rect.Intersects(door.Rect))
             {
                 if (player.HeldKey == null)
@@ -381,8 +353,6 @@ namespace StartingOver
                 else
                 {
                     doorAndKeyIsCollide = true;
-                    //Debug.WriteLine("door and key is collide");
-                    //player.DetachKey();
                 }
             }
         }
@@ -393,18 +363,14 @@ namespace StartingOver
             {
                 if (lever.leverAnimation == leverAm1)
                 {
-                    //Debug.WriteLine("rope move right");
                     lever.leverAnimation = leverAm2;
                     moveRope = 2;
                 }
                 else
                 {
-                    //Debug.WriteLine("rope move left");
                     lever.leverAnimation = leverAm1;
                     moveRope = 1;
-                    //MoveRope(1);
                 }
-                //Debug.WriteLine("flick lever");
             }
         }
 
@@ -415,7 +381,6 @@ namespace StartingOver
                 if (rope.Rect.X > 390 * 3)
                 {
                     rope.ApplyVelocityX((int)rope.Velocity.X);
-                    //Debug.WriteLine("velocity negative");
                 }
             }
             else if (moveRope == 2)
@@ -423,21 +388,21 @@ namespace StartingOver
                 if (rope.Rect.X < 534 * 3)
                 {
                     rope.ApplyVelocityX((int)rope.Velocity.X);
-                    //Debug.WriteLine("velocity positive");
 
                 }
             }
             else
             {
                 rope.ApplyVelocityX((int)0);
-                //Debug.WriteLine("no velocity");
             }
         }
 
         private void ApplyGravity(Sprite entity)
         {
+            // Track previous vertical position for checks
+            float entityPastY = entity.Rect.Bottom;
+
             // Handle horizontal movement and collisions
-            //entity.Rect.X += (int)entity.Velocity.X;
             entity.ApplyVelocityX((int)entity.Velocity.X);
             intersections = GetIntersectingTiles(entity.ColliderRect, horizontal: true);
 
@@ -454,63 +419,53 @@ namespace StartingOver
 
                     if (!entity.Rect.Intersects(collision)) continue;
 
-                    if (_val == 1)
+                    // Handle tile-specific logic
+                    if (_val == 1) // Special tile type 1
                     {
-                        // this needs to be here!
+                        // this has to be here
                     }
-
-                    else if (_val == 5 && entity is Player)
+                    else if (_val == 5 && entity is Player) // Ladder tile
                     {
                         player.CollideWithLadder();
                     }
-                    // handle collisions based on the direction the player is moving
-                    else if (entity.Velocity.X > 0.0f)
+                    else // All other solid tiles
                     {
-                        //entity.Velocity.X = 0.0f;
-                        entity.Rect.X = collision.Left - entity.Rect.Width;
-                        if (entity == player)
+                        if (entity.Rect.Center.X < collision.Center.X) // Moving right
                         {
-                            entity.Velocity.X = 0.0f;
-                            //entity.Velocity.Y = 0.0f;444444444444444444444444444444444
-                            entity.Rect.X = collision.Left - entity.ColliderRect.Width - 13;
-                            if (player.HeldBox != null)
-                                player.HeldBox.Velocity.X = 0.0f;
+                            //if (entity is Player)
+                            //{
+                            //    entity.Rect.X = collision.Left - entity.ColliderRect.Width - 10;
+                            //}
+                            //else
+                            //{
+                                entity.Rect.X = collision.Left - entity.Rect.Width;
+                            //}
                         }
-                        //Debug.WriteLine(entity + "moving right");
-                    }
-                    else if (entity.Velocity.X < 0.0f)
-                    {
-                        //entity.Velocity.X = 0.0f;
-                        entity.Rect.X = collision.Right;
-                        if (entity == player)
+                        else if (entity.Rect.Center.X > collision.Center.X) // Moving left
                         {
-                            entity.Velocity.X = 0.0f;
-                            //entity.Velocity.Y = 0.0f;
-                            entity.Rect.X = collision.Right - 8;
-                            if (player.HeldBox != null)
-                                player.HeldBox.Velocity.X = 0.0f;
+                            //if (entity is Player)
+                            //{
+                                //entity.Rect.X = collision.Right - 8;
+                            //}
+                            //else
+                            //{
+                                entity.Rect.X = collision.Right;
+                            //}
                         }
 
-                        //Debug.WriteLine(entity + "moving left");
+                        entity.Velocity.X = 0.0f;
                     }
-
                 }
-
-
             }
 
             // Handle vertical movement and collisions
-            float entityPastY = entity.Rect.Bottom;
-            //entity.Rect.Y += (int)entity.Velocity.Y;
             entity.ApplyVelocityY((int)entity.Velocity.Y);
             intersections = GetIntersectingTiles(entity.ColliderRect, horizontal: false);
 
             foreach (var rect in intersections)
             {
-
                 if (tilemap.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
                 {
-
                     Rectangle collision = new Rectangle(
                         rect.X * TILESIZE,
                         rect.Y * TILESIZE,
@@ -518,13 +473,10 @@ namespace StartingOver
                         TILESIZE
                     );
 
-                    if (!entity.Rect.Intersects(collision))
-                    {
-                        continue;
-                    }
+                    if (!entity.Rect.Intersects(collision)) continue;
 
-
-                    if (_val == 1)
+                    // Handle tile-specific logic
+                    if (_val == 1) // Special tile type 1
                     {
                         bool movingDown = entity.Velocity.Y > 0.0f;
                         bool justCrossedTileTop = entityPastY < (collision.Top + 2);
@@ -534,51 +486,41 @@ namespace StartingOver
                             entity.Velocity.Y = 1.0f;
                             entity.Grounded = true;
                         }
-                    }
 
-                    else if (_val == 5 && entity is Player)
+                    }
+                    else if (_val == 5 && entity is Player) // Ladder tile
                     {
                         player.CollideWithLadder();
+
                         bool movingDown = entity.Velocity.Y > 0.0f;
                         bool justCrossedTileTop = entityPastY < (collision.Top + 2);
                         if (movingDown && justCrossedTileTop && !Keyboard.GetState().IsKeyDown(Keys.Down))
                         {
-                            entity.Rect.Y = collision.Top - entity.Rect.Height;
+                            entity.Rect.Y = collision.Top - entity.ColliderRect.Height;
                             entity.Velocity.Y = 0.0f;
                             entity.Grounded = true;
                         }
                     }
-                    // handle collisions based on the direction the player is moving
-                    else if (entity.Velocity.Y > 0.0f)
+                    else // All other solid tiles
                     {
-                        entity.Rect.Y = collision.Top - entity.Rect.Height;
-                        entity.Velocity.Y = 1.0f;
-                        entity.Grounded = true;
-                        //if (entity == player && boxIsCollide)
-                        //{
-                        //    Debug.WriteLine("colliding with box");
-                        //}
-                        //Debug.WriteLine(entity + " is moving down and is at " + entity.Rect.Y + " pos and " + entity.Velocity.X + " x velocity");
+                        if (entity.Rect.Center.Y < collision.Center.Y) // Moving down
+                        {
+                            entity.Rect.Y = collision.Top - entity.Rect.Height;
+                            entity.Velocity.Y = 1.0f;
+                            entity.Grounded = true;
+                        }
+                        else if (entity.Rect.Center.Y > collision.Center.Y) // Moving up
+                        {
+                            entity.Rect.Y = collision.Bottom;
+                            entity.Velocity.Y = -1.0f;
+                        }
+
                     }
-                    else if (entity.Velocity.Y < 0.0f)
-                    {
-
-
-                        entity.Rect.Y = collision.Bottom;
-                        entity.Velocity.Y = -1.0f;
-                        //Debug.WriteLine(entity + " is moving up");
-                    }
-
-
-
                 }
-                // Reset the jump flag once upward motion stops
-                //if (entity.Velocity.Y >= 0.0f)
-                //{
-                //    isJumping = false;
-                //}
             }
+
         }
+
 
         private void HandleEntityCollision(Sprite entity)
         {
@@ -643,19 +585,11 @@ namespace StartingOver
         {
             if (Keyboard.GetState().IsKeyDown(Keys.X))
             {
-
-                //Debug.WriteLine("x before: " + player.HeldRopePos.X);
-                //Debug.WriteLine("y before: " + player.HeldRopePos.Y);
                 player.AttachRope(rope);
                 moveRope = 2;
                 MoveRope();
-                //Debug.WriteLine("y after: " + player.HeldRopePos.Y);
-
-                //player.Rect.X = (int)player.HeldRopePos.X;
-                //player.Rect.Y = (int)player.HeldRopePos.Y;
 
             }
-            //Debug.WriteLine("x after: " + player.HeldRopePos.X);
         }
 
         private List<Rectangle> GetIntersectingTiles(Rectangle entityRect, bool horizontal)
@@ -678,8 +612,6 @@ namespace StartingOver
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //if (loadIsLoaded)
-            //{
             foreach (var item in tilemap)
             {
                 int value = item.Value;
@@ -749,31 +681,10 @@ namespace StartingOver
             door.Draw(spriteBatch, doorAm);
             rope.Draw(spriteBatch, ropeAm);
             lever1.Draw(spriteBatch, lever1.leverAnimation);
-            //lever2.Draw(spriteBatch, lever2.leverAnimation);
-            //foreach (var item in rope)
-            //{
-            //    item.Draw(spriteBatch, ropeAm);
-            //}
+     
             DrawRectHollow(spriteBatch, player.ColliderRect, 4);
             DrawRectHollow(spriteBatch, player.Rect, 4);
 
-            //}
-
-            //foreach (var rect in intersections)
-            //{
-
-            //    DrawRectHollow(
-            //        spriteBatch,
-            //        new Rectangle(
-            //            rect.X * TILESIZE,
-            //            rect.Y * TILESIZE,
-            //            TILESIZE,
-            //            TILESIZE
-            //        ),
-            //        4
-            //    );
-
-            //}
         }
 
         public void DrawRectHollow(SpriteBatch spriteBatch, Rectangle rect, int thickness)

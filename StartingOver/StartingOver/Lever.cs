@@ -23,8 +23,5 @@ namespace StartingOver
             leverAnimation = leverAm;
         }
 
-        //public override void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime)
-        //{
-        //}
     }
 }
