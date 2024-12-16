@@ -225,12 +225,12 @@ namespace StartingOver
             {
                 {
                     "lever-left",
-                    new AnimationManager(contentManager.Load<Texture2D>("lever"), 2, 2,
-                        new Vector2(14, 9), 1, 0)
+                    new AnimationManager(contentManager.Load<Texture2D>("lever1"), 2, 2,
+                        new Vector2(14, 10), 1, 0)
                 },{
                     "lever-right",
-                    new AnimationManager(contentManager.Load<Texture2D>("lever"), 2, 2,
-                        new Vector2(14, 9), 0, 0)
+                    new AnimationManager(contentManager.Load<Texture2D>("lever1"), 2, 2,
+                        new Vector2(14, 10), 0, 0)
                 },
             };
             box = new Box(boxAnimation, new Vector2(144 * 3, 48 * 3), 32 * 3, 32 * 3);
@@ -248,8 +248,8 @@ namespace StartingOver
             //    new (ropeAnimation, new Vector2(471 * 3, 100 * 3), 8 * 3, 3 * 3),
             //};
             rope = new Rope(ropeAnimation, new Vector2(390 * 3, 48 * 3), 80 * 3, 3 * 3);
-            leverAm1 = new AnimationManager(leverAnimation["lever-left"].Texture, 0, 0, new Vector2(7, 9), 1, 0);
-            leverAm2 = new AnimationManager(leverAnimation["lever-right"].Texture, 0, 0, new Vector2(7, 9), 0, 0);
+            leverAm1 = new AnimationManager(leverAnimation["lever-left"].Texture, 0, 0, new Vector2(7, 10), 1, 0);
+            leverAm2 = new AnimationManager(leverAnimation["lever-right"].Texture, 0, 0, new Vector2(7, 10), 0, 0);
             lever1 = new Lever(leverAnimation, new Vector2(548 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm2);
             //lever2 = new Lever(leverAnimation, new Vector2(374 * 3, 103 * 3), 9 * 3, 7 * 3, leverAm2);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
@@ -467,14 +467,15 @@ namespace StartingOver
                     else if (entity.Velocity.X > 0.0f)
                     {
                         //entity.Velocity.X = 0.0f;
-                        entity.Rect.X = collision.Left - entity.Rect.Width - 1;
+                        entity.Rect.X = collision.Left - entity.Rect.Width;
                         if (entity == player)
                         {
-                            //entity.Velocity.X = 0.0f;
+                            entity.Velocity.X = 0.0f;
+                            //entity.Velocity.Y = 0.0f;444444444444444444444444444444444
+                            entity.Rect.X = collision.Left - entity.ColliderRect.Width - 13;
                             if (player.HeldBox != null)
                                 player.HeldBox.Velocity.X = 0.0f;
                         }
-
                         //Debug.WriteLine(entity + "moving right");
                     }
                     else if (entity.Velocity.X < 0.0f)
@@ -483,7 +484,9 @@ namespace StartingOver
                         entity.Rect.X = collision.Right;
                         if (entity == player)
                         {
-                            //entity.Velocity.X = 0.0f;
+                            entity.Velocity.X = 0.0f;
+                            //entity.Velocity.Y = 0.0f;
+                            entity.Rect.X = collision.Right - 8;
                             if (player.HeldBox != null)
                                 player.HeldBox.Velocity.X = 0.0f;
                         }
@@ -579,7 +582,7 @@ namespace StartingOver
 
         private void HandleEntityCollision(Sprite entity)
         {
-            Rectangle playerRect = player.Rect;
+            Rectangle playerRect = player.ColliderRect;
             Rectangle entityRect = entity.Rect;
 
             if (playerRect.Intersects(entityRect))
@@ -602,12 +605,12 @@ namespace StartingOver
                     // Horizontal collision
                     if (playerRect.Center.X < entityRect.Center.X) // Player is to the left of the box
                     {
-                        player.Rect.X = entity.Rect.Left - player.Rect.Width;
+                        player.Rect.X = entity.Rect.Left - player.ColliderRect.Width - 8;
                         player.Velocity.X = 0.0f; // Stop horizontal movement
                     }
                     else if (playerRect.Center.X > entityRect.Center.X) // Player is to the right of the box
                     {
-                        player.Rect.X = entity.Rect.Right;
+                        player.Rect.X = entity.Rect.Right - 8;
                         player.Velocity.X = 0.0f; // Stop horizontal movement
                     }
                 }
@@ -752,6 +755,7 @@ namespace StartingOver
             //    item.Draw(spriteBatch, ropeAm);
             //}
             DrawRectHollow(spriteBatch, player.ColliderRect, 4);
+            DrawRectHollow(spriteBatch, player.Rect, 4);
 
             //}
 

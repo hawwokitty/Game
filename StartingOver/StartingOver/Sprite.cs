@@ -43,6 +43,8 @@ namespace StartingOver
             ColliderRect = Rect;
         }
 
+
+
         public virtual void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime)
         {
 
