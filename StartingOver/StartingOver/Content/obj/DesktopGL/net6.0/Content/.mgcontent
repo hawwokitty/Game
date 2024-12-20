@@ -6,6 +6,8 @@
   <SourceFiles>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box1.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/button-down.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/button-up.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/char.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/character_s_color.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/character_s.png</File>
@@ -18,6 +20,7 @@
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/key.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/lever.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/lever1.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/platform.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/rope.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Scenes/menu_exit.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Scenes/menu_options.png</File>
@@ -28,6 +31,9 @@
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Tiles.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

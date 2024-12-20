@@ -52,7 +52,7 @@ namespace StartingOver
 
         public void makeGameScene()
         {
-            sceneManager.AddScene(new GameScene(Content, sceneManager, GraphicsDevice, _graphics));
+            sceneManager.AddScene(new GameScene2(Content, sceneManager, GraphicsDevice, _graphics));
         }
 
         protected override void Update(GameTime gameTime)

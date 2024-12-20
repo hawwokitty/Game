@@ -438,7 +438,7 @@ namespace StartingOver
                             //}
                             //else
                             //{
-                                entity.Rect.X = collision.Left - entity.Rect.Width;
+                                entity.Rect.X = collision.Left - entity.Rect.Width - 1;
                             //}
                         }
                         else if (entity.Rect.Center.X > collision.Center.X) // Moving left
