@@ -28,7 +28,9 @@ namespace StartingOver
         private Key key;
         private Door door;
         private Button button;
+        private Button button2;
         private Platform platform; 
+        private Platform platform2; 
         private AnimationManager boxAm;
         private AnimationManager keyAm;
         private AnimationManager doorAm;
@@ -38,7 +40,8 @@ namespace StartingOver
 
         private bool isJumping;
 
-        private int moveRope;
+        private int movePlatform;
+        private int movePlatform2;
 
         private bool boxIsCollide;
         private bool doorAndKeyIsCollide;
@@ -79,11 +82,11 @@ namespace StartingOver
             this.graphicsDevice = graphicsDevice;
             this.graphics = graphics;
             intersections = new();
-            tilemap = LoadMap("../../../Content/Tilemaps/LEVEL2_collisions.csv");
-            bgT = LoadMap("../../../Content/Tilemaps/LEVEL2_background.csv");
-            fg1T = LoadMap("../../../Content/Tilemaps/LEVEL2_foreground1.csv");
-            fg2T = LoadMap("../../../Content/Tilemaps/LEVEL2_foreground2.csv");
-            fg3T = LoadMap("../../../Content/Tilemaps/LEVEL2_foreground3.csv");
+            tilemap = LoadMap("../../../Content/Tilemaps/LEVEL2_1_collisions.csv");
+            bgT = LoadMap("../../../Content/Tilemaps/LEVEL2_1_background.csv");
+            fg1T = LoadMap("../../../Content/Tilemaps/LEVEL2_1_foreground1.csv");
+            fg2T = LoadMap("../../../Content/Tilemaps/LEVEL2_1_foreground2.csv");
+            fg3T = LoadMap("../../../Content/Tilemaps/LEVEL2_1_foreground3.csv");
        
             textureStore = new()
             {
@@ -230,8 +233,10 @@ namespace StartingOver
             box = new Box(boxAnimation, new Vector2(144 * 3, 48 * 3), 32 * 3, 32 * 3);
             key = new Key(keyAnimation, new Vector2(364 * 3, 90 * 3), 16 * 3, 16 * 3);
             door = new Door(doorAnimation, new Vector2(590 * 3, 80 * 3), 32 * 3, 5 * 3);
-            platform = new Platform(platformAnimation, new Vector2(144 * 3, 160 * 3), 8 * 3, 144 * 3);
-            button = new Button(buttonAnimation, new Vector2(307 * 3, 150 * 3), 9 * 3, 26 * 3);
+            platform = new Platform(platformAnimation, new Vector2(280 * 3, 160 * 3), 8 * 3, 144 * 3);
+            platform2 = new Platform(platformAnimation, new Vector2(400 * 3, 112 * 3), 8 * 3, 144 * 3);
+            button = new Button(buttonAnimation, new Vector2(307 * 3, 151 * 3), 9 * 3, 26 * 3);
+            button2 = new Button(buttonAnimation, new Vector2(464 * 3, 151 * 3), 9 * 3, 26 * 3);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(16, 16), 0, 0);
             buttonAm = new AnimationManager(buttonAnimation["button-up"].Texture, 0, 0, new Vector2(26, 9), 0, 0);
@@ -261,7 +266,9 @@ namespace StartingOver
             player.Update(currentKeyState, prevKeyState, gameTime);
             box.Update(currentKeyState, prevKeyState, gameTime);
             key.Update(currentKeyState, prevKeyState, gameTime);
-            platform.Update(currentKeyState, prevKeyState, gameTime);
+            platform.Update(currentKeyState, prevKeyState, gameTime, movePlatform);
+            platform2.Update(currentKeyState, prevKeyState, gameTime, movePlatform2);
+
 
             HandleJumpInput(currentKeyState);
 
@@ -332,9 +339,28 @@ namespace StartingOver
             {
                 HandleEntityCollision(platform);
             }
-            if (player.Rect.Intersects((button.Rect)))
+            if (player.Rect.Intersects((platform2.Rect)))
             {
-                //HandleButtonPress(button);
+                HandleEntityCollision(platform2);
+            }
+            if (box.Rect.Intersects((button.Rect)) || player.Rect.Intersects((button.Rect)))
+            {
+                movePlatform = 1;
+                MovePlatform();
+            }
+            else
+            {
+                movePlatform = 2;
+            }
+            if (box.Rect.Intersects((button2.Rect)) || player.Rect.Intersects((button2.Rect)))
+            {
+                movePlatform2 = 3;
+                MovePlatform2();
+            }
+            else
+            {
+                movePlatform2 = 1;
+                MovePlatform2();
             }
 
             if (player.Rect.Intersects(key.Rect))
@@ -354,31 +380,34 @@ namespace StartingOver
             }
         }
 
-        //private void HandleButtonPress(Button button1)
-        //{
-        //    button.Animation = 
-        //}
 
         private void MovePlatform()
         {
-            if (moveRope == 1)
+            if (movePlatform == 1)
             {
-                if (platform.Rect.X > 390 * 3)
+                if (platform.Rect.X >= 144 * 3)
                 {
-                    platform.ApplyVelocityX((int)platform.Velocity.X);
-                }
-            }
-            else if (moveRope == 2)
-            {
-                if (platform.Rect.X < 534 * 3)
-                {
-                    platform.ApplyVelocityX((int)platform.Velocity.X);
 
+                    platform.ApplyVelocityX((int)platform.Velocity.X);
                 }
             }
             else
             {
                 platform.ApplyVelocityX((int)0);
+            }
+        }
+        private void MovePlatform2()
+        {
+            if (movePlatform2 == 1)
+            {
+                if (platform2.Rect.X >= 400 * 3)
+                {
+                    platform2.ApplyVelocityX((int)platform2.Velocity.X);
+                }
+            }
+            else
+            {
+                platform2.ApplyVelocityX((int)0);
             }
         }
 
@@ -610,6 +639,7 @@ namespace StartingOver
                 }
             }
             platform.Draw(spriteBatch, platformAm);
+            platform2.Draw(spriteBatch, platformAm);
             foreach (var item in fg1T)
             {
                 int value = item.Value;
@@ -649,6 +679,7 @@ namespace StartingOver
             }
             door.Draw(spriteBatch, doorAm);
             button.Draw(spriteBatch, buttonAm);
+            button2.Draw(spriteBatch, buttonAm);
 
             DrawRectHollow(spriteBatch, player.ColliderRect, 4);
             DrawRectHollow(spriteBatch, player.Rect, 4);
