@@ -23,20 +23,23 @@ namespace StartingOver
         private GraphicsDevice graphicsDevice;
         private GraphicsDeviceManager graphics;
 
+        private Sprite collisionSprite;
+
         private Player player;
         private Box box;
         private Key key;
         private Door door;
         private Button button;
         private Button button2;
-        private Platform platform; 
-        private Platform platform2; 
+        private Platform platform;
+        private Platform platform2;
         private AnimationManager boxAm;
         private AnimationManager keyAm;
         private AnimationManager doorAm;
         private AnimationManager am;
         private AnimationManager buttonAm;
         private AnimationManager platformAm;
+        private AnimationManager platform2Am;
 
         private bool isJumping;
 
@@ -71,7 +74,7 @@ namespace StartingOver
         private Texture2D fg1;
         private Texture2D fg2;
         private Texture2D fg3;
- 
+
 
         private int TILESIZE = 48;
 
@@ -82,12 +85,12 @@ namespace StartingOver
             this.graphicsDevice = graphicsDevice;
             this.graphics = graphics;
             intersections = new();
-            tilemap = LoadMap("../../../Content/Tilemaps/LEVEL2_1_collisions.csv");
-            bgT = LoadMap("../../../Content/Tilemaps/LEVEL2_1_background.csv");
-            fg1T = LoadMap("../../../Content/Tilemaps/LEVEL2_1_foreground1.csv");
-            fg2T = LoadMap("../../../Content/Tilemaps/LEVEL2_1_foreground2.csv");
-            fg3T = LoadMap("../../../Content/Tilemaps/LEVEL2_1_foreground3.csv");
-       
+            tilemap = LoadMap("../../../Content/Tilemaps/LEVEL2_2_collisions.csv");
+            bgT = LoadMap("../../../Content/Tilemaps/LEVEL2_2_background.csv");
+            fg1T = LoadMap("../../../Content/Tilemaps/LEVEL2_2_foreground1.csv");
+            fg2T = LoadMap("../../../Content/Tilemaps/LEVEL2_2_foreground2.csv");
+            fg3T = LoadMap("../../../Content/Tilemaps/LEVEL2_2_foreground3.csv");
+
             textureStore = new()
             {
                 new Rectangle(0, 0, 16, 16),
@@ -230,19 +233,28 @@ namespace StartingOver
                         new Vector2(144, 8), 0, 0)
                 }
             };
-            box = new Box(boxAnimation, new Vector2(144 * 3, 48 * 3), 32 * 3, 32 * 3);
-            key = new Key(keyAnimation, new Vector2(364 * 3, 90 * 3), 16 * 3, 16 * 3);
+            var platform2Animation = new Dictionary<string, AnimationManager>()
+            {
+                {
+                    "platform",
+                    new AnimationManager(contentManager.Load<Texture2D>("platformV"), 0, 0,
+                        new Vector2(8, 144), 0, 0)
+                }
+            };
+            box = new Box(boxAnimation, new Vector2(100 * 3, 16 * 3), 32 * 3, 32 * 3);
+            key = new Key(keyAnimation, new Vector2(324 * 3, 24 * 3), 16 * 3, 16 * 3);
             door = new Door(doorAnimation, new Vector2(590 * 3, 80 * 3), 32 * 3, 5 * 3);
-            platform = new Platform(platformAnimation, new Vector2(280 * 3, 160 * 3), 8 * 3, 144 * 3);
-            platform2 = new Platform(platformAnimation, new Vector2(400 * 3, 112 * 3), 8 * 3, 144 * 3);
-            button = new Button(buttonAnimation, new Vector2(307 * 3, 151 * 3), 9 * 3, 26 * 3);
-            button2 = new Button(buttonAnimation, new Vector2(464 * 3, 151 * 3), 9 * 3, 26 * 3);
+            platform = new Platform(platformAnimation, new Vector2(169 * 3, 224 * 3), 8 * 3, 144 * 3);
+            platform2 = new Platform(platform2Animation, new Vector2(498 * 3, 34 * 3), 144 * 3, 8 * 3);
+            button = new Button(buttonAnimation, new Vector2(212 * 3, 215 * 3), 9 * 3, 26 * 3);
+            button2 = new Button(buttonAnimation, new Vector2(467 * 3, 231 * 3), 9 * 3, 26 * 3);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(32, 32), 0, 0);
             keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(16, 16), 0, 0);
             buttonAm = new AnimationManager(buttonAnimation["button-up"].Texture, 0, 0, new Vector2(26, 9), 0, 0);
             platformAm = new AnimationManager(platformAnimation["platform"].Texture, 0, 0, new Vector2(144, 8), 0, 0);
+            platform2Am = new AnimationManager(platform2Animation["platform"].Texture, 0, 0, new Vector2(8, 144), 0, 0);
             doorAm = new AnimationManager(doorAnimation["door1"].Texture, 0, 0, new Vector2(5, 32), 0, 0);
-            player = new Player(animations, new Vector2(80, 378), 16 * 3, 16 * 3);
+            player = new Player(animations, new Vector2(64, 600), 16 * 3, 16 * 3);
 
             rectangleTexture = new Texture2D(graphicsDevice, 1, 1);
             rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });
@@ -354,12 +366,12 @@ namespace StartingOver
             }
             if (box.Rect.Intersects((button2.Rect)) || player.Rect.Intersects((button2.Rect)))
             {
-                movePlatform2 = 3;
+                movePlatform2 = 1;
                 MovePlatform2();
             }
             else
             {
-                movePlatform2 = 1;
+                movePlatform2 = 3;
                 MovePlatform2();
             }
 
@@ -385,7 +397,7 @@ namespace StartingOver
         {
             if (movePlatform == 1)
             {
-                if (platform.Rect.X >= 144 * 3)
+                if (platform.Rect.X >= 80 * 3)
                 {
 
                     platform.ApplyVelocityX((int)platform.Velocity.X);
@@ -400,14 +412,16 @@ namespace StartingOver
         {
             if (movePlatform2 == 1)
             {
-                if (platform2.Rect.X >= 400 * 3)
+                Debug.WriteLine("on button " + platform2.Rect.Y);
+                if (platform2.Rect.Y >= -40 * 3)
                 {
-                    platform2.ApplyVelocityX((int)platform2.Velocity.X);
+                    // platform goes up
+                    platform2.ApplyVelocityY((int)platform2.Velocity.Y);
                 }
             }
             else
             {
-                platform2.ApplyVelocityX((int)0);
+                platform2.ApplyVelocityY((int)0);
             }
         }
 
@@ -432,6 +446,13 @@ namespace StartingOver
                         TILESIZE
                     );
 
+                    collisionSprite = new Sprite(new Dictionary<string, AnimationManager>(),
+                        new Vector2(
+                        rect.X * TILESIZE,
+                        rect.Y * TILESIZE),
+                        TILESIZE,
+                        TILESIZE);
+
                     if (!entity.Rect.Intersects(collision)) continue;
 
                     // Handle tile-specific logic
@@ -445,15 +466,17 @@ namespace StartingOver
                     }
                     else // All other solid tiles
                     {
-                        if (entity.Rect.Center.X < collision.Center.X) // Moving right
+                        HandleEntityCollision(collisionSprite);
+                        if (!(entity is Player)) {
+                            if (entity.Rect.Center.X < collision.Center.X) // Moving right
                         {
-                            //if (entity is Player)
-                            //{
-                            //    entity.Rect.X = collision.Left - entity.ColliderRect.Width - 10;
-                            //}
-                            //else
-                            //{
-                            entity.Rect.X = collision.Left - entity.Rect.Width - 1;
+                            
+                                //{
+                                //    entity.Rect.X = collision.Left - entity.ColliderRect.Width - 10;
+                                //}
+                                //else
+                                //{
+                                entity.Rect.X = collision.Left - entity.Rect.Width - 1;
                             //}
                         }
                         else if (entity.Rect.Center.X > collision.Center.X) // Moving left
@@ -464,11 +487,12 @@ namespace StartingOver
                             //}
                             //else
                             //{
-                            entity.Rect.X = collision.Right;
+                                entity.Rect.X = collision.Right;
                             //}
                         }
 
                         entity.Velocity.X = 0.0f;
+                        }
                     }
                 }
             }
@@ -487,6 +511,12 @@ namespace StartingOver
                         TILESIZE,
                         TILESIZE
                     );
+                    collisionSprite = new Sprite(new Dictionary<string, AnimationManager>(),
+                        new Vector2(
+                            rect.X * TILESIZE,
+                            rect.Y * TILESIZE),
+                        TILESIZE,
+                        TILESIZE);
 
                     if (!entity.Rect.Intersects(collision)) continue;
 
@@ -518,16 +548,20 @@ namespace StartingOver
                     }
                     else // All other solid tiles
                     {
-                        if (entity.Rect.Center.Y < collision.Center.Y) // Moving down
+                        HandleEntityCollision(collisionSprite);
+                        if (!(entity is Player))
                         {
-                            entity.Rect.Y = collision.Top - entity.Rect.Height;
-                            entity.Velocity.Y = 1.0f;
-                            entity.Grounded = true;
-                        }
-                        else if (entity.Rect.Center.Y > collision.Center.Y) // Moving up
-                        {
-                            entity.Rect.Y = collision.Bottom;
-                            entity.Velocity.Y = -1.0f;
+                            if (entity.Rect.Center.Y < collision.Center.Y) // Moving down
+                            {
+                                entity.Rect.Y = collision.Top - entity.Rect.Height;
+                                entity.Velocity.Y = 1.0f;
+                                entity.Grounded = true;
+                            }
+                            else if (entity.Rect.Center.Y > collision.Center.Y) // Moving up
+                            {
+                                entity.Rect.Y = collision.Bottom;
+                                entity.Velocity.Y = -1.0f;
+                            }
                         }
 
                     }
@@ -562,13 +596,15 @@ namespace StartingOver
                     // Horizontal collision
                     if (playerRect.Center.X < entityRect.Center.X) // Player is to the left of the box
                     {
+                        //Debug.WriteLine("player is to the left of collision");
                         player.Rect.X = entity.Rect.Left - player.ColliderRect.Width - 8;
-                        player.Velocity.X = 0.0f; // Stop horizontal movement
+                        //player.Velocity.X = 0.0f; // Stop horizontal movement
                     }
                     else if (playerRect.Center.X > entityRect.Center.X) // Player is to the right of the box
                     {
+                        //Debug.WriteLine("player is to the right of collision");
                         player.Rect.X = entity.Rect.Right - 8;
-                        player.Velocity.X = 0.0f; // Stop horizontal movement
+                        //player.Velocity.X = 0.0f; // Stop horizontal movement
                     }
                 }
                 else
@@ -576,12 +612,14 @@ namespace StartingOver
                     // Vertical collision
                     if (playerRect.Center.Y < entityRect.Center.Y) // Player is above the box
                     {
+                        //Debug.WriteLine("player is above collision");
                         player.Rect.Y = entity.Rect.Top - player.Rect.Height;
                         player.Velocity.Y = 0.0f;
                         player.Grounded = true; // Set grounded to true
                     }
                     else if (playerRect.Center.Y > entityRect.Center.Y) // Player is below the box
                     {
+                        //Debug.WriteLine("player is below collision");
                         // Stop the box's downward velocity if it is falling onto the player's head
                         if (entity.Velocity.Y > 0)
                         {
@@ -596,7 +634,7 @@ namespace StartingOver
                 }
             }
         }
- 
+
 
         private List<Rectangle> GetIntersectingTiles(Rectangle entityRect, bool horizontal)
         {
@@ -639,7 +677,7 @@ namespace StartingOver
                 }
             }
             platform.Draw(spriteBatch, platformAm);
-            platform2.Draw(spriteBatch, platformAm);
+            platform2.Draw(spriteBatch, platform2Am);
             foreach (var item in fg1T)
             {
                 int value = item.Value;
@@ -670,7 +708,7 @@ namespace StartingOver
                     spriteBatch.Draw(fg3, dest, src, Color.White);
                 }
             }
-    
+
             player.Draw(spriteBatch, am);
             box.Draw(spriteBatch, boxAm);
             if (!doorAndKeyIsCollide)

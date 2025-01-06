@@ -24,11 +24,12 @@ namespace StartingOver
             if (movePlatform == 1)
             {
                 Velocity.X = -160.0f * dt;
+                Velocity.Y = -160.0f * dt;
             }
             else if (movePlatform == 2)
             {
                 Velocity.X = 160.0f * dt;
-                if (Rect.X <= 280 * 3)
+                if (Rect.X <= 170 * 3)
                 {
                     ApplyVelocityX((int)Velocity.X);
 
@@ -36,10 +37,11 @@ namespace StartingOver
             }
             else if (movePlatform == 3)
             {
-                Velocity.X = 160.0f * dt;
-                if (Rect.X <= 504 * 3)
+                Debug.WriteLine("off button " + Rect.Y);
+                Velocity.Y = 160.0f * dt;
+                if (Rect.Y <= 100 * 3)
                 {
-                    ApplyVelocityX((int)Velocity.X);
+                    ApplyVelocityY((int)Velocity.Y);
 
                 }
             }
