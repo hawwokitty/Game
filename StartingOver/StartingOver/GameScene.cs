@@ -50,6 +50,7 @@ namespace StartingOver
         private Texture2D rectangleTexture;
 
         private StartScene startScene;
+       
 
         private KeyboardState prevKeyState;
 
@@ -254,6 +255,7 @@ namespace StartingOver
             UpdatePlayerAnimation();
 
             startScene = new StartScene(contentManager, graphics, sceneManager);
+           
         }
 
         public void Update(GameTime gameTime, GraphicsDeviceManager graphics)

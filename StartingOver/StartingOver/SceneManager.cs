@@ -57,7 +57,6 @@ namespace StartingOver
 
         public void RestartGame()
         {
-            Debug.WriteLine("restarting");
             _sceneStack.Clear();
             game1.makeGameScene();
         }

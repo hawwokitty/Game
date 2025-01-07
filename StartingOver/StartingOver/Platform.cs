@@ -37,9 +37,8 @@ namespace StartingOver
             }
             else if (movePlatform == 3)
             {
-                Debug.WriteLine("off button " + Rect.Y);
                 Velocity.Y = 160.0f * dt;
-                if (Rect.Y <= 100 * 3)
+                if (Rect.Y <= 32 * 3)
                 {
                     ApplyVelocityY((int)Velocity.Y);
 
