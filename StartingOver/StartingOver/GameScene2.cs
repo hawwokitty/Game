@@ -628,51 +628,60 @@ namespace StartingOver
                     }
                 }
 
-                // Determine which side to resolve based on the player's position
-                if (overlapX < overlapY || (overlapX == overlapY && Math.Abs(player.Velocity.X) > Math.Abs(player.Velocity.Y)))
+                // Determine which collision to resolve
+                if (overlapX < overlapY)
                 {
                     // Horizontal collision
-                    if (playerRect.Center.X < entityRect.Center.X) // Player is to the left of the box
-                    {
-                        //Debug.WriteLine("player is to the left of collision");
-                        player.Rect.X = entity.Rect.Left - player.ColliderRect.Width - 8;
-                        //player.Velocity.X = 0.0f; // Stop horizontal movement
-                    }
-                    else if (playerRect.Center.X > entityRect.Center.X) // Player is to the right of the box
-                    {
-                        //Debug.WriteLine("player is to the right of collision");
-                        player.Rect.X = entity.Rect.Right - 8;
-                        //player.Velocity.X = 0.0f; // Stop horizontal movement
-                    }
+                    ResolveHorizontalCollision(entityRect);
                 }
                 else
                 {
                     // Vertical collision
-                    if (playerRect.Center.Y < entityRect.Center.Y) // Player is above the box
-                    {
-                        //Debug.WriteLine("player is above collision");
-                        player.Rect.Y = entity.Rect.Top - player.Rect.Height;
-                        player.Grounded = true; // Set grounded to true
-                        FallDamage();
-                        player.Velocity.Y = 0.0f;
-                    }
-                    else if (playerRect.Center.Y > entityRect.Center.Y) // Player is below the box
-                    {
-                        //Debug.WriteLine("player is below collision");
-                        // Stop the box's downward velocity if it is falling onto the player's head
-                        if (entity.Velocity.Y > 0)
-                        {
-                            entity.Velocity.Y = 0.0f; // Stop the box's downward movement
-                            entity.Rect.Y = player.Rect.Top - entity.Rect.Height; // Align the box just above the player
-                        }
-
-                        // Keep the original player behavior
-                        player.Rect.Y = entity.Rect.Bottom;
-                        player.Velocity.Y = 1.0f; // Reset vertical velocity
-                    }
+                    ResolveVerticalCollision(entityRect);
                 }
             }
         }
+
+        private void ResolveHorizontalCollision(Rectangle entityRect)
+        {
+            // Resolve horizontal position
+            if (player.ColliderRect.Center.X < entityRect.Center.X)
+            {
+                player.Rect.X = entityRect.Left - player.ColliderRect.Width - 8; // Adjust to the left
+            }
+            else
+            {
+                player.Rect.X = entityRect.Right - 8; // Adjust to the right
+            }
+
+            // Stop horizontal velocity
+            player.Velocity.X = 0.0f;
+
+            // Prevent sticking to walls: Ensure the player continues to fall if not grounded
+            if (!player.Grounded)
+            {
+                player.Velocity.Y = Math.Max(player.Velocity.Y, 0.1f); // Small downward force
+            }
+        }
+
+        private void ResolveVerticalCollision(Rectangle entityRect)
+        {
+            if (player.ColliderRect.Center.Y < entityRect.Center.Y)
+            {
+                // Player is above the entity
+                player.Rect.Y = entityRect.Top - player.Rect.Height;
+                player.Grounded = true; // Player is grounded
+                FallDamage(); // Handle any fall damage
+                player.Velocity.Y = 0.0f; // Stop vertical movement
+            }
+            else
+            {
+                // Player is below the entity
+                player.Rect.Y = entityRect.Bottom - 8;
+                player.Velocity.Y = Math.Max(player.Velocity.Y, 0.5f); // Push downward slightly
+            }
+        }
+
 
 
         private List<Rectangle> GetIntersectingTiles(Rectangle entityRect, bool horizontal)
