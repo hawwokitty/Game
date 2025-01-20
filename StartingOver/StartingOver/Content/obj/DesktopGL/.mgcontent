@@ -7,8 +7,11 @@
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box1.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box2.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/button-both.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/button-down.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/button-down1.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/button-up.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/button-up1.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/char.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/character_s_color.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/character_s.png</File>
@@ -16,12 +19,18 @@
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/Unarmed_Walk_full.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Character/Unarmed_Walk_full2.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/collisions3.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/door-both.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/door-both2.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/door1.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/door2-open.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/door2.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/key_small2.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/key.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/lever.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/lever1.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/platform.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/platform1.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/platform2.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/platformV.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/rope.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Scenes/death_exit.png</File>
@@ -37,6 +46,15 @@
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Tiles.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

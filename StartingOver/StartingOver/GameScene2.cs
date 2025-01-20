@@ -40,10 +40,14 @@ namespace StartingOver
         private AnimationManager boxAm;
         private AnimationManager keyAm;
         private AnimationManager doorAm;
+        private AnimationManager door2Am;
         private AnimationManager am;
         private AnimationManager buttonAm;
+        private AnimationManager button2Am;
         private AnimationManager platformAm;
         private AnimationManager platform2Am;
+
+        //private Dictionary<string, AnimationManager> buttonAnimation;
 
         private bool isJumping;
 
@@ -212,21 +216,26 @@ namespace StartingOver
             var doorAnimation = new Dictionary<string, AnimationManager>()
             {
                 {
-                    "door1",
-                    new AnimationManager(contentManager.Load<Texture2D>("door1"), 0, 0,
-                        new Vector2(5, 32), 0, 0)
+                    "door-closed",
+                    new AnimationManager(contentManager.Load<Texture2D>("door-both2"), 2, 2,
+                        new Vector2(14, 32), 0, 0)
+                },
+                {
+                    "door-open",
+                    new AnimationManager(contentManager.Load<Texture2D>("door-both2"), 2, 2,
+                        new Vector2(14, 32), 1, 0)
                 }
             };
             var buttonAnimation = new Dictionary<string, AnimationManager>()
             {
                 {
                     "button-up",
-                    new AnimationManager(contentManager.Load<Texture2D>("button-up"), 0, 0,
-                        new Vector2(26, 9), 0, 0)
+                    new AnimationManager(contentManager.Load<Texture2D>("button-both"), 2, 2,
+                        new Vector2(26, 9), 1, 0)
                 },
                 {
                     "button-down",
-                    new AnimationManager(contentManager.Load<Texture2D>("button-down"), 0, 0,
+                    new AnimationManager(contentManager.Load<Texture2D>("button-both"), 2, 2,
                         new Vector2(26, 9), 0, 0)
                 },
             };
@@ -234,7 +243,7 @@ namespace StartingOver
             {
                 {
                     "platform",
-                    new AnimationManager(contentManager.Load<Texture2D>("platform"), 0, 0,
+                    new AnimationManager(contentManager.Load<Texture2D>("platform1"), 0, 0,
                         new Vector2(144, 8), 0, 0)
                 }
             };
@@ -242,27 +251,29 @@ namespace StartingOver
             {
                 {
                     "platform",
-                    new AnimationManager(contentManager.Load<Texture2D>("platformV"), 0, 0,
+                    new AnimationManager(contentManager.Load<Texture2D>("platform2"), 0, 0,
                         new Vector2(8, 144), 0, 0)
                 }
             };
             box = new Box(boxAnimation, new Vector2(100 * 3, 16 * 3), 30 * 3, 30 * 3);
             key = new Key(keyAnimation, new Vector2(324 * 3, 24 * 3), 16 * 3, 16 * 3);
-            door = new Door(doorAnimation, new Vector2(590 * 3, 144 * 3), 32 * 3, 5 * 3);
             platform = new Platform(platformAnimation, new Vector2(169 * 3, 224 * 3), 8 * 3, 144 * 3);
             exitCollision = new Platform(platformAnimation, new Vector2(624 * 3, 176 * 3), 8 * 3, 144 * 3);
             enterCollision = new Platform(platformAnimation, new Vector2(-100 * 3, 224 * 3), 8 * 3, 144 * 3);
             platform2 = new Platform(platform2Animation, new Vector2(498 * 3, 32 * 3), 144 * 3, 8 * 3);
             exitCollisionV = new Platform(platform2Animation, new Vector2(654 * 3, 64 * 3), 144 * 3, 8 * 3);
             enterCollisionV = new Platform(platform2Animation, new Vector2(-16 * 3, 100 * 3), 144 * 3, 8 * 3);
-            button = new Button(buttonAnimation, new Vector2(212 * 3, 215 * 3), 9 * 3, 26 * 3);
-            button2 = new Button(buttonAnimation, new Vector2(467 * 3, 231 * 3), 9 * 3, 26 * 3);
             boxAm = new AnimationManager(boxAnimation["box"].Texture, 0, 0, new Vector2(30, 30), 0, 0);
             keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(16, 16), 0, 0);
             buttonAm = new AnimationManager(buttonAnimation["button-up"].Texture, 0, 0, new Vector2(26, 9), 0, 0);
+            button2Am = new AnimationManager(buttonAnimation["button-down"].Texture, 0, 0, new Vector2(26, 9), 1, 0);
             platformAm = new AnimationManager(platformAnimation["platform"].Texture, 0, 0, new Vector2(144, 8), 0, 0);
             platform2Am = new AnimationManager(platform2Animation["platform"].Texture, 0, 0, new Vector2(8, 144), 0, 0);
-            doorAm = new AnimationManager(doorAnimation["door1"].Texture, 0, 0, new Vector2(5, 32), 0, 0);
+            doorAm = new AnimationManager(doorAnimation["door-closed"].Texture, 0, 0, new Vector2(14, 32), 0, 0);
+            door2Am = new AnimationManager(doorAnimation["door-open"].Texture, 0, 0, new Vector2(14, 32), 1, 0);
+            button = new Button(buttonAnimation, new Vector2(212 * 3, 215 * 3), 9 * 3, 26 * 3, buttonAm);
+            button2 = new Button(buttonAnimation, new Vector2(467 * 3, 231 * 3), 9 * 3, 26 * 3, buttonAm);
+            door = new Door(doorAnimation, new Vector2(590 * 3, 144 * 3), 32 * 3, 14 * 3, doorAm);
             player = new Player(animations, new Vector2(64, 600), 16 * 3, 16 * 3);
 
             rectangleTexture = new Texture2D(graphicsDevice, 1, 1);
@@ -290,6 +301,9 @@ namespace StartingOver
             key.Update(currentKeyState, prevKeyState, gameTime);
             platform.Update(currentKeyState, prevKeyState, gameTime, movePlatform);
             platform2.Update(currentKeyState, prevKeyState, gameTime, movePlatform2);
+            button.Update(currentKeyState, prevKeyState, gameTime);
+            button2.Update(currentKeyState, prevKeyState, gameTime);
+            door.Update(currentKeyState, prevKeyState, gameTime);
 
 
             HandleJumpInput(currentKeyState);
@@ -386,20 +400,28 @@ namespace StartingOver
             {
                 movePlatform = 1;
                 MovePlatform();
+                button.ButtonAm = button2Am;
+                //buttonAm = new AnimationManager(buttonAnimation["button-down"].Texture, 0, 0, new Vector2(26, 9), 0, 0);
+
             }
             else
             {
                 movePlatform = 2;
+                button.ButtonAm = buttonAm;
+                //buttonAm = new AnimationManager(buttonAnimation["button-up"].Texture, 0, 0, new Vector2(26, 9), 0, 0);
+
             }
             if (box.Rect.Intersects((button2.Rect)) || player.Rect.Intersects((button2.Rect)))
             {
                 movePlatform2 = 1;
                 MovePlatform2();
+                button2.ButtonAm = button2Am;
             }
             else
             {
                 movePlatform2 = 3;
                 MovePlatform2();
+                button2.ButtonAm = buttonAm;
             }
 
             if (player.Rect.Intersects(key.Rect))
@@ -415,6 +437,8 @@ namespace StartingOver
                 else
                 {
                     doorAndKeyIsCollide = true;
+                    door.DoorAm = door2Am;
+
                 }
             }
         }
@@ -757,6 +781,7 @@ namespace StartingOver
                 }
             }
 
+            door.Draw(spriteBatch, door.DoorAm);
             player.Draw(spriteBatch, am);
             box.Draw(spriteBatch, boxAm);
             if (!doorAndKeyIsCollide)
@@ -767,12 +792,11 @@ namespace StartingOver
             //exitCollisionV.Draw(spriteBatch, platform2Am);
             //enterCollision.Draw(spriteBatch, platformAm);
             //enterCollisionV.Draw(spriteBatch, platform2Am);
-            door.Draw(spriteBatch, doorAm);
-            button.Draw(spriteBatch, buttonAm);
-            button2.Draw(spriteBatch, buttonAm);
+            button.Draw(spriteBatch, button.ButtonAm);
+            button2.Draw(spriteBatch, button2.ButtonAm);
 
-            DrawRectHollow(spriteBatch, player.ColliderRect, 4);
-            DrawRectHollow(spriteBatch, player.Rect, 4);
+            //DrawRectHollow(spriteBatch, player.ColliderRect, 4);
+            //DrawRectHollow(spriteBatch, player.Rect, 4);
 
         }
 

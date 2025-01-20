@@ -84,3 +84,12 @@ D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Scenes
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Scenes\death_exit.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Scenes\death_menu.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Scenes\death_restart.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\button-down1.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\button-up1.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\door2-open.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\door2.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\platform1.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\platform2.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\button-both.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\door-both.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\door-both2.xnb
