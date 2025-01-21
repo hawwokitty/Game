@@ -94,11 +94,11 @@ namespace StartingOver
             this.graphicsDevice = graphicsDevice;
             this.graphics = graphics;
             intersections = new();
-            tilemap = LoadMap("../../../Content/Tilemaps/LEVEL2_5_collisions.csv");
-            bgT = LoadMap("../../../Content/Tilemaps/LEVEL2_5_background.csv");
-            fg1T = LoadMap("../../../Content/Tilemaps/LEVEL2_5_foreground1.csv");
-            fg2T = LoadMap("../../../Content/Tilemaps/LEVEL2_5_foreground2.csv");
-            fg3T = LoadMap("../../../Content/Tilemaps/LEVEL2_5_foreground3.csv");
+            tilemap = LoadMap("../../../Content/Tilemaps/LEVEL2_6_collisions.csv");
+            bgT = LoadMap("../../../Content/Tilemaps/LEVEL2_6_background.csv");
+            fg1T = LoadMap("../../../Content/Tilemaps/LEVEL2_6_foreground1.csv");
+            fg2T = LoadMap("../../../Content/Tilemaps/LEVEL2_6_foreground2.csv");
+            fg3T = LoadMap("../../../Content/Tilemaps/LEVEL2_6_foreground3.csv");
 
             textureStore = new()
             {
@@ -201,7 +201,7 @@ namespace StartingOver
             {
                 {
                     "box",
-                    new AnimationManager(contentManager.Load<Texture2D>("box2"), 0, 0,
+                    new AnimationManager(contentManager.Load<Texture2D>("box3"), 0, 0,
                         new Vector2(30, 30), 0, 0)
                 }
             };
@@ -628,6 +628,7 @@ namespace StartingOver
         {
             if (player.Velocity.Y >= 21 && player.Grounded || player.Velocity.Y >= 30)
             {
+
                 sceneManager.AddScene(deathScene);
             }
         }

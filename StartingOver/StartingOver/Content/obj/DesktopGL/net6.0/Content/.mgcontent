@@ -7,6 +7,7 @@
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box1.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box2.png</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box3.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/button-both.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/button-down.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/button-down1.png</File>
@@ -46,6 +47,7 @@
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Tiles.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
