@@ -671,21 +671,21 @@ namespace StartingOver
             // Resolve horizontal position
             if (player.ColliderRect.Center.X < entityRect.Center.X)
             {
-                player.Rect.X = entityRect.Left - player.ColliderRect.Width - 8; // Adjust to the left
+                player.Rect.X = entityRect.Left - player.ColliderRect.Width - 9; // Adjust to the left
             }
             else
             {
-                player.Rect.X = entityRect.Right - 8; // Adjust to the right
+                player.Rect.X = entityRect.Right - 7; // Adjust to the right
             }
 
             // Stop horizontal velocity
             player.Velocity.X = 0.0f;
 
-            // Prevent sticking to walls: Ensure the player continues to fall if not grounded
-            if (!player.Grounded)
-            {
-                player.Velocity.Y = Math.Max(player.Velocity.Y, 0.1f); // Small downward force
-            }
+            //// Prevent sticking to walls: Ensure the player continues to fall if not grounded
+            //if (!player.Grounded)
+            //{
+            //    player.Velocity.Y = Math.Max(player.Velocity.Y, 0.1f); // Small downward force
+            //}
         }
 
         private void ResolveVerticalCollision(Rectangle entityRect)
@@ -702,7 +702,7 @@ namespace StartingOver
             {
                 // Player is below the entity
                 player.Rect.Y = entityRect.Bottom - 8;
-                player.Velocity.Y = Math.Max(player.Velocity.Y, 0.5f); // Push downward slightly
+                player.Velocity.Y = Math.Max(player.Velocity.Y, 1.0f); // Push downward slightly
             }
         }
 
