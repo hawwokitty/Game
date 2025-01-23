@@ -192,7 +192,6 @@ namespace StartingOver
                 int overlapY = Math.Min(Rect.Bottom - HeldBox.Rect.Top, HeldBox.Rect.Bottom - Rect.Top);
                 int overlapX = Math.Min(HeldBox.Rect.Right - Rect.Left, Rect.Right - HeldBox.Rect.Left);
 
-                Debug.WriteLine(overlapX);
 
                 // Check if the player is idle or moving while pushing the box
                 if (Rect.Center.X < HeldBox.Rect.Center.X)
@@ -230,7 +229,6 @@ namespace StartingOver
 
                 if (overlapY > 96 || overlapY < 32 || overlapX < 0)
                 {
-                    Debug.WriteLine("let go of box");
                     DetachBox();
                 }
             }
