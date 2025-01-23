@@ -16,8 +16,11 @@ namespace StartingOver
     public enum PlayerState
     {
         WalkUp, WalkDown, WalkLeft, WalkRight,
-        IdleUp, IdleDown, IdleLeft, IdleRight, DeadRight, DeadLeft, PushRight, PushLeft, PushRightIdle, PushLeftIdle
+        IdleUp, IdleDown, IdleLeft, IdleRight,
+        DeadRight, DeadLeft,
+        PushRight, PushLeft, PushRightIdle, PushLeftIdle
     }
+
     internal class Player : Sprite
     {
 
@@ -93,6 +96,9 @@ namespace StartingOver
                     Velocity.Y = 0.0f;
                 }
             }
+            
+            Velocity.X = Math.Max(-300, Math.Min(300, Velocity.X));
+            Velocity.X *= 0.91f;
 
             if (keystate.IsKeyDown(Keys.Right))
             {
@@ -125,10 +131,15 @@ namespace StartingOver
                     PlayerState.IdleRight => Animation["IdleRight"].Texture,
                     _ => Texture
                 };
+                if (HeldBox != null)
+                {
+                    Velocity.X = 0;
+                }
             }
 
-            Velocity.X = Math.Max(-300, Math.Min(300, Velocity.X));
-            Velocity.X *= 0.91f;
+
+
+
 
             // Jump logic
             if (Grounded)
@@ -179,12 +190,47 @@ namespace StartingOver
                 HeldBox.Velocity.X = Velocity.X;
                 //HeldBox.Rect.X += (int)Velocity.X;
                 int overlapY = Math.Min(Rect.Bottom - HeldBox.Rect.Top, HeldBox.Rect.Bottom - Rect.Top);
+                int overlapX = Math.Min(HeldBox.Rect.Right - Rect.Left, Rect.Right - HeldBox.Rect.Left);
 
-                State = PlayerState.PushLeft;
-                Texture = Animation["PushLeft"].Texture;
+                Debug.WriteLine(overlapX);
 
-                if (overlapY > 96 || overlapY < 32)
+                // Check if the player is idle or moving while pushing the box
+                if (Rect.Center.X < HeldBox.Rect.Center.X)
                 {
+                    // Player is to the left of the box
+                    if (Velocity.X != 0)
+                    {
+                        // Player is moving, pushing right
+                        State = PlayerState.PushRight;
+                        Texture = Animation["PushRight"].Texture;
+                    }
+                    else
+                    {
+                        // Player is idle, still holding the box
+                        State = PlayerState.PushRightIdle;
+                        Texture = Animation["PushRightIdle"].Texture;
+                    }
+                }
+                else
+                {
+                    // Player is to the right of the box
+                    if (Velocity.X != 0)
+                    {
+                        // Player is moving, pushing left
+                        State = PlayerState.PushLeft;
+                        Texture = Animation["PushLeft"].Texture;
+                    }
+                    else
+                    {
+                        // Player is idle, still holding the box
+                        State = PlayerState.PushLeftIdle;
+                        Texture = Animation["PushLeftIdle"].Texture;
+                    }
+                }
+
+                if (overlapY > 96 || overlapY < 32 || overlapX < 0)
+                {
+                    Debug.WriteLine("let go of box");
                     DetachBox();
                 }
             }

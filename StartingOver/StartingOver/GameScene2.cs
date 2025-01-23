@@ -203,8 +203,8 @@ namespace StartingOver
                 {"DeathLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),4, 4, new Vector2(16, 16), 0, 9, false)},
                 {"PushRight", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),8, 8, new Vector2(16, 16), 0, 10)},
                 {"PushLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),8, 8, new Vector2(16, 16), 0, 11)},
-                {"PushRightIdle", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),8, 8, new Vector2(16, 16), 0, 12)},
-                {"PushLeftIdle", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),8, 8, new Vector2(16, 16), 0, 13)},
+                {"PushRightIdle", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),4, 4, new Vector2(16, 16), 0, 12)},
+                {"PushLeftIdle", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),4, 4, new Vector2(16, 16), 0, 13)},
             };
             var boxAnimation = new Dictionary<string, AnimationManager>()
             {
@@ -367,6 +367,10 @@ namespace StartingOver
                 PlayerState.IdleRight => animations["IdleRight"],
                 PlayerState.DeadRight => animations["DeathRight"],
                 PlayerState.DeadLeft => animations["DeathLeft"],
+                PlayerState.PushRight => animations["PushRight"],
+                PlayerState.PushRightIdle => animations["PushRightIdle"],
+                PlayerState.PushLeft => animations["PushLeft"],
+                PlayerState.PushLeftIdle => animations["PushLeftIdle"],
                 _ => am // Keep the current animation if no match
             };
 
