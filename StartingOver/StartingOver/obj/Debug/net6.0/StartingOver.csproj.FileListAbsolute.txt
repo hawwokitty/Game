@@ -94,3 +94,4 @@ D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\button
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\door-both.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\door-both2.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\box3.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Character\character_s_color2.xnb

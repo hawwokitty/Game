@@ -84,6 +84,9 @@ namespace StartingOver
         private Texture2D fg2;
         private Texture2D fg3;
 
+        private float deathDelayTimer = 0f; // Timer to track delay
+        private bool startDeathTimer = false; // Flag to start the timer
+
 
         private int TILESIZE = 48;
 
@@ -188,14 +191,20 @@ namespace StartingOver
         {
             animations = new Dictionary<string, AnimationManager>()
             {
-                {"WalkUp", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s"),8, 8, new Vector2(16, 16), 0, 7)},
-                {"WalkDown", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s"),8, 8, new Vector2(16, 16), 0, 6)},
-                {"WalkRight", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color"),8, 8, new Vector2(16, 16), 0, 4)},
-                {"WalkLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color"),8, 8, new Vector2(16, 16), 0, 5)},
-                {"IdleUp", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s"),4, 4, new Vector2(16, 16), 0, 3)},
-                {"IdleDown", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s"),4, 4, new Vector2(16, 16), 0, 2)},
-                {"IdleRight", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color"),4, 4, new Vector2(16, 16), 0, 0)},
-                {"IdleLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color"),4, 4, new Vector2(16, 16), 0, 1)},
+                {"WalkUp", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),8, 8, new Vector2(16, 16), 0, 7)},
+                {"WalkDown", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),8, 8, new Vector2(16, 16), 0, 6)},
+                {"WalkRight", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),8, 8, new Vector2(16, 16), 0, 4)},
+                {"WalkLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),8, 8, new Vector2(16, 16), 0, 5)},
+                {"IdleUp", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),4, 4, new Vector2(16, 16), 0, 3)},
+                {"IdleDown", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),4, 4, new Vector2(16, 16), 0, 2)},
+                {"IdleRight", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),4, 4, new Vector2(16, 16), 0, 0)},
+                {"IdleLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),4, 4, new Vector2(16, 16), 0, 1)},
+                {"DeathRight", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),4, 4, new Vector2(16, 16), 0, 8, false)},
+                {"DeathLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),4, 4, new Vector2(16, 16), 0, 9, false)},
+                {"PushRight", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),8, 8, new Vector2(16, 16), 0, 10)},
+                {"PushLeft", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),8, 8, new Vector2(16, 16), 0, 11)},
+                {"PushRightIdle", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),8, 8, new Vector2(16, 16), 0, 12)},
+                {"PushLeftIdle", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),8, 8, new Vector2(16, 16), 0, 13)},
             };
             var boxAnimation = new Dictionary<string, AnimationManager>()
             {
@@ -296,6 +305,19 @@ namespace StartingOver
         {
             KeyboardState currentKeyState = Keyboard.GetState();
 
+            if (startDeathTimer)
+            {
+                // Increment the timer
+                deathDelayTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                // Check if 1 second have passed
+                if (deathDelayTimer >= 1f)
+                {
+                    ShowDeathScene();
+                    startDeathTimer = false; // Stop the timer
+                }
+            }
+
             player.Update(currentKeyState, prevKeyState, gameTime);
             box.Update(currentKeyState, prevKeyState, gameTime);
             key.Update(currentKeyState, prevKeyState, gameTime);
@@ -343,6 +365,8 @@ namespace StartingOver
                 PlayerState.IdleDown => animations["IdleDown"],
                 PlayerState.IdleLeft => animations["IdleLeft"],
                 PlayerState.IdleRight => animations["IdleRight"],
+                PlayerState.DeadRight => animations["DeathRight"],
+                PlayerState.DeadLeft => animations["DeathLeft"],
                 _ => am // Keep the current animation if no match
             };
 
@@ -626,11 +650,23 @@ namespace StartingOver
 
         private void FallDamage()
         {
-            if (player.Velocity.Y >= 21 && player.Grounded || player.Velocity.Y >= 30)
+            if (player.Velocity.Y >= 21 && player.Grounded)
             {
+                startDeathTimer = true; // Start the death timer
+                deathDelayTimer = 0f;   // Reset the timer
+                player.Dead = true;
 
-                sceneManager.AddScene(deathScene);
+            } else if (player.Velocity.Y >= 30)
+            {
+                startDeathTimer = true; // Start the death timer
+                player.Dead = true;
+
             }
+        }
+
+        private void ShowDeathScene()
+        {
+            sceneManager.AddScene(deathScene);
         }
 
 

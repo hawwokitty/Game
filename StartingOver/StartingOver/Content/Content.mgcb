@@ -145,6 +145,18 @@
 /processorParam:TextureFormat=Color
 /build:Character/character_s_color.png
 
+#begin Character/character_s_color2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/character_s_color2.png
+
 #begin Character/character_s.png
 /importer:TextureImporter
 /processor:TextureProcessor

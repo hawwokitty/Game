@@ -27,6 +27,9 @@ namespace StartingOver
 
         int originalRowPos;
 
+        private bool Loop;
+        public bool IsAnimationFinished { get; private set; } // To track if the animation has finished
+
         public Texture2D Texture { get; private set; }
 
         public AnimationManager(Texture2D texture, int numFrames, int numColumns, Vector2 size, int colPos, int rowPos)
@@ -43,11 +46,34 @@ namespace StartingOver
             this.rowPos = rowPos;
             originalRowPos = rowPos;
             this.colPos = colPos;
+            Loop = true;
+            IsAnimationFinished = false;
+
+        }
+        public AnimationManager(Texture2D texture, int numFrames, int numColumns, Vector2 size, int colPos, int rowPos, bool loop)
+        {
+            Texture = texture;
+            this.numFrames = numFrames;
+            this.numColumns = numColumns;
+            this.size = size;
+
+            counter = 0;
+            activeFrame = 0;
+            interval = 6;
+
+            this.rowPos = rowPos;
+            originalRowPos = rowPos;
+            this.colPos = colPos;
+            Loop = loop;
+            IsAnimationFinished = false;
 
         }
 
         public void Update()
         {
+            if (IsAnimationFinished) // Stop updating if the animation is finished
+                return;
+
             counter++;
             if (counter > interval)
             {
@@ -58,20 +84,38 @@ namespace StartingOver
 
         private void NextFrame()
         {
-            activeFrame++;
-            colPos++;
-            if (activeFrame >= numFrames)
+            if (activeFrame < numFrames - 1)
             {
-                activeFrame = 0;
-                rowPos = originalRowPos;
-                colPos = 0;
+                // Advance the frame
+                activeFrame++;
+                colPos++;
+
+                if (colPos >= numColumns)
+                {
+                    colPos = 0;
+                    rowPos++;
+                }
             }
-            if (colPos >= numColumns)
+            else
             {
-                colPos = 0;
-                rowPos++;
+                // Stop on the last frame
+                if (!Loop)
+                {
+                    // Ensure the animation stops at the last frame
+                    activeFrame = numFrames - 1;
+                    colPos = (numFrames - 1) % numColumns; // Calculate column for the last frame
+                    rowPos = originalRowPos + (numFrames - 1) / numColumns; // Calculate row for the last frame
+                }
+                else
+                {
+                    // Looping behavior: Reset to the first frame
+                    activeFrame = 0;
+                    colPos = 0;
+                    rowPos = originalRowPos;
+                }
             }
         }
+
 
         public Rectangle GetFrame()
         {

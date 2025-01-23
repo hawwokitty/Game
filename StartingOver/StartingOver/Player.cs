@@ -16,7 +16,7 @@ namespace StartingOver
     public enum PlayerState
     {
         WalkUp, WalkDown, WalkLeft, WalkRight,
-        IdleUp, IdleDown, IdleLeft, IdleRight
+        IdleUp, IdleDown, IdleLeft, IdleRight, DeadRight, DeadLeft, PushRight, PushLeft, PushRightIdle, PushLeftIdle
     }
     internal class Player : Sprite
     {
@@ -35,6 +35,8 @@ namespace StartingOver
         private float jumpBufferTime = 0.2f;
         private float jumpBufferCounter;
 
+        public bool Dead;
+
         public Player(Dictionary<string, AnimationManager> _animation, Vector2 position, int height, int width) : base(_animation, position, height, width)
         {
             Velocity = new();
@@ -46,23 +48,45 @@ namespace StartingOver
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
             //Debug.WriteLine(dt);
 
+            if (Dead)
+            {
+                // Set the death animation based on the last direction
+                if (State == PlayerState.WalkRight || State == PlayerState.IdleRight)
+                {
+                    State = PlayerState.DeadRight;
+                    Texture = Animation["DeathRight"].Texture;
+                }
+                else if (State == PlayerState.WalkLeft || State == PlayerState.IdleLeft)
+                {
+                    State = PlayerState.DeadLeft;
+                    Texture = Animation["DeathLeft"].Texture;
+                }
+
+                // Exit early to maintain the Dead state
+                return;
+            }
+
             if (!overLadder)
             {
                 // gravity
                 Velocity.Y += 30.0f * dt;
                 Velocity.Y = Math.Min(30.0f, Velocity.Y);
             }
-            else 
+            else
             {
                 Grounded = true; // makes so u can jump from side of ladder if far enough out
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
                     Velocity.Y = -200 * dt;
+                    State = PlayerState.WalkUp;
+                    Texture = Animation["WalkUp"].Texture;
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.Down))
                 {
                     Velocity.Y = 200 * dt;
+                    State = PlayerState.WalkUp;
+                    Texture = Animation["WalkUp"].Texture;
                 }
                 else
                 {
@@ -156,6 +180,9 @@ namespace StartingOver
                 //HeldBox.Rect.X += (int)Velocity.X;
                 int overlapY = Math.Min(Rect.Bottom - HeldBox.Rect.Top, HeldBox.Rect.Bottom - Rect.Top);
 
+                State = PlayerState.PushLeft;
+                Texture = Animation["PushLeft"].Texture;
+
                 if (overlapY > 96 || overlapY < 32)
                 {
                     DetachBox();
@@ -202,7 +229,7 @@ namespace StartingOver
                 }
             }
 
-           
+
 
             overLadder = false;
 
