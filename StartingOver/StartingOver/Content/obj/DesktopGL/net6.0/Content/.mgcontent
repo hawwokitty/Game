@@ -4,6 +4,13 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Audio/Blip_Select.wav</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Audio/death2.wav</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Audio/Hit_Hurt.wav</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Audio/Jump.wav</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Audio/Pickup_Key.wav</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Audio/Randomize3.wav</File>
+    <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Audio/tp.wav</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box1.png</File>
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/box2.png</File>
@@ -48,6 +55,13 @@
     <File>D:/get_stuff/game/Game/StartingOver/StartingOver/Content/Tiles.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

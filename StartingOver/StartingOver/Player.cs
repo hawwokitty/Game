@@ -6,8 +6,10 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace StartingOver
@@ -40,10 +42,13 @@ namespace StartingOver
 
         public bool Dead;
 
-        public Player(Dictionary<string, AnimationManager> _animation, Vector2 position, int height, int width) : base(_animation, position, height, width)
+        private Dictionary<string, SoundEffect> soundEffects;
+
+        public Player(Dictionary<string, AnimationManager> _animation, Vector2 position, int height, int width, Dictionary<string, SoundEffect> sounds) : base(_animation, position, height, width)
         {
             Velocity = new();
             Texture = _animation["IdleDown"].Texture;
+            soundEffects = sounds;
         }
 
         public override void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime)
@@ -162,6 +167,7 @@ namespace StartingOver
 
             if (coyoteTimeCounter > 0f /* && jumpBufferCounter > 0 */ && keystate.IsKeyDown(Keys.Space) && !prevKeyState.IsKeyDown(Keys.Space))
             {
+                soundEffects["jump"].Play();
                 isJumping = true;
                 jumpTime = 0f;
                 Velocity.Y = InitialJumpVelocity * dt;
@@ -296,6 +302,12 @@ namespace StartingOver
 
         public void AttachKey(Key key)
         {
+            if (keyPickedUp == 1)
+            {
+                soundEffects["pickup"].Play();
+            }
+
+            keyPickedUp++;
             HeldKey = key;
         }
         public void DetachKey()
@@ -339,6 +351,7 @@ namespace StartingOver
         public Vector2 HeldRopePos;
         private int HeldRopeOnce;
         private bool overLadder;
+        private int keyPickedUp = 1;
 
         public override void Draw(SpriteBatch spriteBatch, AnimationManager am)
         {

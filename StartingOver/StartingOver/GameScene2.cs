@@ -8,9 +8,11 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace StartingOver
@@ -87,6 +89,7 @@ namespace StartingOver
         private float deathDelayTimer = 0f; // Timer to track delay
         private bool startDeathTimer = false; // Flag to start the timer
 
+        private Dictionary<string, SoundEffect> soundEffects;
 
         private int TILESIZE = 48;
 
@@ -189,6 +192,16 @@ namespace StartingOver
         }
         public void Load()
         {
+            soundEffects = new Dictionary<string, SoundEffect>()
+            {
+                { "jump", contentManager.Load<SoundEffect>("Audio/Jump") },
+                { "death", contentManager.Load<SoundEffect>("Audio/death2") },
+                { "select", contentManager.Load<SoundEffect>("Audio/Blip_Select") },
+                { "tp", contentManager.Load<SoundEffect>("Audio/tp") },
+                { "pickup", contentManager.Load<SoundEffect>("Audio/Pickup_Key") },
+
+            };
+           
             animations = new Dictionary<string, AnimationManager>()
             {
                 {"WalkUp", new AnimationManager(contentManager.Load<Texture2D>("Character/character_s_color2"),8, 8, new Vector2(16, 16), 0, 7)},
@@ -283,7 +296,7 @@ namespace StartingOver
             button = new Button(buttonAnimation, new Vector2(212 * 3, 215 * 3), 9 * 3, 26 * 3, buttonAm);
             button2 = new Button(buttonAnimation, new Vector2(467 * 3, 231 * 3), 9 * 3, 26 * 3, buttonAm);
             door = new Door(doorAnimation, new Vector2(590 * 3, 144 * 3), 32 * 3, 14 * 3, doorAm);
-            player = new Player(animations, new Vector2(64, 600), 16 * 3, 16 * 3);
+            player = new Player(animations, new Vector2(64, 600), 16 * 3, 16 * 3, soundEffects);
 
             rectangleTexture = new Texture2D(graphicsDevice, 1, 1);
             rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });
@@ -297,7 +310,7 @@ namespace StartingOver
 
             UpdatePlayerAnimation();
 
-            startScene = new StartScene(contentManager, graphics, sceneManager);
+            startScene = new StartScene(contentManager, graphics, sceneManager, soundEffects);
             deathScene = new DeathScene(contentManager, graphics, sceneManager);
         }
 
@@ -348,6 +361,8 @@ namespace StartingOver
         {
             if (currentKeyState.IsKeyDown(Keys.Space) && !prevKeyState.IsKeyDown(Keys.Space) && player.Grounded)
             {
+                //Debug.WriteLine("jump");
+                //jump.Play();
                 isJumping = true;
                 player.Grounded = false;
             }
@@ -421,6 +436,7 @@ namespace StartingOver
             }
             if (player.Rect.Intersects((exitCollisionV.Rect)))
             {
+                soundEffects["tp"].Play();
                 player.Rect.X = -4;
                 player.Rect.Y = 647;
             }
@@ -656,6 +672,7 @@ namespace StartingOver
         {
             if (player.Velocity.Y >= 21 && player.Grounded)
             {
+                soundEffects["death"].Play();
                 startDeathTimer = true; // Start the death timer
                 deathDelayTimer = 0f;   // Reset the timer
                 player.Dead = true;

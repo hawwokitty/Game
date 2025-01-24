@@ -240,7 +240,7 @@ namespace StartingOver
             keyAm = new AnimationManager(keyAnimation["key"].Texture, 0, 0, new Vector2(16, 16), 0, 0);
             doorAm = new AnimationManager(doorAnimation["door1"].Texture, 0, 0, new Vector2(5, 32), 0, 0);
             ropeAm = new AnimationManager(ropeAnimation["rope"].Texture, 0, 0, new Vector2(3, 80), 0, 0);
-            player = new Player(animations, new Vector2(80, 578), 16 * 3, 16 * 3);
+            //player = new Player(animations, new Vector2(80, 578), 16 * 3, 16 * 3);
 
             rectangleTexture = new Texture2D(graphicsDevice, 1, 1);
             rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });
@@ -254,7 +254,7 @@ namespace StartingOver
 
             UpdatePlayerAnimation();
 
-            startScene = new StartScene(contentManager, graphics, sceneManager);
+            //startScene = new StartScene(contentManager, graphics, sceneManager);
            
         }
 

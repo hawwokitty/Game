@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace StartingOver
 {
@@ -21,11 +23,14 @@ namespace StartingOver
         int currentState = 0; // The index of the currently selected menu state.
         KeyboardState previousKeystate;
         SceneManager sceneManager;
-        public Menu(Dictionary<string, AnimationManager> animation, Vector2 position, int height, int width, SceneManager sceneManager) : base(animation, position, height, width)
+
+        Dictionary<string, SoundEffect> soundEffects;
+        public Menu(Dictionary<string, AnimationManager> animation, Vector2 position, int height, int width, SceneManager sceneManager, Dictionary<string, SoundEffect> sounds) : base(animation, position, height, width)
         {
             Texture = animation["menu_resume"].Texture;
             Velocity = new();
             this.sceneManager = sceneManager;
+            soundEffects = sounds;
         }
 
         public override void Update(KeyboardState keystate, KeyboardState prevKeyState, GameTime gameTime)
@@ -33,12 +38,14 @@ namespace StartingOver
             // Navigate down
             if (keystate.IsKeyDown(Keys.Down) && !previousKeystate.IsKeyDown(Keys.Down))
             {
+                soundEffects["select"].Play();
                 currentState = (currentState + 1) % menuStates.Count; // Wrap around to the top
             }
 
             // Navigate up
             if (keystate.IsKeyDown(Keys.Up) && !previousKeystate.IsKeyDown(Keys.Up))
             {
+                soundEffects["select"].Play();
                 currentState = (currentState - 1 + menuStates.Count) % menuStates.Count; // Wrap around to the bottom
             }
 

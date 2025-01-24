@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace StartingOver
 {
@@ -23,12 +25,15 @@ namespace StartingOver
 
         private KeyboardState prevKeyState;
 
-        public StartScene(ContentManager contentManager, GraphicsDeviceManager graphics, SceneManager sceneManager)
+        private Dictionary<string, SoundEffect> soundEffects;
+
+        public StartScene(ContentManager contentManager, GraphicsDeviceManager graphics, SceneManager sceneManager, Dictionary<string, SoundEffect> sounds)
         {
             this.contentManager = contentManager;
             this.sceneManager = sceneManager;
             camera = new FollowCamera(graphics, new Vector2(0, 0), 1, 0);
             camera.SetLimit(new Rectangle(0, 0, 1920, 768));
+            soundEffects = sounds;
         }
 
         public void Load()
@@ -63,7 +68,7 @@ namespace StartingOver
                 },
             };
             //button = new Button(texture, new Vector2(100, 100), texture.Height*4, texture.Width*4);
-            menu = new Menu(menuAnimation, new Vector2(0, 0), 160 * 3, 272 * 3, sceneManager);
+            menu = new Menu(menuAnimation, new Vector2(0, 0), 160 * 3, 272 * 3, sceneManager, soundEffects);
             am = new AnimationManager(menuAnimation["menu"].Texture, 0, 0, new Vector2(272, 160), 0, 0);
 
             //am = new(texture, 0, 0, new Vector2(texture.Width, texture.Height), 0, 0);

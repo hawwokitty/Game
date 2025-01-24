@@ -95,3 +95,10 @@ D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\door-b
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\door-both2.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\box3.xnb
 D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Character\character_s_color2.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Audio\Blip_Select.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Audio\death2.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Audio\Hit_Hurt.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Audio\Jump.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Audio\Pickup_Key.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Audio\Randomize3.xnb
+D:\get_stuff\game\Game\StartingOver\StartingOver\bin\Debug\net6.0\Content\Audio\tp.xnb
